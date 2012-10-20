@@ -15,8 +15,11 @@ bin
 *.cache
 * Thumbs.db
 
-# publish profiles
+# WebDeploy publish profiles
 *.Publish.xml
+
+# Azure publish profiles
+*.pubxml
 
 # Other useful stuff
 *.bak
