@@ -15,6 +15,8 @@ bin
 *.cache
 * Thumbs.db
 
+# publish profiles
+*.Publish.xml
 
 # Other useful stuff
 *.bak
