@@ -41,15 +41,14 @@ httpd.parse.errors
 deploy
 deploy/*
 
+# debug
+bin
+obj
+csx
+
 # If you have a packages folder
 packages/
 
-# Exclude ALL DLLs?
-*.dll
-
-
 # SVN Droppings
-
-
 *.svn
 .svn
