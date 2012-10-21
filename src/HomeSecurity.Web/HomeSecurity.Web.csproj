@@ -178,6 +178,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DocsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HomeSecurityController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -307,6 +308,7 @@
     <Content Include="Views\HomeSecurity\Index.cshtml" />
     <Content Include="Views\HomeSecurity\Settings.cshtml" />
     <Content Include="Views\HomeSecurity\Hello.cshtml" />
+    <Content Include="Views\Docs\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
