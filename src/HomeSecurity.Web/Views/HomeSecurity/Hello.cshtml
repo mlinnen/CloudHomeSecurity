@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Hello";
+}
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function () {
+
+            var myHub = $.connection.homeSecurityHub;
+
+            function connectionReady() {
+                alert("Done calling first hub serverside-function");
+            };
+
+
+            $.connection.hub.error(function () {
+                alert("An error occured");
+            });
+
+
+
+            // Proxy created on the fly
+            var homesecurityhub = $.connection.homeSecurityHub;
+
+            // Declare a function on the chat hub so the server can invoke it
+            homesecurityhub.addMessage = function (message) {
+                $('#messages').append('<li>' + message + '</li>');
+            };
+
+            $("#broadcast").click(function () {
+                // Call the chat method on the server
+                homesecurityhub.send($('#msg').val());
+            });
+
+            // Start the connection
+            $.connection.hub.start();
+        });
+
+    </script>
+}
+
+  <input type="text" id="msg" />
+  <input type="button" id="broadcast" value="broadcast" />
+
+  <ul id="messages">
+  </ul>

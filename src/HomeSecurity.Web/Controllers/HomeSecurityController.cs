@@ -20,5 +20,9 @@ namespace HomeSecurity.Web.Controllers
         {
             return View();
         }
+        public ActionResult Hello()
+        {
+            return View();
+        }
     }
 }

@@ -14,6 +14,7 @@ bin
 *.suo
 *.cache
 * Thumbs.db
+*.vspscc
 
 # WebDeploy publish profiles
 *.Publish.xml
