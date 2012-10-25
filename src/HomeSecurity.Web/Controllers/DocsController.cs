@@ -16,5 +16,31 @@ namespace HomeSecurity.Web.Controllers
             return View();
         }
 
+        public ActionResult GettingReadyForTheMeeting()
+        {
+            return View();
+        }
+
+        public ActionResult ExternalDoorEntry()
+        {
+            return View();
+        }
+
+        public ActionResult DoorBell()
+        {
+            return View();
+        }
+        public ActionResult Alarm()
+        {
+            return View();
+        }
+        public ActionResult AlarmControlPanel()
+        {
+            return View();
+        }
+        public ActionResult Garage()
+        {
+            return View();
+        }
     }
 }

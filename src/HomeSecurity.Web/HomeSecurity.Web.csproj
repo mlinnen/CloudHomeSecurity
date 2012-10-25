@@ -309,6 +309,12 @@
     <Content Include="Views\HomeSecurity\Settings.cshtml" />
     <Content Include="Views\HomeSecurity\Hello.cshtml" />
     <Content Include="Views\Docs\Index.cshtml" />
+    <Content Include="Views\Docs\GettingReadyForTheMeeting.cshtml" />
+    <Content Include="Views\Docs\ExternalDoorEntry.cshtml" />
+    <Content Include="Views\Docs\DoorBell.cshtml" />
+    <Content Include="Views\Docs\Garage.cshtml" />
+    <Content Include="Views\Docs\AlarmControlPanel.cshtml" />
+    <Content Include="Views\Docs\Alarm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
