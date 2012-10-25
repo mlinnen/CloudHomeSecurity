@@ -31,6 +31,9 @@ a {
         background-color: #c7d1d6;
     }
 
+#header {
+    background: #6D6E6E;
+}
 header, footer, hgroup,
 nav, section {
     display: block;
