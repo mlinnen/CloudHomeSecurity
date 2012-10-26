@@ -12,9 +12,75 @@
     <li>A home owner can lock/unlock the door remotely</li>
     <li>The security system can detect when the door is open or closed</li>
 </ul>
+<p>There can be more than one external door in a home so part of the message addressing includes the name of the door (i.e front, back, side)</p>
 <h2>Messages</h2>
-<p>TODO detail the messages</p>
+<p>The following MQTT messages will be published from this device.</p>
+<table>
+    <thead>
+        <tr><th>Address</th><th>Data</th><th>Description</th></tr>
+    </thead>
+    <tr>
+        <td>House/Door/front/doorbell</td>
+        <td>pushed</td>
+        <td>Someone rang the front doorbell</td>
+    </tr>
+    <tr>
+        <td>House/Door/front/lock</td>
+        <td>unlocked/locked</td>
+        <td>The front door is unlocked or locked</td>
+    </tr>
+    <tr>
+        <td>House/Door/front/code</td>
+        <td>123</td>
+        <td>A code of 123 was entered on the front door keyless entry pad</td>
+    </tr>
+</table>
+<p>The device should subscribe to the following MQTT messages.</p>
+<table>
+    <thead>
+        <tr><th>Address</th><th>Data</th><th>Description</th></tr>
+    </thead>
+    <tr>
+        <td>House/Door/front/setlock</td>
+        <td>lock/unlock</td>
+        <td>The device should lock or unlock the door</td>
+    </tr>
+    <tr>
+        <td>House/Door/front/code/valid</td>
+        <td>true/false</td>
+        <td>The keyless entry code that was entered on the device was valid or not (true or false)</td>
+    </tr>
+</table>
 <h2>Hardware</h2>
-<p>TODO detail hardware connections</p>
+<p>You will need the following hardware to simulate the input and output the external door has.</p>
+<table>
+    <thead>
+        <tr>
+            <th>Qty</th>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tr>
+        <td>1</td>
+        <td>Pushbutton Switch</td>
+        <td>Simulates the doorbell button</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>Pushbutton Switch</td>
+        <td>Simulates keypad keys for the following: 0, 1 and enter </td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>LED</td>
+        <td>Simulates if the door is locked or unlocked</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Pushbutton Switch</td>
+        <td>Simulates if the door is open or closed</td>
+    </tr>
+</table>
 <h2>Code</h2>
 <p>TODO detail the code</p>

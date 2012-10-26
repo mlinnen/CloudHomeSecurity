@@ -9,14 +9,12 @@
         @Scripts.Render("~/bundles/modernizr")
     </head>
     <body>
-        <header>
+        <header id="mainHeader">
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("your logo here", "Index", "Home")</p>
+                    <img src="~/Images/logo.png" id="logo" />
                 </div>
                 <div class="float-right">
-                    <section id="login">
-                    </section>
                     <nav>
                         <ul id="menu">
                             <li>@Html.ActionLink("Home", "Index", "Home")</li>

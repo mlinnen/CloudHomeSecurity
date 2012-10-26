@@ -1,11 +1,10 @@
 ﻿html {
-    background-color: #e2e2e2;
+     background-color:#6D6E6E;
     margin: 0;
     padding: 0;
 }
 
 body {
-    background-color: #fff;
     border-top: solid 10px #000;
     color: #333;
     font-size: .85em;
@@ -31,9 +30,10 @@ a {
         background-color: #c7d1d6;
     }
 
-#header {
+#mainHeader {
     background: #6D6E6E;
 }
+
 header, footer, hgroup,
 nav, section {
     display: block;
@@ -108,7 +108,6 @@ h5, h6 {
 }
 
     .main-content {
-        background: url("../Images/accent.png") no-repeat;
         padding-left: 10px;
         padding-top: 30px;
     }
@@ -118,9 +117,12 @@ h5, h6 {
     }
 
 header .content-wrapper {
-    padding-top: 20px; 
+    padding-top: 20px;
 }
 
+#logo {
+    background:#000;
+}
 footer {
     clear: both;
     background-color: #e2e2e2;
@@ -185,7 +187,7 @@ footer {
 ul#menu {
     font-size: 1.3em;
     font-weight: 600;
-    margin: 0 0 5px;
+    margin: 10 0 0px;
     padding: 0;
     text-align: right;
 }
@@ -198,7 +200,7 @@ ul#menu {
 
         ul#menu li a {
             background: none;
-            color: #999;
+            color: #fff;
             text-decoration: none;
         }
 
@@ -207,32 +209,6 @@ ul#menu {
             text-decoration: none;
         }
 
-
-/* page elements
-----------------------------------------------------------*/
-/* featured */
-.featured {
-    background-color: #fff;
-}
-
-    .featured .content-wrapper {
-        background-color: #7ac0da;
-        background-image: -ms-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        background-image: -o-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #7ac0da), color-stop(1, #a4d4e6));
-        background-image: -webkit-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        background-image: linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        color: #3e5667;
-        padding: 20px 40px 30px 40px;
-    }
-
-        .featured hgroup.title h1, .featured hgroup.title h2 {
-            color: #fff;
-        }
-
-        .featured p {
-            font-size: 1.1em;
-        }
 
 /* page titles */
 hgroup.title {
