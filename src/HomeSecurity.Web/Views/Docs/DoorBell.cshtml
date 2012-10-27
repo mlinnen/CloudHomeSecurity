@@ -3,3 +3,49 @@
 }
 
 <h2>Door Bell</h2>
+<p>The door bell device can be placed anywhere in the house so that the home owner can get audio or visual notifications of which
+    door bell was pressed.  One or more door bells can exist in the home.  A door bell device can distinguish between what door the 
+    visitor rang.  
+    </p>
+<h2>Messages</h2>
+<p>The following MQTT messages will be published from this device.</p>
+<p>N/A</p>
+<p>The device should subscribe to the following MQTT messages.</p>
+<table>
+    <thead>
+        <tr><th>Address</th><th>Data</th><th>Description</th></tr>
+    </thead>
+    <tr>
+        <td>House/Door/front/doorbell</td>
+        <td>pushed</td>
+        <td>Someone rang the front doorbell</td>
+    </tr>
+    <tr>
+        <td>House/Door/back/doorbell</td>
+        <td>pushed</td>
+        <td>Someone rang the back doorbell</td>
+    </tr>
+    <tr>
+        <td>House/Door/side/doorbell</td>
+        <td>pushed</td>
+        <td>Someone rang the side doorbell</td>
+    </tr>
+</table>
+<h2>Hardware</h2>
+<p>You will need the following hardware to simulate the input and output the door bell has.</p>
+<table>
+    <thead>
+        <tr>
+            <th>Qty</th>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tr>
+        <td>3</td>
+        <td>LEDs</td>
+        <td>Simulates which door bell is pushed</td>
+    </tr>
+</table>
+<h2>Code</h2>
+<p>TODO detail the code</p>
