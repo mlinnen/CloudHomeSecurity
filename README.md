@@ -1,7 +1,7 @@
 Cloud Home Security
 =================
 
-A home security example using netduino and azure.  This project was created as a hands on hacknight
+A home security example using Netduino and Windows Azure.  This project was created as a hands on hacknight
 for the Charlotte Alt.Net users group.  During this meeting attendees will write code for a Netduino
 that will complete a Simulated Home Security system.
 
