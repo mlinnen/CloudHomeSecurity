@@ -11,7 +11,7 @@ bin
 *.csproj.user
 *ReSharper*
 *resharper*
-#*.suo
+*.suo
 *.cache
 * Thumbs.db
 *.vspscc
