@@ -3,7 +3,7 @@
 }
 
 <h2>What do I need</h2>
-<p>Before you attend this event you need to get a few things in order.  We dont have a lot of time during the event to spend it setting up 
+<p>Before you attend this event you need to get a few things in order.  We don't have a lot of time during the event to spend it setting up 
     your development environment so make sure you check out <a href="Docs/GettingReadyForTheMeeting">Getting Ready For the Meeting</a>. 
 </p>
 <h2>What will I be doing</h2>
@@ -17,3 +17,20 @@
     <li><a href="Docs/AlarmControlPanel">Alarm Control Panel</a>- This device handles the I/O for the control panels placed in each room of the house</li>
     <li><a href="Docs/Garage">Garage</a>- This device handles the I/O for the garage</li>
 </ul>
+<p>
+    There will be some code that is already written for you so that you don't have to worry about the communication protocols 
+    needed to publish and subscribe to the<a href="http://mqtt.org/">MQTT</a>message bus. Since the protocol is abstracted away from you
+     all you need to know is that the MQTT messages are basically made up of two parts: a Topic and a Message. There is a lot more to the MQTT standard that
+    you can read up on your own but you won't need it for this project.  Basically, topics are a series of words separated by a / topic separator.  
+    The message is simply any string.  The devices on the bus are expected to understand the topics and message formats, but like all
+    pub/sub designs the devices don't know about each other.  So the topics and messages are the contracts between the devices.<br />
+    Some example topics would be:
+    <ul>
+        <ol>house1/door/front/lock</ol>
+        <ol>house1/door/front/doorbell</ol>
+    </ul>
+</p>
+<p>
+    The detailed documentation for each device will outline the topics and messages it publishes as well as the 
+    topics and the messages it should subscribe to.  These topics and message are meant to be somewhat readable and simple.
+</p>
