@@ -38,10 +38,10 @@ namespace HomeSecurity.Broker
             // Set the maximum number of concurrent connections 
             ServicePointManager.DefaultConnectionLimit = 12;
 
-            string rsbroot = Path.Combine(Environment.GetEnvironmentVariable("RoleRoot") + @"\\", @"approot\\rsmb");
+            string rsbroot = Path.Combine(Environment.GetEnvironmentVariable("RoleRoot") + @"\\", @"approot\\mosquitto");
             int port = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints["WorkerIn"].IPEndpoint.Port;
 
-            ProcessStartInfo pInfo = new ProcessStartInfo(Path.Combine(rsbroot, @"broker.exe"))
+            ProcessStartInfo pInfo = new ProcessStartInfo(Path.Combine(rsbroot, @"mosquitto.exe"))
             {
                 UseShellExecute = false,
                 WorkingDirectory = rsbroot,
@@ -57,8 +57,6 @@ namespace HomeSecurity.Broker
             _program.BeginOutputReadLine();
             _program.BeginErrorReadLine();
 
-            //program.WaitForExit();
-            //throw new Exception("rsbroot quit on me!");
             return true;
         }
 
