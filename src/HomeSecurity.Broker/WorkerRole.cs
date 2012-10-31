@@ -57,6 +57,7 @@ namespace HomeSecurity.Broker
             _program.BeginOutputReadLine();
             _program.BeginErrorReadLine();
 
+            Trace.WriteLine("Completed OnStart", "Information");
             return true;
         }
 
