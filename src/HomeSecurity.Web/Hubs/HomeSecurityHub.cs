@@ -2,6 +2,7 @@
 using SignalR.Hubs;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 
@@ -9,14 +10,23 @@ namespace HomeSecurity.Web.Hubs
 {
     public class HomeSecurityHub:Hub
     {
-        private string _host = "168.62.188.28";
-        private int _port = 1883;
         private static IMqtt _client;
-        private string _clientId = "noc";
 
         public HomeSecurityHub()
         {
+			ConnectToBroker();
         }
+
+		public bool ConnectedToMQTTBroker
+		{
+			get
+			{
+				if (_client == null)
+					return false;
+				else
+					return true;
+			}
+		}
 
         public void Send(string message)
         {
@@ -27,8 +37,20 @@ namespace HomeSecurity.Web.Hubs
             Clients.updateConnectedMQTTClients(count);
         }
 
-        public void ConnectToBroker(string ip, int port, string clientId)
+		public void ConnectToBroker()
+		{
+			if (_client == null)
+			{
+				string ip = ConfigurationManager.AppSettings["MQTTBrokerIp"];
+				string noc = ConfigurationManager.AppSettings["MQTTClientId"];
+				ConnectToBroker(ip, 1883, noc);
+			}
+		}
+
+        private void ConnectToBroker(string ip, int port, string clientId)
         {
+			if (string.IsNullOrEmpty(ip) || string.IsNullOrEmpty(clientId) || port == 0)
+				return;
             if (_client != null)
             {
                 _client.PublishArrived -= new PublishArrivedDelegate(_client_PublishArrived);
@@ -44,14 +66,13 @@ namespace HomeSecurity.Web.Hubs
                 }
             }
 
-            _host = ip;
-            _port = port;
-            _clientId = clientId;
-
-            _client = MqttClientFactory.CreateClient("tcp://" + _host + ":" + _port.ToString(), _clientId);
+			_client = MqttClientFactory.CreateClient("tcp://" + ip + ":" + port.ToString(), clientId);
 
             _client.Connect();
-            _client.Subscribe("house1/#", QoS.AtLeastOnce);
+
+			// Subscribe to the house code in config
+			string houseCode = ConfigurationManager.AppSettings["HouseCode"];
+            _client.Subscribe(houseCode + "/#", QoS.AtLeastOnce);
             _client.Subscribe("$SYS/#", QoS.AtLeastOnce);
             _client.PublishArrived += new PublishArrivedDelegate(_client_PublishArrived);
             _client.Connected += new ConnectionDelegate(_client_Connected);

@@ -17,7 +17,7 @@
     // Wire up the connect button
     $("#connect").click(function () {
         // Call the connect method on the server
-        myHub.connectToBroker($('#brokerIp').val(), 1883, 'noc');
+        myHub.connectToBroker();
     });
 
     $.connection.hub.start()
