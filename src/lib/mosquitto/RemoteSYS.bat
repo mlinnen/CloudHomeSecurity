@@ -1,1 +1,0 @@
-start mosquitto_sub -v -t $SYS/# -h 168.62.49.240

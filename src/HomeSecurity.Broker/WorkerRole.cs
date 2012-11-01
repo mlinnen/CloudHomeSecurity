@@ -29,36 +29,45 @@ namespace HomeSecurity.Broker
 
         public override bool OnStart()
         {
-            DiagnosticMonitorConfiguration diagnosticConfig =
-               DiagnosticMonitor.GetDefaultInitialConfiguration();
-            diagnosticConfig.Logs.ScheduledTransferPeriod = TimeSpan.FromMinutes(1);
-            diagnosticConfig.Logs.ScheduledTransferLogLevelFilter = LogLevel.Verbose;
-            DiagnosticMonitor.Start("Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString", diagnosticConfig);
+			try
+			{
+				DiagnosticMonitorConfiguration diagnosticConfig =
+				   DiagnosticMonitor.GetDefaultInitialConfiguration();
+				diagnosticConfig.Logs.ScheduledTransferPeriod = TimeSpan.FromMinutes(1);
+				diagnosticConfig.Logs.ScheduledTransferLogLevelFilter = LogLevel.Verbose;
+				DiagnosticMonitor.Start("Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString", diagnosticConfig);
 
-            // Set the maximum number of concurrent connections 
-            ServicePointManager.DefaultConnectionLimit = 12;
+				// Set the maximum number of concurrent connections 
+				ServicePointManager.DefaultConnectionLimit = 12;
 
-            string rsbroot = Path.Combine(Environment.GetEnvironmentVariable("RoleRoot") + @"\\", @"approot\\mosquitto");
-            int port = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints["WorkerIn"].IPEndpoint.Port;
+				string rsbroot = Path.Combine(Environment.GetEnvironmentVariable("RoleRoot") + @"\\", @"approot\\mosquitto");
+				int port = RoleEnvironment.CurrentRoleInstance.InstanceEndpoints["WorkerIn"].IPEndpoint.Port;
 
-            ProcessStartInfo pInfo = new ProcessStartInfo(Path.Combine(rsbroot, @"mosquitto.exe"))
-            {
-                UseShellExecute = false,
-                WorkingDirectory = rsbroot,
-                ErrorDialog = false,
-                CreateNoWindow = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true
-            };
-            _program.StartInfo = pInfo;
-            _program.OutputDataReceived += new DataReceivedEventHandler(program_OutputDataReceived);
-            _program.ErrorDataReceived += new DataReceivedEventHandler(program_ErrorDataReceived);
-            _program.Start();
-            _program.BeginOutputReadLine();
-            _program.BeginErrorReadLine();
+				ProcessStartInfo pInfo = new ProcessStartInfo(Path.Combine(rsbroot, @"mosquitto.exe"))
+				{
+					UseShellExecute = false,
+					WorkingDirectory = rsbroot,
+					ErrorDialog = false,
+					CreateNoWindow = true,
+					RedirectStandardOutput = true,
+					RedirectStandardError = true
+				};
+				_program.StartInfo = pInfo;
+				_program.OutputDataReceived += new DataReceivedEventHandler(program_OutputDataReceived);
+				_program.ErrorDataReceived += new DataReceivedEventHandler(program_ErrorDataReceived);
+				_program.Start();
+				_program.BeginOutputReadLine();
+				_program.BeginErrorReadLine();
 
-            Trace.WriteLine("Completed OnStart", "Information");
-            return true;
+				Trace.WriteLine("Completed OnStart", "Information");
+				return true;
+			}
+			catch (Exception ex)
+			{
+				Trace.TraceError("Failed OnStart: {0}", ex.ToString());
+
+			}
+			return false;
         }
 
         void program_OutputDataReceived(object sender, DataReceivedEventArgs e)
