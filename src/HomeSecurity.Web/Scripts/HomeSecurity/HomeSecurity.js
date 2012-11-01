@@ -16,12 +16,8 @@
 
 
     $.extend(myHub, {
-        updateMatchReady: function (match) {
-            try {
-                SetBypassed(match);
-            }
-            catch (err) {
-            }
+        updateConnectedMQTTClients: function (count) {
+            $('#MQQTClientCount').val(count);
         }
     });
 

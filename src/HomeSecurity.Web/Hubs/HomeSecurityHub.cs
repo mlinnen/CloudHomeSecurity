@@ -22,6 +22,10 @@ namespace HomeSecurity.Web.Hubs
         {
             Clients.addMessage(message);
         }
+        public void SendConnectedMQTTClients(int count)
+        {
+            Clients.updateConnectedMQTTClients(count);
+        }
 
         public void ConnectToBroker(string ip, int port, string clientId)
         {
@@ -48,6 +52,7 @@ namespace HomeSecurity.Web.Hubs
 
             _client.Connect();
             _client.Subscribe("house1/#", QoS.AtLeastOnce);
+            _client.Subscribe("$SYS/#", QoS.AtLeastOnce);
             _client.PublishArrived += new PublishArrivedDelegate(_client_PublishArrived);
             _client.Connected += new ConnectionDelegate(_client_Connected);
             _client.ConnectionLost += new ConnectionDelegate(_client_ConnectionLost);
@@ -84,6 +89,12 @@ namespace HomeSecurity.Web.Hubs
                 if (e.Topic.Contains("/ping"))
                 {
                     // TODO send a pingresp back to the original sender
+                }
+                if (e.Topic.Contains("$SYS/broker/clients/active"))
+                {
+                    int count = 0;
+                    if (int.TryParse(e.Payload, out count))
+                        SendConnectedMQTTClients(count);
                 }
             }
             return true;
