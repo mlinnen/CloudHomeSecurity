@@ -21,6 +21,8 @@ bin
 
 # Azure publish profiles
 *.pubxml
+*.azurepubxml
+*.build.csdef
 
 # Other useful stuff
 *.bak
