@@ -79,6 +79,13 @@ namespace HomeSecurity.Web.Hubs
 
         bool _client_PublishArrived(object sender, PublishArrivedArgs e)
         {
+            if (e!=null && !string.IsNullOrEmpty(e.Topic))
+            {
+                if (e.Topic.Contains("/ping"))
+                {
+                    // TODO send a pingresp back to the original sender
+                }
+            }
             return true;
         }
 
