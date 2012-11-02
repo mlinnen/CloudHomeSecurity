@@ -17,14 +17,13 @@
 
     $.extend(myHub, {
         updateConnectedMQTTClients: function (count) {
-            $('#MQQTClientCount').val(count);
+            $('#MQTTClientCount').text(count);
         }
     });
 
     $.connection.hub.start()
                     .done(function () {
-
-
+                        myHub.connectToBroker();
                     })
                     .fail(function () {
                         alert("Could not Connect!");

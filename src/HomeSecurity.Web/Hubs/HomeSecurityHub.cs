@@ -72,8 +72,9 @@ namespace HomeSecurity.Web.Hubs
 
 			// Subscribe to the house code in config
 			string houseCode = ConfigurationManager.AppSettings["HouseCode"];
-            _client.Subscribe(houseCode + "/#", QoS.AtLeastOnce);
-            _client.Subscribe("$SYS/#", QoS.AtLeastOnce);
+
+            _client.Subscribe("/" + houseCode + "/#", QoS.BestEfforts);
+            _client.Subscribe("$SYS/broker/clients/#", QoS.BestEfforts);
             _client.PublishArrived += new PublishArrivedDelegate(_client_PublishArrived);
             _client.Connected += new ConnectionDelegate(_client_Connected);
             _client.ConnectionLost += new ConnectionDelegate(_client_ConnectionLost);
@@ -107,9 +108,11 @@ namespace HomeSecurity.Web.Hubs
         {
             if (e!=null && !string.IsNullOrEmpty(e.Topic))
             {
-                if (e.Topic.Contains("/ping"))
+                // Is this a ping request
+                if (e.Topic.EndsWith("/ping"))
                 {
-                    // TODO send a pingresp back to the original sender
+                    // Route the ping response back to the originator
+                    _client.Publish(e.Topic.Replace("/ping", "/pingresp"), new MqttPayload(e.Payload), QoS.BestEfforts, false);
                 }
                 if (e.Topic.Contains("$SYS/broker/clients/active"))
                 {

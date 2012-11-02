@@ -22,8 +22,7 @@
 
     $.connection.hub.start()
                     .done(function () {
-
-
+                        myHub.connectToBroker();
                     })
                     .fail(function () {
                         alert("Could not Connect!");
