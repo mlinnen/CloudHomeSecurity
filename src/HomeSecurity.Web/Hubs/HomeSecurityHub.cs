@@ -114,12 +114,16 @@ namespace HomeSecurity.Web.Hubs
                     // Route the ping response back to the originator
                     _client.Publish(e.Topic.Replace("/ping", "/pingresp"), new MqttPayload(e.Payload), QoS.BestEfforts, false);
                 }
+
+                // Look for changes in the MQTT Client connections and send it to the browser
                 if (e.Topic.Contains("$SYS/broker/clients/active"))
                 {
                     int count = 0;
                     if (int.TryParse(e.Payload, out count))
                         SendConnectedMQTTClients(count);
                 }
+
+
             }
             return true;
         }

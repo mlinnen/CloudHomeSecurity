@@ -2,4 +2,103 @@
     ViewBag.Title = "AlarmControlPanel";
 }
 
-<h2>AlarmControlPanel</h2>
+<h2>Alarm Control Panel</h2>
+<p>The alarm control panel device has several functions in the security system. 
+    </p>
+<ul>
+    <li>Set the state of the alarm (away/sleep)</li>
+    <li>Show the state of the alarm (away/sleep/off)</li>
+    <li>Enter in a code to disarm the alarm</li>
+    <li>Let the user know if the code entered is wrong</li>
+    <li>Monitor a window circuit to determine if any of the windows are opened</li>
+    <li>Monitor a motion detector circuit to determine if any one of the detectors are triggered by motion</li>
+    <li>Immediately set off the emergency alarm</li>
+</ul>
+<p>There can be more than one alarm control panel in a home so part of the message topic includes the name of the panel (i.e firstfloor, masterbedroom, bedroom1, bedroom2).</p>
+<h2>Messages</h2>
+<p>The following MQTT messages will be published from this device (note only the firstfloor topics are shown here).</p>
+<table>
+    <thead>
+        <tr><th>Address</th><th>Data</th><th>Description</th></tr>
+    </thead>
+    <tr>
+        <td>house1/alarmcontrol/firstfloor/ping</td>
+        <td>any message</td>
+        <td>This is a simple message that can be used to test that your device is sending messages to the 
+            broker and if the broker receives it the message will be published back to the device it came from</td>
+    </tr>
+    <tr>
+        <td>house1/alarmcontrol/firstfloor/alarmstate</td>
+        <td>away/sleep</td>
+        <td>This alarm panel has changed the state of the security system</td>
+    </tr>
+    <tr>
+        <td>house1/alarmcontrol/firstfloor/emergency</td>
+        <td>pushed</td>
+        <td>This emergency button was pushed on the alarm panel</td>
+    </tr>
+    <tr>
+        <td>house1/alarmcontrol/firstfloor/code</td>
+        <td>01</td>
+        <td>A code of 01 was entered on the first floor control panel pad.</td>
+    </tr>
+    <tr>
+        <td>house1/alarmcontrol/firstfloor/window</td>
+        <td>opened/closed</td>
+        <td>The window circuit is opened or closed.</td>
+    </tr>
+</table>
+<p>The device should subscribe to the following MQTT messages.</p>
+<table>
+    <thead>
+        <tr><th>Address</th><th>Data</th><th>Description</th></tr>
+    </thead>
+    <tr>
+        <td>house1/alarmpanel/firstfloor/pingresp</td>
+        <td>the message that was received by the broker</td>
+        <td>This is the response message from the broker that this device sent via the ping topic.</td>
+    </tr>
+    <tr>
+        <td>house1/alarmpanel/firstfloor/setalarmstate</td>
+        <td>away/sleep/off</td>
+        <td>The device should change the LEDs showing the newly set state of the security system, away = LED 1 ON and LED 2 OFF, sleep = LED 1 OFF and LED 2 ON, off = LED 1 and 2 OFF</td>
+    </tr>
+    <tr>
+        <td>house1/alarmpanel/firstfloor/code/valid</td>
+        <td>true/false</td>
+        <td>The code entered on the key panel was valid or not (true or false)</td>
+    </tr>
+</table>
+<h2>Hardware</h2>
+<p>You will need the following hardware to simulate the input and output the alarm control panel.</p>
+<table>
+    <thead>
+        <tr>
+            <th>Qty</th>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tr>
+        <td>3</td>
+        <td>Pushbutton Switch</td>
+        <td>Simulates keypad keys for the following: 0, 1 and enter </td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>LED</td>
+        <td>LED 1 and 2 indicates the state of the security system. <br />away = LED 1 ON and LED 2 OFF <br /> sleep = LED 1 OFF and LED 2 ON<br /> off = LED 1 and 2 OFF</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>LED</td>
+        <td>Tells the user that the code entered on the simulated keypad was wrong. Flashes on/off 2 times.</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Pushbutton Switch</td>
+        <td>Simulates if the window circuit is open or closed. Pushed = window opened, Not Pushed = window closed</td>
+    </tr>
+</table>
+<h2>Code</h2>
+<p>TODO detail the code</p>
