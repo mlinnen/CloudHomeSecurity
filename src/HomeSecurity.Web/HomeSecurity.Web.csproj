@@ -188,7 +188,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\AlarmState.cs" />
     <Compile Include="Hubs\HomeSecurityHub.cs" />
+    <Compile Include="Hubs\CommandArgs.cs" />
+    <Compile Include="Hubs\SecuritySystem.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Timers;
 using System.Web;
 
 namespace HomeSecurity.Web.Hubs
@@ -11,10 +12,12 @@ namespace HomeSecurity.Web.Hubs
     public class HomeSecurityHub:Hub
     {
         private static IMqtt _client;
+		private static SecuritySystem _securitySystem;
 
         public HomeSecurityHub()
         {
 			ConnectToBroker();
+			_securitySystem = new SecuritySystem(_client);
         }
 
 		public bool ConnectedToMQTTBroker
@@ -32,6 +35,7 @@ namespace HomeSecurity.Web.Hubs
         {
             Clients.addMessage(message);
         }
+
         public void SendConnectedMQTTClients(int count)
         {
             Clients.updateConnectedMQTTClients(count);
@@ -123,10 +127,20 @@ namespace HomeSecurity.Web.Hubs
                         SendConnectedMQTTClients(count);
                 }
 
+				// Look for changes in security sensors (doors, windows, motion) opening or closing
+				if (e.Topic.Contains("/window") || e.Topic.Contains("/door") || e.Topic.Contains("/motion"))
+				{
+					Clients.publishMessage(e.Topic, e.Payload);
 
-            }
+					CommandEventArgs args = new CommandEventArgs(e.Topic, e.Payload);
+
+					_securitySystem.ProcessSensorStateChange(args);
+
+				}
+
+			}
             return true;
         }
 
-    }
+	}
 }
