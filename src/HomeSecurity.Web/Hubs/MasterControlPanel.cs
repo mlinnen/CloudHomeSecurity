@@ -9,7 +9,7 @@ using System.Web;
 
 namespace HomeSecurity.Web.Hubs
 {
-	public class SecuritySystem
+	public class MasterControlPanel
 	{
 		private AlarmState _currentState = AlarmState.Off;
 		private int _secretCode = 01;
@@ -19,7 +19,7 @@ namespace HomeSecurity.Web.Hubs
 		private CommandEventArgs _currentEventArgs;
         private bool _alarmSounding;
 
-		public SecuritySystem(IMqtt client)
+		public MasterControlPanel(IMqtt client)
 		{
 			_client = client;
 			_delayAlarm = new Timer(_delayInMilliseconds);

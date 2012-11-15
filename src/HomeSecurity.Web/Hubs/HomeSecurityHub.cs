@@ -12,12 +12,12 @@ namespace HomeSecurity.Web.Hubs
     public class HomeSecurityHub:Hub
     {
         private static IMqtt _client;
-		private static SecuritySystem _securitySystem;
+		private static MasterControlPanel _securitySystem;
 
         public HomeSecurityHub()
         {
 			ConnectToBroker();
-			_securitySystem = new SecuritySystem(_client);
+			_securitySystem = new MasterControlPanel(_client);
         }
 
 		public bool ConnectedToMQTTBroker
