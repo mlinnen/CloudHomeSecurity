@@ -8,7 +8,7 @@
 </p>
 <h2>What will I be doing</h2>
 <p>
-    We will be building the following devices in the home security system
+    You will be building the following devices in the home security system
 </p>
 <ul>
     <li><a href="Docs/ExternalDoorEntry">External Door Entry</a>- This device handles all the I/O for any External Door</li>
@@ -32,6 +32,14 @@
 <p>
     The detailed documentation for each device will outline the topics and messages it publishes as well as the 
     topics and the messages it should subscribe to.  These topics and message are meant to be somewhat readable and simple.
+</p>
+<h2>What is running in the cloud</h2>
+<p>
+    There are two main components that already exist in Azure that the devices will interact with: MQTT Message Broker and Master Control Panel.  
+    The message broker runs under an Azure Worker Role.  The Master Control Panel runs in Windows Azure Web Sites.  The broker simply routes MQTT messages and has no 
+    real home security specific business logic on it.  The Master Control Panel manages the state of the security system as well as the business rules around how the
+    security system functions as a whole.  SignalR is used to update the client browsers when the state of the security system changes. Take a look at 
+    the<a href="Docs/MasterControlPanel">Master Control Panel</a> for more details on how it functions.
 </p>
 <h2>What does it look like</h2>
 <p>Of course a picture is always needed to show how the devices are connected together.  </p>

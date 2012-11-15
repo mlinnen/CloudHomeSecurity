@@ -1,4 +1,6 @@
 ﻿using MqttLib;
+using SignalR;
+using SignalR.Hubs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,77 +35,91 @@ namespace HomeSecurity.Web.Hubs
                 string.IsNullOrEmpty(args.Command) ||
                 string.IsNullOrEmpty(args.CommandValue)))
             {
+                IHubContext context = GlobalHost.ConnectionManager.GetHubContext<HomeSecurityHub>();
+
                 switch (args.DeviceCode)
                 {
                     case "externaldoor":
                         if (args.Command.Equals("code"))
                         {
                             // TODO Notify the web page
-                            
+                            context.Clients.updateCommand(args);
+
                             if (UnLockDoor(args))
                                 DisarmAlarm(args);
                         }
                         if (args.Command.Equals("doorbell"))
                         {
                             // TODO Notify the web page
+                            context.Clients.updateCommand(args);
                         }
                         if (args.Command.Equals("door"))
                         {
                             // TODO Notify the web page
+                            context.Clients.updateCommand(args);
 
                             ProcessSensorStateChange(args);
                         }
                         if (args.Command.Equals("window"))
                         {
                             // TODO Notify the web page
+                            context.Clients.updateCommand(args);
                             
                             ProcessSensorStateChange(args);
                         }
                         if (args.Command.Equals("motion"))
                         {
                             // TODO Notify the web page
+                            context.Clients.updateCommand(args);
                             
                             ProcessSensorStateChange(args);
                         }
                         if (args.Command.Equals("lock"))
                         {
                             // TODO Notify the webpage
+                            context.Clients.updateCommand(args);
                         }
                         break;
                     case "alarmpanel":
                         if (args.Command.Equals("alarmstate"))
                         {
                             // TODO Notify the web page
+                            context.Clients.updateCommand(args);
 
                             SetAlarmState(args);
                         }
                         if (args.Command.Equals("emergency"))
                         {
                             // TODO Notify the web page
+                            context.Clients.updateCommand(args);
 
                             SoundBurglarAlarm(args);
                         }
                         if (args.Command.Equals("code"))
                         {
                             // TODO Notify the web page
+                            context.Clients.updateCommand(args);
 
                             DisarmAlarm(args);
                         }
                         if (args.Command.Equals("door"))
                         {
                             // TODO Notify the web page
+                            context.Clients.updateCommand(args);
 
                             ProcessSensorStateChange(args);
                         }
                         if (args.Command.Equals("window"))
                         {
                             // TODO Notify the web page
+                            context.Clients.updateCommand(args);
 
                             ProcessSensorStateChange(args);
                         }
                         if (args.Command.Equals("motion"))
                         {
                             // TODO Notify the web page
+                            context.Clients.updateCommand(args);
 
                             ProcessSensorStateChange(args);
                         }

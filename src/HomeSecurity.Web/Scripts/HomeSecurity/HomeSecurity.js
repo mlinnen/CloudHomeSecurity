@@ -18,6 +18,8 @@
     $.extend(myHub, {
         updateConnectedMQTTClients: function (count) {
             $('#MQTTClientCount').text(count);
+        },
+        updateCommand: function (command) {
         }
     });
 

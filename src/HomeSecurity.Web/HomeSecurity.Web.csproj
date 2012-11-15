@@ -325,6 +325,7 @@
     <Content Include="Views\Docs\Garage.cshtml" />
     <Content Include="Views\Docs\AlarmControlPanel.cshtml" />
     <Content Include="Views\Docs\Alarm.cshtml" />
+    <Content Include="Views\Docs\MasterControlPanel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

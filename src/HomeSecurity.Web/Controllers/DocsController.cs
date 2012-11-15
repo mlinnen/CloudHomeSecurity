@@ -42,5 +42,9 @@ namespace HomeSecurity.Web.Controllers
         {
             return View();
         }
+        public ActionResult MasterControlPanel()
+        {
+            return View();
+        }
     }
 }
