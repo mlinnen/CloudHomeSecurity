@@ -19,28 +19,28 @@
         <tr><th>Address</th><th>Data</th><th>Description</th></tr>
     </thead>
     <tr>
-        <td>house1/externaldoor/front/ping</td>
+        <td>/house1/externaldoor/front/ping</td>
         <td>any message</td>
         <td>This is a simple message that can be used to test that your device is sending messages to the 
             broker and if the broker receives it the message will be published back to the device it came from</td>
     </tr>
     <tr>
-        <td>house1/externaldoor/front/doorbell</td>
+        <td>/house1/externaldoor/front/doorbell</td>
         <td>pushed</td>
         <td>Someone rang the front doorbell</td>
     </tr>
     <tr>
-        <td>house1/externaldoor/front/lock</td>
+        <td>/house1/externaldoor/front/lock</td>
         <td>unlocked/locked</td>
         <td>The front door is unlocked or locked</td>
     </tr>
     <tr>
-        <td>house1/externaldoor/front/code</td>
+        <td>/house1/externaldoor/front/code</td>
         <td>01</td>
         <td>A code of 01 was entered on the front door keyless entry pad.</td>
     </tr>
     <tr>
-        <td>house1/externaldoor/front/door</td>
+        <td>/house1/externaldoor/front/door</td>
         <td>opened/closed</td>
         <td>The door is opened or closed.</td>
     </tr>
@@ -51,18 +51,18 @@
         <tr><th>Address</th><th>Data</th><th>Description</th></tr>
     </thead>
     <tr>
-        <td>house1/externaldoor/front/pingresp</td>
+        <td>/house1/externaldoor/front/pingresp</td>
         <td>the message that was received by the broker</td>
         <td>This is the response message from the broker that this device sent via the ping topic.</td>
     </tr>
     <tr>
-        <td>house1/externaldoor/front/setlock</td>
+        <td>/house1/externaldoor/front/setlock</td>
         <td>lock/unlock</td>
         <td>The device should lock or unlock the door. Once it does so it should then send the house1/door/front/lock topic with 
             either locked or unlocked as the message body depending on what the device decided to do with the lock.</td>
     </tr>
     <tr>
-        <td>house1/externaldoor/front/codevalid</td>
+        <td>/house1/externaldoor/front/codevalid</td>
         <td>true/false</td>
         <td>The keyless entry code that was entered on the device was valid or not (true or false). If the value is false then flash the LED on/off twice.</td>
     </tr>

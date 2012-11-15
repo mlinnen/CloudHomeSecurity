@@ -22,28 +22,28 @@
         <tr><th>Address</th><th>Data</th><th>Description</th></tr>
     </thead>
     <tr>
-        <td>house1/alarmpanel/firstfloor/ping</td>
+        <td>/house1/alarmpanel/firstfloor/ping</td>
         <td>any message</td>
         <td>This is a simple message that can be used to test that your device is sending messages to the 
             broker and if the broker receives it the message will be published back to the device it came from</td>
     </tr>
     <tr>
-        <td>house1/alarmpanel/firstfloor/alarmstate</td>
+        <td>/house1/alarmpanel/firstfloor/alarmstate</td>
         <td>away/sleep</td>
         <td>This alarm panel has changed the state of the security system</td>
     </tr>
     <tr>
-        <td>house1/alarmpanel/firstfloor/emergency</td>
+        <td>/house1/alarmpanel/firstfloor/emergency</td>
         <td>pushed</td>
         <td>This emergency button was pushed on the alarm panel</td>
     </tr>
     <tr>
-        <td>house1/alarmpanel/firstfloor/code</td>
+        <td>/house1/alarmpanel/firstfloor/code</td>
         <td>01</td>
         <td>A code of 01 was entered on the first floor control panel pad.</td>
     </tr>
     <tr>
-        <td>house1/alarmpanel/firstfloor/window</td>
+        <td>/house1/alarmpanel/firstfloor/window</td>
         <td>opened/closed</td>
         <td>The window circuit is opened or closed.</td>
     </tr>
@@ -54,22 +54,22 @@
         <tr><th>Address</th><th>Data</th><th>Description</th></tr>
     </thead>
     <tr>
-        <td>house1/alarmpanel/firstfloor/pingresp</td>
+        <td>/house1/alarmpanel/firstfloor/pingresp</td>
         <td>the message that was received by the broker</td>
         <td>This is the response message from the broker that this device sent via the ping topic.</td>
     </tr>
     <tr>
-        <td>house1/alarmpanel/firstfloor/setalarmstate</td>
+        <td>/house1/alarmpanel/firstfloor/setalarmstate</td>
         <td>away/sleep/off</td>
         <td>The device should change the LEDs showing the newly set state of the security system, away = LED 1 ON and LED 2 OFF, sleep = LED 1 OFF and LED 2 ON, off = LED 1 and 2 OFF</td>
     </tr>
     <tr>
-        <td>house1/alarmpanel/firstfloor/codevalid</td>
+        <td>/house1/alarmpanel/firstfloor/codevalid</td>
         <td>true/false</td>
         <td>The code entered on the key panel was valid or not (true or false) If the value is false then flash the LED on/off twice.</td>
     </tr>
     <tr>
-        <td>house1/alarmpanel/firstfloor/alarmstatevalid</td>
+        <td>/house1/alarmpanel/firstfloor/alarmstatevalid</td>
         <td>true/false</td>
         <td>The request to change the alarm state was valid or not(true or false) If the value is false then flash the LED on/off twice.</td>
     </tr>
