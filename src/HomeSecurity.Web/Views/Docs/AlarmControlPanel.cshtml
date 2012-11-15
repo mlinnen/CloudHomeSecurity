@@ -64,9 +64,14 @@
         <td>The device should change the LEDs showing the newly set state of the security system, away = LED 1 ON and LED 2 OFF, sleep = LED 1 OFF and LED 2 ON, off = LED 1 and 2 OFF</td>
     </tr>
     <tr>
-        <td>house1/alarmpanel/firstfloor/code/valid</td>
+        <td>house1/alarmpanel/firstfloor/codevalid</td>
         <td>true/false</td>
-        <td>The code entered on the key panel was valid or not (true or false)</td>
+        <td>The code entered on the key panel was valid or not (true or false) If the value is false then flash the LED on/off twice.</td>
+    </tr>
+    <tr>
+        <td>house1/alarmpanel/firstfloor/alarmstatevalid</td>
+        <td>true/false</td>
+        <td>The request to change the alarm state was valid or not(true or false) If the value is false then flash the LED on/off twice.</td>
     </tr>
 </table>
 <h2>Hardware</h2>
