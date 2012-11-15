@@ -10,5 +10,6 @@ namespace HomeSecurity.Web.Hubs
 		Off = 0,
 		Sleep = 1,
 		Away = 2,
+        Unknown=3,
 	}
 }

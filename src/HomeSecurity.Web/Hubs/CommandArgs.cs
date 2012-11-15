@@ -21,35 +21,14 @@ namespace HomeSecurity.Web.Hubs
 			CommandValue = commandValue;
 		}
 
-		public CommandEventArgs(string topic, string msg)
-		{
-			string[] topicArgs = topic.Split('/');
-			if (topicArgs.Length > 0)
-			{
-				HouseCode = topicArgs[0];
-			}
-			if (topicArgs.Length > 1)
-			{
-				DeviceCode = topicArgs[1];
-			}
-			if (topicArgs.Length > 2)
-			{
-				LocationCode = topicArgs[2];
-			}
-			if (topicArgs.Length > 3)
-			{
-				Command = topicArgs[3];
-			}
-			if (topicArgs.Length > 4)
-			{
-				CommandValue = topicArgs[4];
-			}
-
-		}
 		public string HouseCode { get; set; }
+
 		public string DeviceCode { get; set; }
+
 		public string LocationCode { get; set; }
+
 		public string Command { get; set; }
+
 		public string CommandValue { get; set; }
 
 		public string GetTopic()
@@ -61,5 +40,21 @@ namespace HomeSecurity.Web.Hubs
 		{
 			return CommandValue;
 		}
+
+        public static CommandEventArgs BuildCommandArgs(string topic, string msg)
+        {
+            string[] topicArgs = topic.Split('/');
+            if (topicArgs.Length < 5)
+                return null;
+
+            CommandEventArgs args = new CommandEventArgs();
+            args.HouseCode = topicArgs[1];
+            args.DeviceCode = topicArgs[2];
+            args.LocationCode = topicArgs[3];
+            args.Command = topicArgs[4];
+            args.CommandValue = msg;
+
+            return args;
+        }
 	}
 }

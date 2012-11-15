@@ -15,6 +15,7 @@ namespace HomeSecurity.Web.Hubs
 		private Timer _delayAlarm;
 		private int _delayInMilliseconds = 10000;
 		private CommandEventArgs _currentEventArgs;
+        private bool _alarmSounding;
 
 		public SecuritySystem(IMqtt client)
 		{
@@ -24,37 +25,166 @@ namespace HomeSecurity.Web.Hubs
 			_delayAlarm.Elapsed += _delayAlarm_Elapsed;
 		}
 
-		public void SetAlarmState(AlarmState newState)
+        public bool ProcessCommand(CommandEventArgs args)
+        {
+            if (!(args == null ||
+                string.IsNullOrEmpty(args.HouseCode) ||
+                string.IsNullOrEmpty(args.DeviceCode) ||
+                string.IsNullOrEmpty(args.Command) ||
+                string.IsNullOrEmpty(args.CommandValue)))
+            {
+                switch (args.DeviceCode)
+                {
+                    case "externaldoor":
+                        if (args.Command.Equals("code"))
+                        {
+                            // TODO Notify the web page
+                            
+                            if (UnLockDoor(args))
+                                DisarmAlarm(args);
+                        }
+                        if (args.Command.Equals("doorbell"))
+                        {
+                            // TODO Notify the web page
+                        }
+                        if (args.Command.Equals("door"))
+                        {
+                            // TODO Notify the web page
+
+                            ProcessSensorStateChange(args);
+                        }
+                        if (args.Command.Equals("window"))
+                        {
+                            // TODO Notify the web page
+                            
+                            ProcessSensorStateChange(args);
+                        }
+                        if (args.Command.Equals("motion"))
+                        {
+                            // TODO Notify the web page
+                            
+                            ProcessSensorStateChange(args);
+                        }
+                        if (args.Command.Equals("lock"))
+                        {
+                            // TODO Notify the webpage
+                        }
+                        break;
+                    case "alarmpanel":
+                        if (args.Command.Equals("alarmstate"))
+                        {
+                            // TODO Notify the web page
+
+                            SetAlarmState(args);
+                        }
+                        if (args.Command.Equals("emergency"))
+                        {
+                            // TODO Notify the web page
+
+                            SoundBurglarAlarm(args);
+                        }
+                        if (args.Command.Equals("code"))
+                        {
+                            // TODO Notify the web page
+
+                            DisarmAlarm(args);
+                        }
+                        if (args.Command.Equals("door"))
+                        {
+                            // TODO Notify the web page
+
+                            ProcessSensorStateChange(args);
+                        }
+                        if (args.Command.Equals("window"))
+                        {
+                            // TODO Notify the web page
+
+                            ProcessSensorStateChange(args);
+                        }
+                        if (args.Command.Equals("motion"))
+                        {
+                            // TODO Notify the web page
+
+                            ProcessSensorStateChange(args);
+                        }
+                        break;
+                }
+            }
+            else
+                return false;
+            return true;
+        }
+
+		private void SetAlarmState(CommandEventArgs args)
 		{
+            AlarmState newState = ParseAlarmState(args.CommandValue);
 			if (newState == _currentState)
 				return;
 
 			if (_currentState == AlarmState.Off)
 			{
 				_currentState = newState;
+                SendAlarmStateChange(args.HouseCode,_currentState);
+                if (_currentState == AlarmState.Sleep)
+                    LockAllDoors();
 			}
 		}
 
-		public bool DisarmAlarm(int code)
+        private void SendAlarmStateChange(string houseCode, AlarmState state)
+        {
+            string topic = string.Format("/{0}/{1}/{2}/{3}", houseCode, "alarmpanel", "firstfloor", "setalarmstate");
+            _client.Publish(topic, new MqttPayload(GetAlarmState(state)), QoS.BestEfforts, false);
+            topic = string.Format("/{0}/{1}/{2}/{3}", houseCode, "alarmpanel", "masterbedroom", "setalarmstate");
+            _client.Publish(topic, new MqttPayload(GetAlarmState(state)), QoS.BestEfforts, false);
+            topic = string.Format("/{0}/{1}/{2}/{3}", houseCode, "alarmpanel", "bedroom1", "setalarmstate");
+            _client.Publish(topic, new MqttPayload(GetAlarmState(state)), QoS.BestEfforts, false);
+            topic = string.Format("/{0}/{1}/{2}/{3}", houseCode, "alarmpanel", "bedroom2", "setalarmstate");
+            _client.Publish(topic, new MqttPayload(GetAlarmState(state)), QoS.BestEfforts, false);
+
+        }
+
+        private bool UnLockDoor(CommandEventArgs args)
+        {
+            int code = 0;
+            bool unlockedDoor = false;
+
+            int.TryParse(args.CommandValue, out code);
+
+            string topic = string.Format("/{0}/{1}/{2}/{3}", args.HouseCode, args.DeviceCode, args.LocationCode, "codevalid");
+            if (code == _secretCode)
+            {
+                _client.Publish(topic, new MqttPayload("true"), QoS.BestEfforts, false);
+                topic = string.Format("/{0}/{1}/{2}/{3}", args.HouseCode, args.DeviceCode, args.LocationCode, "setlock");
+                _client.Publish(topic, new MqttPayload("unlock"), QoS.BestEfforts, false);
+                unlockedDoor = true;
+            }
+            else
+                _client.Publish(topic, new MqttPayload("false"), QoS.BestEfforts, false);
+
+            return unlockedDoor;
+        }
+
+        private bool DisarmAlarm(CommandEventArgs args)
 		{
-			bool disarmed = false;
+            int code = 0;
+            bool disarmed=false;
+
+            int.TryParse(args.CommandValue, out code);
 
 			if (code == _secretCode)
 			{
 				_delayAlarm.Enabled = false;
 				_currentState = AlarmState.Off;
+                SendAlarmStateChange(args.HouseCode, _currentState);
 				SilenceBurglarAlarm();
-				disarmed = true;
+                disarmed = true;
 			}
-			
-			return disarmed;
+            return disarmed;
 		}
 
-		public void ProcessSensorStateChange(CommandEventArgs args)
+		private void ProcessSensorStateChange(CommandEventArgs args)
 		{
-			if (args == null)
-				return;
-			if (!args.CommandValue.Equals("opened"))
+            if (args == null || args.CommandValue == null && !args.CommandValue.Equals("opened"))
 				return;
 
 			if (_currentState == AlarmState.Sleep)
@@ -72,6 +202,13 @@ namespace HomeSecurity.Web.Hubs
 
 		}
 
+        private void LockAllDoors()
+        {
+            _client.Publish("/house1/esternaldoor/front/setlock", new MqttPayload("lock"), QoS.BestEfforts, false);
+            _client.Publish("/house1/esternaldoor/side/setlock", new MqttPayload("lock"), QoS.BestEfforts, false);
+            _client.Publish("/house1/esternaldoor/back/setlock", new MqttPayload("lock"), QoS.BestEfforts, false);
+        }
+
 		void _delayAlarm_Elapsed(object sender, ElapsedEventArgs e)
 		{
 			_delayAlarm.Enabled = false;
@@ -81,17 +218,58 @@ namespace HomeSecurity.Web.Hubs
 
 		private void SoundBurglarAlarm(CommandEventArgs args)
 		{
+            _alarmSounding = true;
 			// Use the args to determine where to send the alarm burglar trigger command
-			string topic = string.Format("{0}/{1}/{2}/{3}", args.HouseCode, args.DeviceCode, args.LocationCode, "burglar");
+			string topic = string.Format("/{0}/{1}/{2}/{3}", args.HouseCode, args.DeviceCode, args.LocationCode, "burglar");
 			_client.Publish(topic, new MqttPayload("on"), QoS.BestEfforts, false);
 		}
 
 		private void SilenceBurglarAlarm()
 		{
-			_client.Publish("house1/alarmcontrol/masterbedroom/burglar", new MqttPayload("off"), QoS.BestEfforts, false);
-			_client.Publish("house1/alarmcontrol/bedroom1/burglar", new MqttPayload("off"), QoS.BestEfforts, false);
-			_client.Publish("house1/alarmcontrol/bedroom2/burglar", new MqttPayload("off"), QoS.BestEfforts, false);
-			_client.Publish("house1/alarmcontrol/firstfloor/burglar", new MqttPayload("off"), QoS.BestEfforts, false);
+            if (_alarmSounding)
+            {
+                _client.Publish("/house1/alarmpanel/masterbedroom/burglar", new MqttPayload("off"), QoS.BestEfforts, false);
+                _client.Publish("/house1/alarmpanel/bedroom1/burglar", new MqttPayload("off"), QoS.BestEfforts, false);
+                _client.Publish("/house1/alarmpanel/bedroom2/burglar", new MqttPayload("off"), QoS.BestEfforts, false);
+                _client.Publish("/house1/alarmpanel/firstfloor/burglar", new MqttPayload("off"), QoS.BestEfforts, false);
+                _alarmSounding = false;
+            }
 		}
-	}
+
+        private AlarmState ParseAlarmState(string state)
+        {
+            AlarmState returnState = AlarmState.Unknown;
+            if (state.Equals("off"))
+            {
+                returnState = AlarmState.Off;
+            }
+            if (state.Equals("away"))
+            {
+                returnState = AlarmState.Away;
+            }
+            if (state.Equals("sleep"))
+            {
+                returnState = AlarmState.Sleep;
+            }
+
+            return returnState;
+        }
+        private string GetAlarmState(AlarmState state)
+        {
+            string stringState = "unknown";
+            switch (state)
+            {
+                case AlarmState.Off:
+                    stringState = "off";
+                    break;
+                case AlarmState.Away:
+                    stringState = "away";
+                    break;
+                case AlarmState.Sleep:
+                    stringState = "sleep";
+                    break;
+            }
+            return stringState;
+        }
+    }
 }

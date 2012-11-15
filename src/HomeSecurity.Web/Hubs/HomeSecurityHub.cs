@@ -127,18 +127,11 @@ namespace HomeSecurity.Web.Hubs
                         SendConnectedMQTTClients(count);
                 }
 
-				// Look for changes in security sensors (doors, windows, motion) opening or closing
-				if (e.Topic.Contains("/window") || e.Topic.Contains("/door") || e.Topic.Contains("/motion"))
-				{
-					Clients.publishMessage(e.Topic, e.Payload);
+                CommandEventArgs args = CommandEventArgs.BuildCommandArgs(e.Topic, e.Payload);
+                if (args != null)
+                    _securitySystem.ProcessCommand(args);
 
-					CommandEventArgs args = new CommandEventArgs(e.Topic, e.Payload);
-
-					_securitySystem.ProcessSensorStateChange(args);
-
-				}
-
-			}
+            }
             return true;
         }
 
