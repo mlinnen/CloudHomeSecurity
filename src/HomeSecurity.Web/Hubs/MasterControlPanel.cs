@@ -15,6 +15,7 @@ namespace HomeSecurity.Web.Hubs
 		private int _secretCode = 01;
 		private readonly IMqtt _client;
 		private Timer _delayAlarm;
+        private Timer _turnOffDoorbellIndicatorTimer;
 		private int _delayInMilliseconds = 10000;
 		private CommandEventArgs _currentEventArgs;
         private List<SecuritySensor> _sensors = new List<SecuritySensor>();
@@ -27,10 +28,15 @@ namespace HomeSecurity.Web.Hubs
 			_delayAlarm.Enabled = false;
 			_delayAlarm.Elapsed += _delayAlarm_Elapsed;
 
+            _turnOffDoorbellIndicatorTimer = new Timer(3000);
+            _turnOffDoorbellIndicatorTimer.Enabled = false;
+            _turnOffDoorbellIndicatorTimer.Elapsed += _turnOffDoorbellIndicatorTimer_Elapsed;
+
             _sensors.Add(new SecuritySensor { HouseCode = "house1", DeviceCode = "externaldoor", LocationCode = "front", Sensor = "door", SensorValue = "closed" });
             _sensors.Add(new SecuritySensor { HouseCode = "house1", DeviceCode = "externaldoor", LocationCode = "side", Sensor = "door", SensorValue = "closed" });
             _sensors.Add(new SecuritySensor { HouseCode = "house1", DeviceCode = "externaldoor", LocationCode = "back", Sensor = "door", SensorValue = "closed" });
             _sensors.Add(new SecuritySensor { HouseCode = "house1", DeviceCode = "alarmpanel", LocationCode = "firstfloor", Sensor = "window", SensorValue = "closed" });
+            _sensors.Add(new SecuritySensor { HouseCode = "house1", DeviceCode = "alarmpanel", LocationCode = "firstfloor", Sensor = "motion", SensorValue = "closed" });
             _sensors.Add(new SecuritySensor { HouseCode = "house1", DeviceCode = "alarmpanel", LocationCode = "masterbedroom", Sensor = "window", SensorValue = "closed" });
             _sensors.Add(new SecuritySensor { HouseCode = "house1", DeviceCode = "alarmpanel", LocationCode = "bedroom1", Sensor = "window", SensorValue = "closed" });
             _sensors.Add(new SecuritySensor { HouseCode = "house1", DeviceCode = "alarmpanel", LocationCode = "bedroom2", Sensor = "window", SensorValue = "closed" });
@@ -52,7 +58,6 @@ namespace HomeSecurity.Web.Hubs
                     case "externaldoor":
                         if (args.Command.Equals("code"))
                         {
-                            // TODO Notify the web page
                             context.Clients.updateCommand(args);
 
                             if (UnLockDoor(args))
@@ -60,75 +65,69 @@ namespace HomeSecurity.Web.Hubs
                         }
                         if (args.Command.Equals("doorbell"))
                         {
-                            // TODO Notify the web page
+                            _turnOffDoorbellIndicatorTimer.Enabled = true;
                             context.Clients.updateCommand(args);
                         }
                         if (args.Command.Equals("door"))
                         {
-                            // TODO Notify the web page
                             context.Clients.updateCommand(args);
 
                             ProcessSensorStateChange(args);
                         }
                         if (args.Command.Equals("window"))
                         {
-                            // TODO Notify the web page
                             context.Clients.updateCommand(args);
                             
                             ProcessSensorStateChange(args);
                         }
                         if (args.Command.Equals("motion"))
                         {
-                            // TODO Notify the web page
                             context.Clients.updateCommand(args);
                             
                             ProcessSensorStateChange(args);
                         }
                         if (args.Command.Equals("lock"))
                         {
-                            // TODO Notify the webpage
                             context.Clients.updateCommand(args);
                         }
                         break;
                     case "alarmpanel":
                         if (args.Command.Equals("alarmstate"))
                         {
-                            // TODO Notify the web page
                             context.Clients.updateCommand(args);
 
                             SetAlarmState(args);
                         }
+                        if (args.Command.Equals("setalarmstate"))
+                        {
+                            context.Clients.updateCommand(args);
+                        }
                         if (args.Command.Equals("emergency"))
                         {
-                            // TODO Notify the web page
                             context.Clients.updateCommand(args);
 
                             SoundBurglarAlarm(args);
                         }
                         if (args.Command.Equals("code"))
                         {
-                            // TODO Notify the web page
                             context.Clients.updateCommand(args);
 
                             DisarmAlarm(args);
                         }
                         if (args.Command.Equals("door"))
                         {
-                            // TODO Notify the web page
                             context.Clients.updateCommand(args);
 
                             ProcessSensorStateChange(args);
                         }
                         if (args.Command.Equals("window"))
                         {
-                            // TODO Notify the web page
                             context.Clients.updateCommand(args);
 
                             ProcessSensorStateChange(args);
                         }
                         if (args.Command.Equals("motion"))
                         {
-                            // TODO Notify the web page
                             context.Clients.updateCommand(args);
 
                             ProcessSensorStateChange(args);
@@ -277,6 +276,21 @@ namespace HomeSecurity.Web.Hubs
 			SoundBurglarAlarm(_currentEventArgs);
 
 		}
+
+        void _turnOffDoorbellIndicatorTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            _turnOffDoorbellIndicatorTimer.Enabled = false;
+            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<HomeSecurityHub>();
+            CommandEventArgs args = new CommandEventArgs("house1", "externaldoor", "front", "doorbell", "off");
+            context.Clients.updateCommand(args);
+
+            args = new CommandEventArgs("house1", "externaldoor", "back", "doorbell", "off"); 
+            context.Clients.updateCommand(args);
+
+            args = new CommandEventArgs("house1", "externaldoor", "side", "doorbell", "off");
+            context.Clients.updateCommand(args);
+        }
+
 
 		private void SoundBurglarAlarm(CommandEventArgs args)
 		{

@@ -198,6 +198,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\Architecture.jpg" />
+    <Content Include="Images\LED_OFF.png" />
+    <Content Include="Images\LED_ON.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
