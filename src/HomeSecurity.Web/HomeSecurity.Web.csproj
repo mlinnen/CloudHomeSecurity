@@ -192,6 +192,7 @@
     <Compile Include="Hubs\HomeSecurityHub.cs" />
     <Compile Include="Hubs\CommandArgs.cs" />
     <Compile Include="Hubs\MasterControlPanel.cs" />
+    <Compile Include="Hubs\SecuritySensor.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
