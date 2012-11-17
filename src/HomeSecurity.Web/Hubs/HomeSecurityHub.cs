@@ -17,7 +17,8 @@ namespace HomeSecurity.Web.Hubs
         public HomeSecurityHub()
         {
 			ConnectToBroker();
-			_securitySystem = new MasterControlPanel(_client);
+            if (_securitySystem==null)
+			    _securitySystem = new MasterControlPanel(_client);
         }
 
 		public bool ConnectedToMQTTBroker
@@ -41,6 +42,11 @@ namespace HomeSecurity.Web.Hubs
             Clients.updateConnectedMQTTClients(count);
         }
 
+        public void PublishCurrentState()
+        {
+            _securitySystem.PublishState();
+        }
+
 		public void ConnectToBroker()
 		{
 			if (_client == null)
@@ -49,6 +55,9 @@ namespace HomeSecurity.Web.Hubs
 				string noc = ConfigurationManager.AppSettings["MQTTClientId"];
 				ConnectToBroker(ip, 1883, noc);
 			}
+
+            // Since someone new connected to the broker, go ahead and make sure the state is updated
+
 		}
 
         private void ConnectToBroker(string ip, int port, string clientId)
@@ -85,6 +94,8 @@ namespace HomeSecurity.Web.Hubs
             _client.Published += new CompleteDelegate(_client_Published);
             _client.Subscribed += new CompleteDelegate(_client_Subscribed);
             _client.Unsubscribed += new CompleteDelegate(_client_Unsubscribed);
+
+            
 
         }
 

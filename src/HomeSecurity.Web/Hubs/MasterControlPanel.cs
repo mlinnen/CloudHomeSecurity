@@ -19,6 +19,8 @@ namespace HomeSecurity.Web.Hubs
 		private int _delayInMilliseconds = 10000;
 		private CommandEventArgs _currentEventArgs;
         private List<SecuritySensor> _sensors = new List<SecuritySensor>();
+        private List<SecurityActuator> _lockState = new List<SecurityActuator>();
+        private List<SecurityActuator> _alarmHornState = new List<SecurityActuator>();
         private bool _alarmSounding;
 
 		public MasterControlPanel(IMqtt client)
@@ -41,6 +43,14 @@ namespace HomeSecurity.Web.Hubs
             _sensors.Add(new SecuritySensor { HouseCode = "house1", DeviceCode = "alarmpanel", LocationCode = "bedroom1", Sensor = "window", SensorValue = "closed" });
             _sensors.Add(new SecuritySensor { HouseCode = "house1", DeviceCode = "alarmpanel", LocationCode = "bedroom2", Sensor = "window", SensorValue = "closed" });
 
+            _lockState.Add(new SecurityActuator { HouseCode = "house1", DeviceCode = "externaldoor", LocationCode = "front", Actuator = "lock", ActuatorValue = "unlocked" });
+            _lockState.Add(new SecurityActuator { HouseCode = "house1", DeviceCode = "externaldoor", LocationCode = "back", Actuator = "lock", ActuatorValue = "unlocked" });
+            _lockState.Add(new SecurityActuator { HouseCode = "house1", DeviceCode = "externaldoor", LocationCode = "side", Actuator = "lock", ActuatorValue = "unlocked" });
+
+            _alarmHornState.Add(new SecurityActuator { HouseCode = "house1", DeviceCode = "alarmpanel", LocationCode = "masterbedroom", Actuator = "burglar", ActuatorValue = "off" });
+            _alarmHornState.Add(new SecurityActuator { HouseCode = "house1", DeviceCode = "alarmpanel", LocationCode = "bedroom1", Actuator = "burglar", ActuatorValue = "off" });
+            _alarmHornState.Add(new SecurityActuator { HouseCode = "house1", DeviceCode = "alarmpanel", LocationCode = "bedroom2", Actuator = "burglar", ActuatorValue = "off" });
+            _alarmHornState.Add(new SecurityActuator { HouseCode = "house1", DeviceCode = "alarmpanel", LocationCode = "firstfloor", Actuator = "burglar", ActuatorValue = "off" });
         }
 
         public bool ProcessCommand(CommandEventArgs args)
@@ -89,6 +99,8 @@ namespace HomeSecurity.Web.Hubs
                         if (args.Command.Equals("lock"))
                         {
                             context.Clients.updateCommand(args);
+
+                            ProcessLockStateChange(args);
                         }
                         break;
                     case "alarmpanel":
@@ -138,6 +150,56 @@ namespace HomeSecurity.Web.Hubs
             else
                 return false;
             return true;
+        }
+
+        public void PublishState()
+        {
+            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<HomeSecurityHub>();
+
+            CommandEventArgs args = null;
+
+            // Send the current Sensor state
+            foreach (SecuritySensor sensor in _sensors)
+            {
+                args = new CommandEventArgs
+                {
+                    HouseCode = sensor.HouseCode,
+                    DeviceCode = sensor.DeviceCode,
+                    LocationCode = sensor.LocationCode,
+                    Command = sensor.Sensor,
+                    CommandValue = sensor.SensorValue,
+                };
+
+                context.Clients.updateCommand(args);
+            }
+
+            // Send the current state of the alarm
+            args = new CommandEventArgs
+            { 
+                HouseCode = "house1", 
+                DeviceCode = "alarmpanel",
+                LocationCode = "masterbedroom",
+                Command = "setalarmstate", 
+                CommandValue = GetAlarmState(_currentState) };
+            context.Clients.updateCommand(args);
+
+            // Send the door lock state
+            foreach (SecurityActuator actuator in _lockState)
+            {
+                args = new CommandEventArgs
+                {
+                    HouseCode = actuator.HouseCode,
+                    DeviceCode = actuator.DeviceCode,
+                    LocationCode = actuator.LocationCode,
+                    Command = actuator.Actuator,
+                    CommandValue = actuator.ActuatorValue,
+                };
+
+                context.Clients.updateCommand(args);
+
+            }
+
+            // TODO send the state of the Alarm Horns
         }
 
 		private void SetAlarmState(CommandEventArgs args)
@@ -225,6 +287,22 @@ namespace HomeSecurity.Web.Hubs
 			}
             return disarmed;
 		}
+
+        private void ProcessLockStateChange(CommandEventArgs args)
+        {
+            if (args == null || args.CommandValue == null || !(args.CommandValue.Equals("locked") || args.CommandValue.Equals("unlocked")))
+                return;
+
+            // Set the new state of the sensors
+            var doorLock = _lockState.Where(s => s.HouseCode == args.HouseCode
+                && s.DeviceCode == args.DeviceCode
+                && s.LocationCode == args.LocationCode && s.Actuator == args.Command).FirstOrDefault();
+            if (doorLock != null)
+            {
+                doorLock.ActuatorValue = args.CommandValue;
+            }
+
+        }
 
 		private void ProcessSensorStateChange(CommandEventArgs args)
 		{

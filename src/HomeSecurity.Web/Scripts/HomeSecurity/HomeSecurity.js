@@ -25,62 +25,62 @@
                     if (command.LocationCode == 'masterbedroom') {
                         if (command.Command == 'window') {
                             if (command.CommandValue == 'opened') {
-                                $('#masterbedroomwindowled').attr('src', 'Images/LED_ON.png');
+                                $('#masterbedroomwindowled').attr('src', '/Images/LED_ON.png');
                             }
                             if (command.CommandValue == 'closed') {
-                                $('#masterbedroomwindowled').attr('src', 'Images/LED_OFF.png');
+                                $('#masterbedroomwindowled').attr('src', '/Images/LED_OFF.png');
                             }
                         }
                         if (command.Command == 'setalarmstate') {
                             if (command.CommandValue == 'sleep') {
-                                $('#sleepled').attr('src', 'Images/LED_ON.png');
-                                $('#awayled').attr('src', 'Images/LED_OFF.png');
+                                $('#sleepled').attr('src', '/Images/LED_ON.png');
+                                $('#awayled').attr('src', '/Images/LED_OFF.png');
                             }
                             if (command.CommandValue == 'away') {
-                                $('#sleepled').attr('src', 'Images/LED_OFF.png');
-                                $('#awayled').attr('src', 'Images/LED_ON.png');
+                                $('#sleepled').attr('src', '/Images/LED_OFF.png');
+                                $('#awayled').attr('src', '/Images/LED_ON.png');
                             }
                             if (command.CommandValue == 'off') {
-                                $('#sleepled').attr('src', 'Images/LED_OFF.png');
-                                $('#awayled').attr('src', 'Images/LED_OFF.png');
+                                $('#sleepled').attr('src', '/Images/LED_OFF.png');
+                                $('#awayled').attr('src', '/Images/LED_OFF.png');
                             }
                         }
                     }
                     if (command.LocationCode == 'bedroom1') {
                         if (command.Command == 'window') {
                             if (command.CommandValue == 'opened') {
-                                $('#bedroom1windowled').attr('src', 'Images/LED_ON.png');
+                                $('#bedroom1windowled').attr('src', '/Images/LED_ON.png');
                             }
                             if (command.CommandValue == 'closed') {
-                                $('#bedroom1windowled').attr('src', 'Images/LED_OFF.png');
+                                $('#bedroom1windowled').attr('src', '/Images/LED_OFF.png');
                             }
                         }
                     }
                     if (command.LocationCode == 'bedroom2') {
                         if (command.Command == 'window') {
                             if (command.CommandValue == 'opened') {
-                                $('#bedroom2windowled').attr('src', 'Images/LED_ON.png');
+                                $('#bedroom2windowled').attr('src', '/Images/LED_ON.png');
                             }
                             if (command.CommandValue == 'closed') {
-                                $('#bedroom2windowled').attr('src', 'Images/LED_OFF.png');
+                                $('#bedroom2windowled').attr('src', '/Images/LED_OFF.png');
                             }
                         }
                     }
                     if (command.LocationCode == 'firstfloor') {
                         if (command.Command == 'window') {
                             if (command.CommandValue == 'opened') {
-                                $('#firstfloorwindowled').attr('src', 'Images/LED_ON.png');
+                                $('#firstfloorwindowled').attr('src', '/Images/LED_ON.png');
                             }
                             if (command.CommandValue == 'closed') {
-                                $('#firstfloorwindowled').attr('src', 'Images/LED_OFF.png');
+                                $('#firstfloorwindowled').attr('src', '/Images/LED_OFF.png');
                             }
                         }
                         if (command.Command == 'motion') {
                             if (command.CommandValue == 'opened') {
-                                $('#firstfloormotionled').attr('src', 'Images/LED_ON.png');
+                                $('#firstfloormotionled').attr('src', '/Images/LED_ON.png');
                             }
                             if (command.CommandValue == 'closed') {
-                                $('#firstfloormotionled').attr('src', 'Images/LED_OFF.png');
+                                $('#firstfloormotionled').attr('src', '/Images/LED_OFF.png');
                             }
                         }
                     }
@@ -90,78 +90,78 @@
                     if (command.LocationCode == 'front') {
                         if (command.Command == 'door') {
                             if (command.CommandValue == 'opened') {
-                                $('#frontdoorled').attr('src', 'Images/LED_ON.png');
+                                $('#frontdoorled').attr('src', '/Images/LED_ON.png');
                             }
                             if (command.CommandValue == 'closed') {
-                                $('#frontdoorled').attr('src', 'Images/LED_OFF.png');
+                                $('#frontdoorled').attr('src', '/Images/LED_OFF.png');
                             }
                         }
-                        if (command.Command == 'setlock') {
-                            if (command.CommandValue == 'lock') {
-                                $('#frontdoorlockedled').attr('src', 'Images/LED_ON.png');
+                        if (command.Command == 'lock') {
+                            if (command.CommandValue == 'locked') {
+                                $('#frontdoorlockedled').attr('src', '/Images/LED_ON.png');
                             }
-                            if (command.CommandValue == 'unlock') {
-                                $('#frontdoorlockedled').attr('src', 'Images/LED_OFF.png');
+                            if (command.CommandValue == 'unlocked') {
+                                $('#frontdoorlockedled').attr('src', '/Images/LED_OFF.png');
                             }
                         }
                         if (command.Command == 'doorbell') {
                             if (command.CommandValue == 'pushed') {
-                                $('#frontdoorbellled').attr('src', 'Images/LED_ON.png');
+                                $('#frontdoorbellled').attr('src', '/Images/LED_ON.png');
                             }
                             if (command.CommandValue == 'off') {
-                                $('#frontdoorbellled').attr('src', 'Images/LED_OFF.png');
+                                $('#frontdoorbellled').attr('src', '/Images/LED_OFF.png');
                             }
                         }
                     }
                     if (command.LocationCode == 'back') {
                         if (command.Command == 'door') {
                             if (command.CommandValue == 'opened') {
-                                $('#backdoorled').attr('src', 'Images/LED_ON.png');
+                                $('#backdoorled').attr('src', '/Images/LED_ON.png');
                             }
                             if (command.CommandValue == 'closed') {
-                                $('#backdoorled').attr('src', 'Images/LED_OFF.png');
+                                $('#backdoorled').attr('src', '/Images/LED_OFF.png');
                             }
                         }
-                        if (command.Command == 'setlock') {
-                            if (command.CommandValue == 'lock') {
-                                $('#backdoorlockedled').attr('src', 'Images/LED_ON.png');
+                        if (command.Command == 'lock') {
+                            if (command.CommandValue == 'locked') {
+                                $('#backdoorlockedled').attr('src', '/Images/LED_ON.png');
                             }
-                            if (command.CommandValue == 'unlock') {
-                                $('#backdoorlockedled').attr('src', 'Images/LED_OFF.png');
+                            if (command.CommandValue == 'unlocked') {
+                                $('#backdoorlockedled').attr('src', '/Images/LED_OFF.png');
                             }
                         }
                         if (command.Command == 'doorbell') {
                             if (command.CommandValue == 'pushed') {
-                                $('#backdoorbellled').attr('src', 'Images/LED_ON.png');
+                                $('#backdoorbellled').attr('src', '/Images/LED_ON.png');
                             }
                             if (command.CommandValue == 'off') {
-                                $('#backdoorbellled').attr('src', 'Images/LED_OFF.png');
+                                $('#backdoorbellled').attr('src', '/Images/LED_OFF.png');
                             }
                         }
                     }
                     if (command.LocationCode == 'side') {
                         if (command.Command == 'door') {
                             if (command.CommandValue == 'opened') {
-                                $('#sidedoorled').attr('src', 'Images/LED_ON.png');
+                                $('#sidedoorled').attr('src', '/Images/LED_ON.png');
                             }
                             if (command.CommandValue == 'closed') {
-                                $('#sidedoorled').attr('src', 'Images/LED_OFF.png');
+                                $('#sidedoorled').attr('src', '/Images/LED_OFF.png');
                             }
                         }
-                        if (command.Command == 'setlock') {
-                            if (command.CommandValue == 'lock') {
-                                $('#sidedoorlockedled').attr('src', 'Images/LED_ON.png');
+                        if (command.Command == 'lock') {
+                            if (command.CommandValue == 'locked') {
+                                $('#sidedoorlockedled').attr('src', '/Images/LED_ON.png');
                             }
-                            if (command.CommandValue == 'unlock') {
-                                $('#sidedoorlockedled').attr('src', 'Images/LED_OFF.png');
+                            if (command.CommandValue == 'unlocked') {
+                                $('#sidedoorlockedled').attr('src', '/Images/LED_OFF.png');
                             }
                         }
                         if (command.Command == 'doorbell') {
                             if (command.CommandValue == 'pushed') {
-                                $('#sidedoorbellled').attr('src', 'Images/LED_ON.png');
+                                $('#sidedoorbellled').attr('src', '/Images/LED_ON.png');
                             }
                             if (command.CommandValue == 'off') {
-                                $('#sidedoorbellled').attr('src', 'Images/LED_OFF.png');
+                                $('#sidedoorbellled').attr('src', '/Images/LED_OFF.png');
                             }
                         }
 
@@ -173,7 +173,17 @@
 
     $.connection.hub.start()
                     .done(function () {
-                        myHub.connectToBroker();
+                        myHub.connectToBroker()
+                        .done(function (result) {
+                            myHub.publishCurrentState()
+                            .done(function (result) {
+                            })
+                            .fail(function (error) {
+                            });
+                        })
+                        .fail(function (error) {
+                        });;
+
                     })
                     .fail(function () {
                         alert("Could not Connect!");
