@@ -16,7 +16,10 @@ namespace HomeSecurity.Web.Hubs
 		private readonly IMqtt _client;
 		private Timer _delayAlarm;
         private Timer _turnOffDoorbellIndicatorTimer;
+        private Timer _giveMeTimeToExitTimer;
 		private int _delayInMilliseconds = 40000;
+        private int _delayArmingInMilliseconds = 20000;
+        private bool _giveMeTimeToExit;
 		private CommandEventArgs _alarmComandEventArgs;
         private List<SecuritySensor> _sensors = new List<SecuritySensor>();
         private List<SecurityActuator> _lockState = new List<SecurityActuator>();
@@ -29,6 +32,10 @@ namespace HomeSecurity.Web.Hubs
 			_delayAlarm = new Timer(_delayInMilliseconds);
 			_delayAlarm.Enabled = false;
 			_delayAlarm.Elapsed += _delayAlarm_Elapsed;
+
+            _giveMeTimeToExitTimer = new Timer(_delayArmingInMilliseconds);
+            _giveMeTimeToExitTimer.Enabled = false;
+            _giveMeTimeToExitTimer.Elapsed += _giveMeTimeToExitTimer_Elapsed;
 
             _turnOffDoorbellIndicatorTimer = new Timer(3000);
             _turnOffDoorbellIndicatorTimer.Enabled = false;
@@ -236,6 +243,11 @@ namespace HomeSecurity.Web.Hubs
                     SendAlarmStateChange(args.HouseCode, _currentState);
                     if (_currentState == AlarmState.Sleep)
                         LockAllDoors();
+                    else if (_currentState == AlarmState.Away)
+                    {
+                        _giveMeTimeToExit = true;
+                        _giveMeTimeToExitTimer.Enabled = true;
+                    }
                 }
 			}
 		}
@@ -287,6 +299,8 @@ namespace HomeSecurity.Web.Hubs
 				_currentState = AlarmState.Off;
                 SendAlarmStateChange(args.HouseCode, _currentState);
 				SilenceBurglarAlarm();
+                _giveMeTimeToExitTimer.Enabled = false;
+                _giveMeTimeToExit = false;
                 disarmed = true;
 			}
             return disarmed;
@@ -329,7 +343,7 @@ namespace HomeSecurity.Web.Hubs
 				    SoundBurglarAlarm(args);
 			    }
 
-			    if (_currentState == AlarmState.Away && _delayAlarm.Enabled == false)
+			    if (_currentState == AlarmState.Away && _delayAlarm.Enabled == false && _giveMeTimeToExit==false)
 			    {
 				    _alarmComandEventArgs = args;
 				    // Start a timer that allows the user to get in the door and disarm the alarm before it fires
@@ -373,6 +387,17 @@ namespace HomeSecurity.Web.Hubs
             context.Clients.updateCommand(args);
         }
 
+        void _giveMeTimeToExitTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            _giveMeTimeToExitTimer.Enabled = false;
+            _giveMeTimeToExit = false;
+            LockAllDoors();
+        }
+
+        private void ArmSecuritySystem()
+        {
+            _giveMeTimeToExit = false;
+        }
 
 		private void SoundBurglarAlarm(CommandEventArgs args)
 		{
