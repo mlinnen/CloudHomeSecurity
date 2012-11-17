@@ -198,6 +198,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\Alarm_Ok.png" />
+    <Content Include="Images\Alarm_Sounding.png" />
     <Content Include="Images\Architecture.jpg" />
     <Content Include="Images\LED_OFF.png" />
     <Content Include="Images\LED_ON.png" />

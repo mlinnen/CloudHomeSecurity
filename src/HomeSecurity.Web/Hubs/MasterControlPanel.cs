@@ -16,8 +16,8 @@ namespace HomeSecurity.Web.Hubs
 		private readonly IMqtt _client;
 		private Timer _delayAlarm;
         private Timer _turnOffDoorbellIndicatorTimer;
-		private int _delayInMilliseconds = 10000;
-		private CommandEventArgs _currentEventArgs;
+		private int _delayInMilliseconds = 40000;
+		private CommandEventArgs _alarmComandEventArgs;
         private List<SecuritySensor> _sensors = new List<SecuritySensor>();
         private List<SecurityActuator> _lockState = new List<SecurityActuator>();
         private List<SecurityActuator> _alarmHornState = new List<SecurityActuator>();
@@ -143,6 +143,10 @@ namespace HomeSecurity.Web.Hubs
                             context.Clients.updateCommand(args);
 
                             ProcessSensorStateChange(args);
+                        }
+                        if (args.Command.Equals("burglar"))
+                        {
+                            context.Clients.updateCommand(args);
                         }
                         break;
                 }
@@ -318,7 +322,7 @@ namespace HomeSecurity.Web.Hubs
                 sensor.SensorValue = args.CommandValue;
             }
 
-            if (args.CommandValue.Equals("closed"))
+            if (args.CommandValue.Equals("opened"))
             {
                 if (_currentState == AlarmState.Sleep)
 			    {
@@ -327,7 +331,7 @@ namespace HomeSecurity.Web.Hubs
 
 			    if (_currentState == AlarmState.Away && _delayAlarm.Enabled == false)
 			    {
-				    _currentEventArgs = args;
+				    _alarmComandEventArgs = args;
 				    // Start a timer that allows the user to get in the door and disarm the alarm before it fires
 				    _delayAlarm.Interval = _delayInMilliseconds;
 				    _delayAlarm.Enabled = true;
@@ -351,7 +355,31 @@ namespace HomeSecurity.Web.Hubs
 		void _delayAlarm_Elapsed(object sender, ElapsedEventArgs e)
 		{
 			_delayAlarm.Enabled = false;
-			SoundBurglarAlarm(_currentEventArgs);
+            CommandEventArgs args = null;
+            if (_alarmComandEventArgs.DeviceCode.Equals("externaldoor"))
+            {
+                // Map all external door breakins to the first floor alarm panel
+                args = new CommandEventArgs
+                {
+                    HouseCode = _alarmComandEventArgs.HouseCode,
+                    DeviceCode = "alarmpanel",
+                    LocationCode = "firstfloor",
+                    Command = "burglar",
+                    CommandValue = "on"
+                };
+            }
+            else
+            {
+                args = new CommandEventArgs
+                {
+                    HouseCode = _alarmComandEventArgs.HouseCode,
+                    DeviceCode = _alarmComandEventArgs.DeviceCode,
+                    LocationCode = _alarmComandEventArgs.LocationCode,
+                    Command = _alarmComandEventArgs.Command,
+                    CommandValue = _alarmComandEventArgs.CommandValue
+                };
+            }
+            SoundBurglarAlarm(args);
 
 		}
 
@@ -416,6 +444,7 @@ namespace HomeSecurity.Web.Hubs
 
             return returnState;
         }
+
         private string GetAlarmState(AlarmState state)
         {
             string stringState = "unknown";

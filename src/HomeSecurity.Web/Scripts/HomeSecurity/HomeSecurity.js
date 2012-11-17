@@ -45,6 +45,14 @@
                                 $('#awayled').attr('src', '/Images/LED_OFF.png');
                             }
                         }
+                        if (command.Command == 'burglar') {
+                            if (command.CommandValue == 'on') {
+                                $('#burlaralarmled').attr('src', '/Images/Alarm_Sounding.png');
+                            }
+                            if (command.CommandValue == 'off') {
+                                $('#burlaralarmled').attr('src', '/Images/Alarm_Ok.png');
+                            }
+                        }
                     }
                     if (command.LocationCode == 'bedroom1') {
                         if (command.Command == 'window') {
@@ -55,6 +63,14 @@
                                 $('#bedroom1windowled').attr('src', '/Images/LED_OFF.png');
                             }
                         }
+                        if (command.Command == 'burglar') {
+                            if (command.CommandValue == 'on') {
+                                $('#burlaralarmled').attr('src', '/Images/Alarm_Sounding.png');
+                            }
+                            if (command.CommandValue == 'off') {
+                                $('#burlaralarmled').attr('src', '/Images/Alarm_Ok.png');
+                            }
+                        }
                     }
                     if (command.LocationCode == 'bedroom2') {
                         if (command.Command == 'window') {
@@ -63,6 +79,14 @@
                             }
                             if (command.CommandValue == 'closed') {
                                 $('#bedroom2windowled').attr('src', '/Images/LED_OFF.png');
+                            }
+                        }
+                        if (command.Command == 'burglar') {
+                            if (command.CommandValue == 'on') {
+                                $('#burlaralarmled').attr('src', '/Images/Alarm_Sounding.png');
+                            }
+                            if (command.CommandValue == 'off') {
+                                $('#burlaralarmled').attr('src', '/Images/Alarm_Ok.png');
                             }
                         }
                     }
@@ -81,6 +105,14 @@
                             }
                             if (command.CommandValue == 'closed') {
                                 $('#firstfloormotionled').attr('src', '/Images/LED_OFF.png');
+                            }
+                        }
+                        if (command.Command == 'burglar') {
+                            if (command.CommandValue == 'on') {
+                                $('#burlaralarmled').attr('src', '/Images/Alarm_Sounding.png');
+                            }
+                            if (command.CommandValue == 'off') {
+                                $('#burlaralarmled').attr('src', '/Images/Alarm_Ok.png');
                             }
                         }
                     }
