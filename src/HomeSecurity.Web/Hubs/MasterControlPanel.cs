@@ -355,31 +355,7 @@ namespace HomeSecurity.Web.Hubs
 		void _delayAlarm_Elapsed(object sender, ElapsedEventArgs e)
 		{
 			_delayAlarm.Enabled = false;
-            CommandEventArgs args = null;
-            if (_alarmComandEventArgs.DeviceCode.Equals("externaldoor"))
-            {
-                // Map all external door breakins to the first floor alarm panel
-                args = new CommandEventArgs
-                {
-                    HouseCode = _alarmComandEventArgs.HouseCode,
-                    DeviceCode = "alarmpanel",
-                    LocationCode = "firstfloor",
-                    Command = "burglar",
-                    CommandValue = "on"
-                };
-            }
-            else
-            {
-                args = new CommandEventArgs
-                {
-                    HouseCode = _alarmComandEventArgs.HouseCode,
-                    DeviceCode = _alarmComandEventArgs.DeviceCode,
-                    LocationCode = _alarmComandEventArgs.LocationCode,
-                    Command = _alarmComandEventArgs.Command,
-                    CommandValue = _alarmComandEventArgs.CommandValue
-                };
-            }
-            SoundBurglarAlarm(args);
+            SoundBurglarAlarm(_alarmComandEventArgs);
 
 		}
 
@@ -401,8 +377,33 @@ namespace HomeSecurity.Web.Hubs
 		private void SoundBurglarAlarm(CommandEventArgs args)
 		{
             _alarmSounding = true;
+            CommandEventArgs newArgs = null;
+            if (args.DeviceCode.Equals("externaldoor"))
+            {
+                // Map all external door breakins to the first floor alarm panel
+                newArgs = new CommandEventArgs
+                {
+                    HouseCode = args.HouseCode,
+                    DeviceCode = "alarmpanel",
+                    LocationCode = "firstfloor",
+                    Command = "burglar",
+                    CommandValue = "on"
+                };
+            }
+            else
+            {
+                newArgs = new CommandEventArgs
+                {
+                    HouseCode = args.HouseCode,
+                    DeviceCode = args.DeviceCode,
+                    LocationCode = args.LocationCode,
+                    Command = args.Command,
+                    CommandValue = args.CommandValue
+                };
+            }
+
 			// Use the args to determine where to send the alarm burglar trigger command
-			string topic = string.Format("/{0}/{1}/{2}/{3}", args.HouseCode, args.DeviceCode, args.LocationCode, "burglar");
+            string topic = string.Format("/{0}/{1}/{2}/{3}", newArgs.HouseCode, newArgs.DeviceCode, newArgs.LocationCode, "burglar");
 			_client.Publish(topic, new MqttPayload("on"), QoS.BestEfforts, false);
 		}
 
