@@ -13,6 +13,7 @@ namespace HomeSecurity.Web.Hubs
     {
         private static IMqtt _client;
 		private static MasterControlPanel _securitySystem;
+        private object _myLock = new object();
 
         public HomeSecurityHub()
         {
@@ -140,7 +141,13 @@ namespace HomeSecurity.Web.Hubs
 
                 CommandEventArgs args = CommandEventArgs.BuildCommandArgs(e.Topic, e.Payload);
                 if (args != null)
-                    _securitySystem.ProcessCommand(args);
+                {
+                    // Only allow 1 thread to update the state of the security system at one time
+                    lock (_myLock)
+                    {
+                        _securitySystem.ProcessCommand(args);
+                    }
+                }
 
             }
             return true;
