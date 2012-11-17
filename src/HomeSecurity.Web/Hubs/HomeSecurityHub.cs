@@ -1,5 +1,5 @@
-﻿using MqttLib;
-using SignalR.Hubs;
+﻿using Microsoft.AspNet.SignalR.Hubs;
+using MqttLib;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -35,12 +35,12 @@ namespace HomeSecurity.Web.Hubs
 
         public void Send(string message)
         {
-            Clients.addMessage(message);
+            Clients.All.addMessage(message);
         }
 
         public void SendConnectedMQTTClients(int count)
         {
-            Clients.updateConnectedMQTTClients(count);
+            Clients.All.updateConnectedMQTTClients(count);
         }
 
         public void PublishCurrentState()

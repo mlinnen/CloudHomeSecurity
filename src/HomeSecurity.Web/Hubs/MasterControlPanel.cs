@@ -1,6 +1,6 @@
-﻿using MqttLib;
-using SignalR;
-using SignalR.Hubs;
+﻿using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
+using MqttLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,7 +76,7 @@ namespace HomeSecurity.Web.Hubs
                     case "externaldoor":
                         if (args.Command.Equals("code"))
                         {
-                            context.Clients.updateCommand(args);
+                            context.Clients.All.updateCommand(args);
 
                             if (UnLockDoor(args))
                                 DisarmAlarm(args);
@@ -84,29 +84,29 @@ namespace HomeSecurity.Web.Hubs
                         if (args.Command.Equals("doorbell"))
                         {
                             _turnOffDoorbellIndicatorTimer.Enabled = true;
-                            context.Clients.updateCommand(args);
+                            context.Clients.All.updateCommand(args);
                         }
                         if (args.Command.Equals("door"))
                         {
-                            context.Clients.updateCommand(args);
+                            context.Clients.All.updateCommand(args);
 
                             ProcessSensorStateChange(args);
                         }
                         if (args.Command.Equals("window"))
                         {
-                            context.Clients.updateCommand(args);
+                            context.Clients.All.updateCommand(args);
                             
                             ProcessSensorStateChange(args);
                         }
                         if (args.Command.Equals("motion"))
                         {
-                            context.Clients.updateCommand(args);
+                            context.Clients.All.updateCommand(args);
                             
                             ProcessSensorStateChange(args);
                         }
                         if (args.Command.Equals("lock"))
                         {
-                            context.Clients.updateCommand(args);
+                            context.Clients.All.updateCommand(args);
 
                             ProcessLockStateChange(args);
                         }
@@ -114,47 +114,47 @@ namespace HomeSecurity.Web.Hubs
                     case "alarmpanel":
                         if (args.Command.Equals("alarmstate"))
                         {
-                            context.Clients.updateCommand(args);
+                            context.Clients.All.updateCommand(args);
 
                             SetAlarmState(args);
                         }
                         if (args.Command.Equals("setalarmstate"))
                         {
-                            context.Clients.updateCommand(args);
+                            context.Clients.All.updateCommand(args);
                         }
                         if (args.Command.Equals("emergency"))
                         {
-                            context.Clients.updateCommand(args);
+                            context.Clients.All.updateCommand(args);
 
                             SoundBurglarAlarm(args);
                         }
                         if (args.Command.Equals("code"))
                         {
-                            context.Clients.updateCommand(args);
+                            context.Clients.All.updateCommand(args);
 
                             DisarmAlarm(args);
                         }
                         if (args.Command.Equals("door"))
                         {
-                            context.Clients.updateCommand(args);
+                            context.Clients.All.updateCommand(args);
 
                             ProcessSensorStateChange(args);
                         }
                         if (args.Command.Equals("window"))
                         {
-                            context.Clients.updateCommand(args);
+                            context.Clients.All.updateCommand(args);
 
                             ProcessSensorStateChange(args);
                         }
                         if (args.Command.Equals("motion"))
                         {
-                            context.Clients.updateCommand(args);
+                            context.Clients.All.updateCommand(args);
 
                             ProcessSensorStateChange(args);
                         }
                         if (args.Command.Equals("burglar"))
                         {
-                            context.Clients.updateCommand(args);
+                            context.Clients.All.updateCommand(args);
                         }
                         break;
                 }
@@ -182,7 +182,7 @@ namespace HomeSecurity.Web.Hubs
                     CommandValue = sensor.SensorValue,
                 };
 
-                context.Clients.updateCommand(args);
+                context.Clients.All.updateCommand(args);
             }
 
             // Send the current state of the alarm
@@ -193,7 +193,7 @@ namespace HomeSecurity.Web.Hubs
                 LocationCode = "masterbedroom",
                 Command = "setalarmstate", 
                 CommandValue = GetAlarmState(_currentState) };
-            context.Clients.updateCommand(args);
+            context.Clients.All.updateCommand(args);
 
             // Send the door lock state
             foreach (SecurityActuator actuator in _lockState)
@@ -207,7 +207,7 @@ namespace HomeSecurity.Web.Hubs
                     CommandValue = actuator.ActuatorValue,
                 };
 
-                context.Clients.updateCommand(args);
+                context.Clients.All.updateCommand(args);
 
             }
 
@@ -380,7 +380,7 @@ namespace HomeSecurity.Web.Hubs
 
             // Update the browsers with the timer remaining value
             IHubContext context = GlobalHost.ConnectionManager.GetHubContext<HomeSecurityHub>();
-            context.Clients.updateEntryTimeRemaining(_timeRemainingInSeconds);
+            context.Clients.All.updateEntryTimeRemaining(_timeRemainingInSeconds);
 
 		}
 
@@ -389,13 +389,13 @@ namespace HomeSecurity.Web.Hubs
             _turnOffDoorbellIndicatorTimer.Enabled = false;
             IHubContext context = GlobalHost.ConnectionManager.GetHubContext<HomeSecurityHub>();
             CommandEventArgs args = new CommandEventArgs("house1", "externaldoor", "front", "doorbell", "off");
-            context.Clients.updateCommand(args);
+            context.Clients.All.updateCommand(args);
 
-            args = new CommandEventArgs("house1", "externaldoor", "back", "doorbell", "off"); 
-            context.Clients.updateCommand(args);
+            args = new CommandEventArgs("house1", "externaldoor", "back", "doorbell", "off");
+            context.Clients.All.updateCommand(args);
 
             args = new CommandEventArgs("house1", "externaldoor", "side", "doorbell", "off");
-            context.Clients.updateCommand(args);
+            context.Clients.All.updateCommand(args);
         }
 
         void _giveMeTimeToExitTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -410,7 +410,7 @@ namespace HomeSecurity.Web.Hubs
 
             // Update the browsers with the timer remaining value
             IHubContext context = GlobalHost.ConnectionManager.GetHubContext<HomeSecurityHub>();
-            context.Clients.updateEntryTimeRemaining(_timeRemainingInSeconds);
+            context.Clients.All.updateEntryTimeRemaining(_timeRemainingInSeconds);
 
         }
 
