@@ -15,6 +15,9 @@
     <li><a href="Docs/DoorBell">Door Bell</a>- This device handles the I/O for letting the user know a door bell was pushed</li>
     <li><a href="Docs/Alarm">Alarm</a>- This device handles the I/O for letting the user know the alarm was tripped</li>
     <li><a href="Docs/AlarmControlPanel">Alarm Control Panel</a>- This device handles the I/O for the control panels placed in each room of the house</li>
+    <li><a href="Docs/MasterControlPanel">Master Control Panel</a>- This isn't really a device (but it could be) and it is already built
+        for you. I am calling it out here because without it the entire system would be a bunch of devices that are independent of one another 
+        with no real central control managing the whole security system logic.</li>
 </ul>
 <p>
     There will be some code that is already written for you so that you don't have to worry about the communication protocols 
@@ -23,15 +26,28 @@
     you can read up on your own but you won't need it for this project.  Basically, topics are a series of words separated by a / topic separator.  
     The message is simply any string.  The devices on the bus are expected to understand the topics and message formats, but like all
     pub/sub designs the devices don't know about each other.  So the topics and messages are the contracts between the devices.<br />
-    Some example topics would be:
-    <ul>
-        <ol>house1/externaldoor/front/lock</ol>
-        <ol>house1/externaldoor/front/doorbell</ol>
+    
+    <ul>Some example topics would be:
+        <ol>/house1/externaldoor/front/lock</ol>
+        <ol>/house1/externaldoor/front/doorbell</ol>
+    </ul>
+</p>
+<p>MQTT does not specify that topics need to be a specific number of levels deep nor place any rules around topic definition. However 
+    for the purpose of this project we will be placing some rules around how topics are constructed.  Each topic will be 4 levels 
+    deep and each level will have a special meaning.
+    <ul>Topic levels with their generic meaning are as follows:
+        <ol>/housecode/devicecode/locationcode/command</ol>
+    </ul>
+    <ul>Each level of the topic can be further defined as: 
+        <ol>housecode - is always "house1"</ol>
+        <ol>devicecode - is one of the following: "externaldoor" or "alarmpanel" or "doorbell" or "alarm"</ol>
+        <ol>locationcode - is one of the following: "masterbedroom" or "bedroom1" or "bedroom2" or "firstfloor"</ol>
+        <ol>command - is device specific so look at the detailed documentation on what commands are available for each device.</ol>
     </ul>
 </p>
 <p>
     The detailed documentation for each device will outline the topics and messages it publishes as well as the 
-    topics and the messages it should subscribe to.  These topics and message are meant to be somewhat readable and simple.
+    topics and the messages it should subscribe to.  
 </p>
 <h2>What is running in the cloud</h2>
 <p>
