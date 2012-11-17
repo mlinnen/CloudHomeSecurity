@@ -200,7 +200,11 @@
                     }
                 }
             }
-        }
+        },
+        updateEntryTimeRemaining: function (seconds) {
+            $('#seconds').text(seconds);
+        },
+
     });
 
     $.connection.hub.start()

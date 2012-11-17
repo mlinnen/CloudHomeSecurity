@@ -14,11 +14,12 @@ namespace HomeSecurity.Web.Hubs
 		private AlarmState _currentState = AlarmState.Off;
 		private int _secretCode = 01;
 		private readonly IMqtt _client;
-		private Timer _delayAlarm;
         private Timer _turnOffDoorbellIndicatorTimer;
+        private Timer _giveMeTimeToEnterTimer;
         private Timer _giveMeTimeToExitTimer;
-		private int _delayInMilliseconds = 40000;
-        private int _delayArmingInMilliseconds = 20000;
+		private int _giveMeTimeToEnterInMilliseconds = 40000;
+        private int _timeRemainingInSeconds;
+        private int _giveMeTimeToExitInMilliseconds = 20000;
         private bool _giveMeTimeToExit;
 		private CommandEventArgs _alarmComandEventArgs;
         private List<SecuritySensor> _sensors = new List<SecuritySensor>();
@@ -29,11 +30,11 @@ namespace HomeSecurity.Web.Hubs
 		public MasterControlPanel(IMqtt client)
 		{
 			_client = client;
-			_delayAlarm = new Timer(_delayInMilliseconds);
-			_delayAlarm.Enabled = false;
-			_delayAlarm.Elapsed += _delayAlarm_Elapsed;
+			_giveMeTimeToEnterTimer = new Timer(1000);
+			_giveMeTimeToEnterTimer.Enabled = false;
+            _giveMeTimeToEnterTimer.Elapsed += _giveMeTimeToEnterTimer_Elapsed;
 
-            _giveMeTimeToExitTimer = new Timer(_delayArmingInMilliseconds);
+            _giveMeTimeToExitTimer = new Timer(1000);
             _giveMeTimeToExitTimer.Enabled = false;
             _giveMeTimeToExitTimer.Elapsed += _giveMeTimeToExitTimer_Elapsed;
 
@@ -246,6 +247,7 @@ namespace HomeSecurity.Web.Hubs
                     else if (_currentState == AlarmState.Away)
                     {
                         _giveMeTimeToExit = true;
+                        _timeRemainingInSeconds = _giveMeTimeToExitInMilliseconds / 1000;
                         _giveMeTimeToExitTimer.Enabled = true;
                     }
                 }
@@ -295,7 +297,7 @@ namespace HomeSecurity.Web.Hubs
 
 			if (code == _secretCode)
 			{
-				_delayAlarm.Enabled = false;
+				_giveMeTimeToEnterTimer.Enabled = false;
 				_currentState = AlarmState.Off;
                 SendAlarmStateChange(args.HouseCode, _currentState);
 				SilenceBurglarAlarm();
@@ -343,12 +345,13 @@ namespace HomeSecurity.Web.Hubs
 				    SoundBurglarAlarm(args);
 			    }
 
-			    if (_currentState == AlarmState.Away && _delayAlarm.Enabled == false && _giveMeTimeToExit==false)
+			    if (_currentState == AlarmState.Away && _giveMeTimeToEnterTimer.Enabled == false && _giveMeTimeToExit==false)
 			    {
 				    _alarmComandEventArgs = args;
 				    // Start a timer that allows the user to get in the door and disarm the alarm before it fires
-				    _delayAlarm.Interval = _delayInMilliseconds;
-				    _delayAlarm.Enabled = true;
+                    _timeRemainingInSeconds = _giveMeTimeToEnterInMilliseconds / 1000;
+                    _giveMeTimeToEnterTimer.Interval = 1000;
+				    _giveMeTimeToEnterTimer.Enabled = true;
 			    }
             }
 
@@ -366,10 +369,18 @@ namespace HomeSecurity.Web.Hubs
             _client.Publish(topic, new MqttPayload("lock"), QoS.BestEfforts, false);
         }
 
-		void _delayAlarm_Elapsed(object sender, ElapsedEventArgs e)
+        void _giveMeTimeToEnterTimer_Elapsed(object sender, ElapsedEventArgs e)
 		{
-			_delayAlarm.Enabled = false;
-            SoundBurglarAlarm(_alarmComandEventArgs);
+            _timeRemainingInSeconds--;
+            if (_timeRemainingInSeconds < 1)
+            {
+                _giveMeTimeToEnterTimer.Enabled = false;
+                SoundBurglarAlarm(_alarmComandEventArgs);
+            }
+
+            // Update the browsers with the timer remaining value
+            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<HomeSecurityHub>();
+            context.Clients.updateEntryTimeRemaining(_timeRemainingInSeconds);
 
 		}
 
@@ -389,9 +400,18 @@ namespace HomeSecurity.Web.Hubs
 
         void _giveMeTimeToExitTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            _giveMeTimeToExitTimer.Enabled = false;
-            _giveMeTimeToExit = false;
-            LockAllDoors();
+            _timeRemainingInSeconds--;
+            if (_timeRemainingInSeconds < 1)
+            {
+                _giveMeTimeToExitTimer.Enabled = false;
+                _giveMeTimeToExit = false;
+                LockAllDoors();
+            }
+
+            // Update the browsers with the timer remaining value
+            IHubContext context = GlobalHost.ConnectionManager.GetHubContext<HomeSecurityHub>();
+            context.Clients.updateEntryTimeRemaining(_timeRemainingInSeconds);
+
         }
 
         private void ArmSecuritySystem()
