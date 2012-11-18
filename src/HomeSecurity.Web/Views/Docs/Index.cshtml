@@ -52,7 +52,7 @@
 <h2>What is running in the cloud</h2>
 <p>
     There are two main components that already exist in Azure that the devices will interact with: MQTT Message Broker and Master Control Panel.  
-    The message broker runs under an Azure Worker Role.  The Master Control Panel runs in Windows Azure Web Sites.  The broker simply routes MQTT messages and has no 
+    The message broker runs under an Azure Worker Role.  The Master Control Panel runs in Windows Azure Web Role.  The broker simply routes MQTT messages and has no 
     real home security specific business logic on it.  The Master Control Panel manages the state of the security system as well as the business rules around how the
     security system functions as a whole.  SignalR is used to update the client browsers when the state of the security system changes. Take a look at 
     the<a href="Docs/MasterControlPanel">Master Control Panel</a> for more details on how it functions.
