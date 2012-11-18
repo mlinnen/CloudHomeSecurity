@@ -11,7 +11,7 @@
     <RootNamespace>BrokerService</RootNamespace>
     <AssemblyName>BrokerService</AssemblyName>
     <StartDevelopmentStorage>True</StartDevelopmentStorage>
-    <Name>BrokerService</Name>
+    <Name>HomeSecurityService</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,6 +43,14 @@
       <Private>True</Private>
       <RoleType>Worker</RoleType>
       <RoleName>HomeSecurity.Broker</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
+    <ProjectReference Include="..\HomeSecurity.Web\HomeSecurity.Web.csproj">
+      <Name>HomeSecurity.Web</Name>
+      <Project>{797f21bb-b8cd-4cbd-857a-2426c45d285d}</Project>
+      <Private>True</Private>
+      <RoleType>Web</RoleType>
+      <RoleName>HomeSecurity.Web</RoleName>
       <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
     </ProjectReference>
   </ItemGroup>
