@@ -1,1 +1,1 @@
-start mosquitto_sub -v -t /house1/# -h 168.62.188.28
+start mosquitto_sub -v -t /house1/# -h 168.62.48.21

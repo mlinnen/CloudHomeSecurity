@@ -1,1 +1,1 @@
-start mosquitto_sub -v -t $SYS/broker/clients/active -h 168.62.188.28
+start mosquitto_sub -v -t $SYS/broker/clients/active -h 168.62.48.21
