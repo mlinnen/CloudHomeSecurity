@@ -4,6 +4,11 @@ var sideDoorIsOpened = false;
 var sideDoorIsLocked = false;
 var backDoorIsOpened = false;
 var backDoorIsLocked = false;
+var firstFloorWindowIsOpened = false;
+var masterBedroomWindowIsOpened = false;
+var bedroom1WindowIsOpened = false;
+var bedroom2WindowIsOpened = false;
+var firstFloorMotionIsOpened = false;
 
 $(function () {
 
@@ -82,15 +87,62 @@ $(function () {
         }
     });
 
+    $("#firstfloorwindowled").click(function () {
+        if (firstFloorWindowIsOpened) {
+            myHub.server.publishMessage("/house1/alarmpanel/firstfloor/window", "closed");
+        }
+        else {
+            myHub.server.publishMessage("/house1/alarmpanel/firstfloor/window", "opened");
+        }
+    });
+
+    $("#firstfloormotionled").click(function () {
+        if (firstFloorMotionIsOpened) {
+            myHub.server.publishMessage("/house1/alarmpanel/firstfloor/motion", "closed");
+        }
+        else {
+            myHub.server.publishMessage("/house1/alarmpanel/firstfloor/motion", "opened");
+        }
+    });
+
+    $("#masterbedroomwindowled").click(function () {
+        if (masterBedroomWindowIsOpened) {
+            myHub.server.publishMessage("/house1/alarmpanel/masterbedroom/window", "closed");
+        }
+        else {
+            myHub.server.publishMessage("/house1/alarmpanel/masterbedroom/window", "opened");
+        }
+    });
+
+    $("#bedroom1windowled").click(function () {
+        if (bedroom1WindowIsOpened) {
+            myHub.server.publishMessage("/house1/alarmpanel/bedroom1/window", "closed");
+        }
+        else {
+            myHub.server.publishMessage("/house1/alarmpanel/bedroom1/window", "opened");
+        }
+    });
+
+    $("#bedroom2windowled").click(function () {
+        if (bedroom2WindowIsOpened) {
+            myHub.server.publishMessage("/house1/alarmpanel/bedroom2/window", "closed");
+        }
+        else {
+            myHub.server.publishMessage("/house1/alarmpanel/bedroom2/window", "opened");
+        }
+    });
+
     myHub.client.updateCommand = function (command) {
         if (command.HouseCode == 'house1') {
             if (command.DeviceCode == 'alarmpanel') {
                 if (command.LocationCode == 'masterbedroom') {
                     if (command.Command == 'window') {
                         if (command.CommandValue == 'opened') {
+                            masterBedroomWindowIsOpened = true;
                             $('#masterbedroomwindowled').attr('src', '/Images/LED_ON.png');
                         }
                         if (command.CommandValue == 'closed') {
+                            masterBedroomWindowIsOpened = false;
                             $('#masterbedroomwindowled').attr('src', '/Images/LED_OFF.png');
                         }
                     }
@@ -120,9 +172,11 @@ $(function () {
                 if (command.LocationCode == 'bedroom1') {
                     if (command.Command == 'window') {
                         if (command.CommandValue == 'opened') {
+                            bedroom1WindowIsOpened = true;
                             $('#bedroom1windowled').attr('src', '/Images/LED_ON.png');
                         }
                         if (command.CommandValue == 'closed') {
+                            bedroom1WindowIsOpened = false;
                             $('#bedroom1windowled').attr('src', '/Images/LED_OFF.png');
                         }
                     }
@@ -138,9 +192,11 @@ $(function () {
                 if (command.LocationCode == 'bedroom2') {
                     if (command.Command == 'window') {
                         if (command.CommandValue == 'opened') {
+                            bedroom2WindowIsOpened = true;
                             $('#bedroom2windowled').attr('src', '/Images/LED_ON.png');
                         }
                         if (command.CommandValue == 'closed') {
+                            bedroom2WindowIsOpened = false;
                             $('#bedroom2windowled').attr('src', '/Images/LED_OFF.png');
                         }
                     }
@@ -156,17 +212,21 @@ $(function () {
                 if (command.LocationCode == 'firstfloor') {
                     if (command.Command == 'window') {
                         if (command.CommandValue == 'opened') {
+                            firstFloorWindowIsOpened = true;
                             $('#firstfloorwindowled').attr('src', '/Images/LED_ON.png');
                         }
                         if (command.CommandValue == 'closed') {
+                            firstFloorWindowIsOpened = false;
                             $('#firstfloorwindowled').attr('src', '/Images/LED_OFF.png');
                         }
                     }
                     if (command.Command == 'motion') {
                         if (command.CommandValue == 'opened') {
+                            firstFloorMotionIsOpened = true;
                             $('#firstfloormotionled').attr('src', '/Images/LED_ON.png');
                         }
                         if (command.CommandValue == 'closed') {
+                            firstFloorMotionIsOpened = false;
                             $('#firstfloormotionled').attr('src', '/Images/LED_OFF.png');
                         }
                     }
