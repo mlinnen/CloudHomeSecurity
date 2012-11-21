@@ -132,6 +132,23 @@ $(function () {
         }
     });
 
+    $("#bedroom2windowled").click(function () {
+        if (bedroom2WindowIsOpened) {
+            myHub.server.publishMessage("/house1/alarmpanel/bedroom2/window", "closed");
+        }
+        else {
+            myHub.server.publishMessage("/house1/alarmpanel/bedroom2/window", "opened");
+        }
+    });
+
+    $("#sleepled").click(function () {
+        myHub.server.publishMessage("/house1/alarmpanel/firstfloor/alarmstate", "sleep");
+    });
+
+    $("#awayled").click(function () {
+        myHub.server.publishMessage("/house1/alarmpanel/firstfloor/alarmstate", "away");
+    });
+
     myHub.client.updateCommand = function (command) {
         if (command.HouseCode == 'house1') {
             if (command.DeviceCode == 'alarmpanel') {
@@ -364,4 +381,14 @@ $(function () {
                     });
 
 });
+
+function EnterButtonClicked() {
+    var myHub = $.connection.homeSecurityHub;
+    var code = $("#keycode").val();
+    if ('null' != code && '' != code) {
+        myHub.server.publishMessage("/house1/alarmpanel/firstfloor/code", code);
+    }
+}
+
+
 
