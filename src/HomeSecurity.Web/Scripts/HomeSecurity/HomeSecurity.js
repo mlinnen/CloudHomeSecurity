@@ -1,4 +1,8 @@
-﻿$(function () {
+﻿var frontDoorIsOpened = false;
+var sideDoorIsOpened = false;
+var backDoorIsOpened = false;
+
+$(function () {
 
 
     $.connection.hub.logging = false;
@@ -10,15 +14,30 @@
     };
 
     $("#frontdoorled").click(function () {
-        myHub.server.publishMessage("/house1/externaldoor/front/door", "opened");
+        if (frontDoorIsOpened) {
+            myHub.server.publishMessage("/house1/externaldoor/front/door", "closed");
+        }
+        else {
+            myHub.server.publishMessage("/house1/externaldoor/front/door", "opened");
+        }
     });
 
     $("#backdoorled").click(function () {
-        myHub.server.publishMessage("/house1/externaldoor/back/door", "opened");
+        if (backDoorIsOpened) {
+            myHub.server.publishMessage("/house1/externaldoor/back/door", "closed");
+        }
+        else {
+            myHub.server.publishMessage("/house1/externaldoor/back/door", "opened");
+        }
     });
 
     $("#sidedoorled").click(function () {
-        myHub.server.publishMessage("/house1/externaldoor/side/door", "opened");
+        if (sideDoorIsOpened) {
+            myHub.server.publishMessage("/house1/externaldoor/side/door", "closed");
+        }
+        else {
+            myHub.server.publishMessage("/house1/externaldoor/side/door", "opened");
+        }
     });
 
     myHub.client.updateCommand = function (command) {
@@ -124,9 +143,11 @@
                 if (command.LocationCode == 'front') {
                     if (command.Command == 'door') {
                         if (command.CommandValue == 'opened') {
+                            frontDoorIsOpened = true;
                             $('#frontdoorled').attr('src', '/Images/LED_ON.png');
                         }
                         if (command.CommandValue == 'closed') {
+                            frontDoorIsOpened = false;
                             $('#frontdoorled').attr('src', '/Images/LED_OFF.png');
                         }
                     }
@@ -150,9 +171,11 @@
                 if (command.LocationCode == 'back') {
                     if (command.Command == 'door') {
                         if (command.CommandValue == 'opened') {
+                            backDoorIsOpened = true;
                             $('#backdoorled').attr('src', '/Images/LED_ON.png');
                         }
                         if (command.CommandValue == 'closed') {
+                            backDoorIsOpened = false;
                             $('#backdoorled').attr('src', '/Images/LED_OFF.png');
                         }
                     }
@@ -176,9 +199,11 @@
                 if (command.LocationCode == 'side') {
                     if (command.Command == 'door') {
                         if (command.CommandValue == 'opened') {
+                            sideDoorIsOpened = true;
                             $('#sidedoorled').attr('src', '/Images/LED_ON.png');
                         }
                         if (command.CommandValue == 'closed') {
+                            sideDoorIsOpened = false;
                             $('#sidedoorled').attr('src', '/Images/LED_OFF.png');
                         }
                     }
