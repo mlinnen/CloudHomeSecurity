@@ -1,6 +1,9 @@
 ﻿var frontDoorIsOpened = false;
+var frontDoorIsLocked = false;
 var sideDoorIsOpened = false;
+var sideDoorIsLocked = false;
 var backDoorIsOpened = false;
+var backDoorIsLocked = false;
 
 $(function () {
 
@@ -49,6 +52,33 @@ $(function () {
         }
         else {
             myHub.server.publishMessage("/house1/externaldoor/side/door", "opened");
+        }
+    });
+
+    $("#frontdoorlockedled").click(function () {
+        if (frontDoorIsLocked) {
+            myHub.server.publishMessage("/house1/externaldoor/front/lock", "unlocked");
+        }
+        else {
+            myHub.server.publishMessage("/house1/externaldoor/front/lock", "locked");
+        }
+    });
+
+    $("#backdoorlockedled").click(function () {
+        if (backDoorIsLocked) {
+            myHub.server.publishMessage("/house1/externaldoor/back/lock", "unlocked");
+        }
+        else {
+            myHub.server.publishMessage("/house1/externaldoor/back/lock", "locked");
+        }
+    });
+
+    $("#sidedoorlockedled").click(function () {
+        if (sideDoorIsLocked) {
+            myHub.server.publishMessage("/house1/externaldoor/side/lock", "unlocked");
+        }
+        else {
+            myHub.server.publishMessage("/house1/externaldoor/side/lock", "locked");
         }
     });
 
@@ -165,9 +195,11 @@ $(function () {
                     }
                     if (command.Command == 'lock') {
                         if (command.CommandValue == 'locked') {
+                            frontDoorIsLocked = true;
                             $('#frontdoorlockedled').attr('src', '/Images/LED_ON.png');
                         }
                         if (command.CommandValue == 'unlocked') {
+                            frontDoorIsLocked = false;
                             $('#frontdoorlockedled').attr('src', '/Images/LED_OFF.png');
                         }
                     }
@@ -193,9 +225,11 @@ $(function () {
                     }
                     if (command.Command == 'lock') {
                         if (command.CommandValue == 'locked') {
+                            backDoorIsLocked = true;
                             $('#backdoorlockedled').attr('src', '/Images/LED_ON.png');
                         }
                         if (command.CommandValue == 'unlocked') {
+                            backDoorIsLocked = false;
                             $('#backdoorlockedled').attr('src', '/Images/LED_OFF.png');
                         }
                     }
@@ -221,9 +255,11 @@ $(function () {
                     }
                     if (command.Command == 'lock') {
                         if (command.CommandValue == 'locked') {
+                            sideDoorIsLocked = true;
                             $('#sidedoorlockedled').attr('src', '/Images/LED_ON.png');
                         }
                         if (command.CommandValue == 'unlocked') {
+                            sideDoorIsLocked = false;
                             $('#sidedoorlockedled').attr('src', '/Images/LED_OFF.png');
                         }
                     }
