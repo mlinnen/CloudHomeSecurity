@@ -9,6 +9,17 @@
         alert("Done calling first hub server side-function");
     };
 
+    $("#frontdoorled").click(function () {
+        myHub.server.publishMessage("/house1/externaldoor/front/door", "opened");
+    });
+
+    $("#backdoorled").click(function () {
+        myHub.server.publishMessage("/house1/externaldoor/back/door", "opened");
+    });
+
+    $("#sidedoorled").click(function () {
+        myHub.server.publishMessage("/house1/externaldoor/side/door", "opened");
+    });
 
     myHub.client.updateCommand = function (command) {
         if (command.HouseCode == 'house1') {

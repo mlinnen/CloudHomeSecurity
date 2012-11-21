@@ -43,6 +43,11 @@ namespace HomeSecurity.Web.Hubs
             Clients.All.updateConnectedMQTTClients(count);
         }
 
+        public void PublishMessage(string topic, string msg)
+        {
+            _client.Publish(topic, new MqttPayload(msg), QoS.BestEfforts, false);
+        }
+
         public void PublishCurrentState()
         {
             _securitySystem.PublishState();
