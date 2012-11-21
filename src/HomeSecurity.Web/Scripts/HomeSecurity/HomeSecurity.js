@@ -13,6 +13,18 @@ $(function () {
         alert("Done calling first hub server side-function");
     };
 
+    $("#frontdoorbellled").click(function () {
+        myHub.server.publishMessage("/house1/externaldoor/front/doorbell", "pushed");
+    });
+
+    $("#backdoorbellled").click(function () {
+        myHub.server.publishMessage("/house1/externaldoor/back/doorbell", "pushed");
+    });
+
+    $("#sidedoorbellled").click(function () {
+        myHub.server.publishMessage("/house1/externaldoor/side/doorbell", "pushed");
+    });
+
     $("#frontdoorled").click(function () {
         if (frontDoorIsOpened) {
             myHub.server.publishMessage("/house1/externaldoor/front/door", "closed");
