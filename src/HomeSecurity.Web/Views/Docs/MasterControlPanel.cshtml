@@ -4,5 +4,208 @@
 
 <h2>Master Control Panel</h2>
 <p>
-    This runs in a Windows Azure Web Role and acts as the main logic for the security system.  TODO detail more about this.     
+    This runs in a Windows Azure Web Role and acts as the main logic for the security system.  All of the code to run this part of the security system is completed
+    but this documentation is here to explain what the function of the Master Control Panel is.     
 </p>
+<p>The master control panel has several functions in the home security system.</p>
+<ul>
+    <li>A remote user can see the state of the security system (doors opened/closed, doors locked, windows opened/closed, motion detector, alarm state, 
+        alarm sounding, and door bell)</li>
+    <li>A remote user can use the keyless entry to disarm the alarm</li>
+    <li>A remote user can unlock\lock doors remotely</li>
+    <li>A remote user can simulate a door or window opening or closing</li>
+    <li>A remote user can set the alarm into Sleep or Away mode</li>
+    <li>A remote user can simulate a motion detector going off</li>
+    <li>Keeps track of the state of the security system (i.e. is it armed or not, the state of all sensors)</li>
+    <li>Determines when the alarm should go off</li>
+    <li>Validates key codes entered on any alarm panel</li>
+    <li>Locks the doors when the alarm is armed</li>
+    <li>Unlocks the door if the key code sent from the external door device is correct</li>
+    <li>Disarms the alarm if the key code sent from the external door device is correct</li>
+    <li>Gives the user 20 seconds to exit the home when armed in the away mode</li>
+    <li>Gives the user 40 seconds to disarm the alarm when entering the home</li>
+    <li>Replies to ping commands from devices with a pingresp command</li>
+    <li>Keeps the web browser client updated when security system state changes</li>
+</ul>
+<p>Since this is the main brain of the system there can be only one Master Control Panel in the system.</p>
+<h2>Messages</h2>
+<h3>The following MQTT messages will be published from this service.</h3>
+<table>
+    <thead>
+        <tr><th>Address</th><th>Data</th><th>Description</th></tr>
+    </thead>
+    <tr>
+        <td>/house1/externaldoor/front/doorbell</td>
+        <td>pushed</td>
+        <td>Someone clicked on the front door bell indicator on the Master Control Panel UI.  This simulates that the front doorbell was pushed.</td>
+    </tr>
+    <tr>
+        <td>/house1/externaldoor/back/doorbell</td>
+        <td>pushed</td>
+        <td>Someone clicked on the back door bell indicator on the Master Control Panel UI.  This simulates that the back doorbell was pushed.</td>
+    </tr>
+    <tr>
+        <td>/house1/externaldoor/side/doorbell</td>
+        <td>pushed</td>
+        <td>Someone clicked on the side door bell indicator on the Master Control Panel UI.  This simulates that the side doorbell was pushed.</td>
+    </tr>
+    <tr>
+        <td>/house1/externaldoor/front/lock</td>
+        <td>unlocked/locked</td>
+        <td>Someone clicked on the front locked indicator on the Master Control Panel UI.  This simulates that the front door should be locked or unlocked.</td>
+    </tr>
+    <tr>
+        <td>/house1/externaldoor/back/lock</td>
+        <td>unlocked/locked</td>
+        <td>Someone clicked on the back locked indicator on the Master Control Panel UI.  This simulates that the back door should be locked or unlocked.</td>
+    </tr>
+    <tr>
+        <td>/house1/externaldoor/side/lock</td>
+        <td>unlocked/locked</td>
+        <td>Someone clicked on the side locked indicator on the Master Control Panel UI.  This simulates that the side door should be locked or unlocked.</td>
+    </tr>
+    <tr>
+        <td>/house1/externaldoor/front/setlock</td>
+        <td>lock/unlock</td>
+        <td>The master control panel has determined that the front door should be unlocked or locked so this message is sent to the device.</td>
+    </tr>
+    <tr>
+        <td>/house1/externaldoor/back/setlock</td>
+        <td>lock/unlock</td>
+        <td>The master control panel has determined that the back door should be unlocked or locked so this message is sent to the device.</td>
+    </tr>
+    <tr>
+        <td>/house1/externaldoor/side/setlock</td>
+        <td>lock/unlock</td>
+        <td>The master control panel has determined that the side door should be unlocked or locked so this message is sent to the device.</td>
+    </tr>
+    <tr>
+        <td>/house1/alarmpanel/mastercontrol/code</td>
+        <td>01</td>
+        <td>A code of 01 was entered on the master control panel text box.</td>
+    </tr>
+    <tr>
+        <td>/house1/externaldoor/front/codevalid</td>
+        <td>true/false</td>
+        <td>The master control panel has determined the code that was sent from the device is valid or invalid and this message is sent to the device indicating that.</td>
+    </tr>
+    <tr>
+        <td>/house1/externaldoor/back/codevalid</td>
+        <td>true/false</td>
+        <td>The master control panel has determined the code that was sent from the device is valid or invalid and this message is sent to the device indicating that.</td>
+    </tr>
+    <tr>
+        <td>/house1/externaldoor/side/codevalid</td>
+        <td>true/false</td>
+        <td>The master control panel has determined the code that was sent from the device is valid or invalid and this message is sent to the device indicating that.</td>
+    </tr>
+    <tr>
+        <td>/house1/alarmpanel/masterbedroom/burglar</td>
+        <td>on/off</td>
+        <td>The master control panel has determined the alarm horn should change state and this message is sent to the master bedroom.</td>
+    </tr>
+    <tr>
+        <td>/house1/alarmpanel/bedroom1/burglar</td>
+        <td>on/off</td>
+        <td>The master control panel has determined the alarm horn should change state and this message is sent to the bedroom 1.</td>
+    </tr>
+    <tr>
+        <td>/house1/alarmpanel/bedroom2/burglar</td>
+        <td>on/off</td>
+        <td>The master control panel has determined the alarm horn should change state and this message is sent to the bedroom 2.</td>
+    </tr>
+    <tr>
+        <td>/house1/alarmpanel/firstfloor/burglar</td>
+        <td>on/off</td>
+        <td>The master control panel has determined the alarm horn should change state and this message is sent to the first floor.</td>
+    </tr>
+    <tr>
+        <td>/house1/alarmpanel/mastercontrol/alarmstate</td>
+        <td>sleep/away</td>
+        <td>A user is attempting to change the state of the alarm on the master control panel and this message is sent.</td>
+    </tr>
+    <tr>
+        <td>/house1/alarmpanel/firstfloor/alarmstatevalid</td>
+        <td>true/false</td>
+        <td>A user was attempting to change the state of the alarm on the first floor control panel and this message is sent out stating if
+            that state change is allowed to occur or not.</td>
+    </tr>
+    <tr>
+        <td>/house1/alarmpanel/masterbedroom/alarmstatevalid</td>
+        <td>true/false</td>
+        <td>A user was attempting to change the state of the alarm on the master bedroom control panel and this message is sent out stating if
+            that state change is allowed to occur or not.</td>
+    </tr>
+    <tr>
+        <td>/house1/alarmpanel/bedroom1/alarmstatevalid</td>
+        <td>true/false</td>
+        <td>A user was attempting to change the state of the alarm on the bedroom 1 control panel and this message is sent out stating if
+            that state change is allowed to occur or not.</td>
+    </tr>
+    <tr>
+        <td>/house1/alarmpanel/bedroom2/alarmstatevalid</td>
+        <td>true/false</td>
+        <td>A user was attempting to change the state of the alarm on the bedroom 2 control panel and this message is sent out stating if
+            that state change is allowed to occur or not.</td>
+    </tr>
+</table>
+<h3>This service should subscribe to the following MQTT messages.</h3>
+<table>
+    <thead>
+        <tr><th>Address</th><th>Data</th><th>Description</th></tr>
+    </thead>
+    <tr>
+        <td>/house1/+/+/ping</td>
+        <td>the message that was received by the broker</td>
+        <td>A device has sent a ping request and the master control panel will send a pingresp command back to the device</td>
+    </tr>
+    <tr>
+        <td>/house1/externaldoor/+/doorbell</td>
+        <td>pushed</td>
+        <td>A device has sent a message that the doorbell was pushed. So turn on the UI indicator that shows what doorbell was pushed for 3 seconds and then turn it off</td>
+    </tr>
+    <tr>
+        <td>/house1/externaldoor/+/lock</td>
+        <td>locked/unlocked</td>
+        <td>A device has sent a message that the door was locked or unlocked. So turn on the UI indicator that shows what door was locked or unlocked. </td>
+    </tr>
+    <tr>
+        <td>/house1/externaldoor/+/door</td>
+        <td>opened/closed</td>
+        <td>A device has sent a message that the door was opened or closed. So turn on the UI indicator that shows what door was opened or closed. Also
+            check the state of the security system to determine if the alarm should go off or not.
+        </td>
+    </tr>
+    <tr>
+        <td>/house1/externaldoor/+/code</td>
+        <td>01</td>
+        <td>A device has sent a message that the user entered in a code of 01 on the keyboard. So run through some logic and determine if the
+            alarm should be disarmed or a door needs to be unlocked.
+        </td>
+    </tr>
+    <tr>
+        <td>/house1/alarmpanel/+/window</td>
+        <td>opened/closed</td>
+        <td>A device has sent a message that the window was opened or closed. So turn on the UI indicator that shows what window was opened or closed. Also
+            check the state of the security system to determine if the alarm should go off or not.
+        </td>
+    </tr>
+    <tr>
+        <td>/house1/alarmpanel/+/motion</td>
+        <td>opened/closed</td>
+        <td>A device has sent a message that the motion detector was opened or closed. So turn on the UI indicator that shows what motion detector was opened or closed. Also
+            check the state of the security system to determine if the alarm should go off or not.
+        </td>
+    </tr>
+    <tr>
+        <td>/house1/alarmpanel/+/alarmstate</td>
+        <td>sleep/away</td>
+        <td>A user is attempting to change the state of the alarm on one of the control panels.  The master control panel must determine
+            if the alarm state can change and send out a setalarmstate message if the state is allowed to change.</td>
+    </tr>
+    <tr>
+        <td>/house1/alarmpanel/+/setalarmstate</td>
+        <td>sleep/away</td>
+        <td>Set the Alarm state indicators on the UI to show the new state of the alarm.</td>
+    </tr>
+</table>
