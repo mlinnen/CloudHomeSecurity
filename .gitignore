@@ -13,7 +13,7 @@ bin
 *resharper*
 *.suo
 *.cache
-* Thumbs.db
+Thumbs.db
 *.vspscc
 
 # WebDeploy publish profiles
