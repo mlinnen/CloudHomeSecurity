@@ -226,20 +226,11 @@ namespace HomeSecurity.Web.Hubs
                 int openedSensorCount = _sensors.Where(s => s.SensorValue == "opened").Count();
                 if (openedSensorCount > 0)
                 {
-                    string topic = string.Format("/{0}/{1}/{2}/{3}", "house1", "alarmpanel", "firstfloor", "alarmstatevalid");
-                    _client.Publish(topic, new MqttPayload("false"), QoS.BestEfforts, false);
-
-                    topic = string.Format("/{0}/{1}/{2}/{3}", "house1", "alarmpanel", "masterbedroom", "alarmstatevalid");
-                    _client.Publish(topic, new MqttPayload("false"), QoS.BestEfforts, false);
-
-                    topic = string.Format("/{0}/{1}/{2}/{3}", "house1", "alarmpanel", "bedroom1", "alarmstatevalid");
-                    _client.Publish(topic, new MqttPayload("false"), QoS.BestEfforts, false);
-
-                    topic = string.Format("/{0}/{1}/{2}/{3}", "house1", "alarmpanel", "bedroom2", "alarmstatevalid");
-                    _client.Publish(topic, new MqttPayload("false"), QoS.BestEfforts, false);
+                    _client.Publish(string.Format("/{0}/{1}/{2}/{3}", args.HouseCode, args.DeviceCode, args.LocationCode, "alarmstatevalid"), new MqttPayload("false"), QoS.BestEfforts, false);
                 }
                 else
                 {
+                    _client.Publish(string.Format("/{0}/{1}/{2}/{3}", args.HouseCode, args.DeviceCode, args.LocationCode, "alarmstatevalid"), new MqttPayload("true"), QoS.BestEfforts, false);
                     _currentState = newState;
                     SendAlarmStateChange(args.HouseCode, _currentState);
                     if (_currentState == AlarmState.Sleep)
@@ -295,16 +286,22 @@ namespace HomeSecurity.Web.Hubs
 
             int.TryParse(args.CommandValue, out code);
 
-			if (code == _secretCode)
-			{
-				_giveMeTimeToEnterTimer.Enabled = false;
-				_currentState = AlarmState.Off;
+            if (code == _secretCode)
+            {
+                _giveMeTimeToEnterTimer.Enabled = false;
+                _currentState = AlarmState.Off;
                 SendAlarmStateChange(args.HouseCode, _currentState);
-				SilenceBurglarAlarm();
+                SilenceBurglarAlarm();
                 _giveMeTimeToExitTimer.Enabled = false;
                 _giveMeTimeToExit = false;
                 disarmed = true;
-			}
+
+                _client.Publish(string.Format("/{0}/{1}/{2}/{3}", args.HouseCode, args.DeviceCode, args.LocationCode, "codevalid"), new MqttPayload("true"), QoS.BestEfforts, false);
+            }
+            else
+            {
+                _client.Publish(string.Format("/{0}/{1}/{2}/{3}", args.HouseCode, args.DeviceCode, args.LocationCode, "codevalid"), new MqttPayload("false"), QoS.BestEfforts, false);
+            }
             return disarmed;
 		}
 
