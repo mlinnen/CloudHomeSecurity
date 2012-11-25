@@ -208,7 +208,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\AlarmPanel_bb.png" />
+    <Content Include="Images\AlarmPanel_schem.png" />
+    <Content Include="Images\Alarm_bb.png" />
     <Content Include="Images\Alarm_Ok.png" />
+    <Content Include="Images\Alarm_schem.png" />
     <Content Include="Images\Alarm_Sounding.png" />
     <Content Include="Images\Architecture.jpg" />
     <Content Include="Images\LED_OFF.png" />
