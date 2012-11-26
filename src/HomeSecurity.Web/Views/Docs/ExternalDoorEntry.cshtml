@@ -79,6 +79,11 @@
     </thead>
     <tr>
         <td>1</td>
+        <td>Netduino Plus</td>
+        <td>The micro board used to execute the logic for the device</td>
+    </tr>
+    <tr>
+        <td>1</td>
         <td>Pushbutton Switch</td>
         <td>Simulates the doorbell button</td>
     </tr>
@@ -107,3 +112,175 @@
 <img src="~/Images/ExternalDoor_schem.png" width="800px"/>
 <h2>Breadboard</h2>
 <img src="~/Images/ExternalDoor_bb.png" width="800px"/>
+<h2>Completing the Device</h2>
+<p>
+    The assumption here is that you have gone through the steps outlined in the <a href="GettingReadyForTheMeeting">Getting Ready for the Meeting</a>.  
+    If that is not the case then you need to stop here and load the Software and SDK's needed to do .Net micro framework development with the Netduino.
+</p>
+<p>When you download the source there will be two solutions for each device.  One solution has all the code completed and is there 
+    for your reference (look in the End.* folders). The other solution (look in the Begin.* folders) will be the one that you start out with that 
+    has some basic code already done for you.
+</p>
+<h3>Initial Setup of the Device</h3>
+<p>
+    <ol>
+        <li>Get the hardware you need for the device (Netduino, LED's and Switches)</li>
+        <li>You don't need to wire up the LED's and Switches to the Netduino yet, just have them handy</li>
+        <li>Get the sign in sheet that was passed around at the start of the meeting
+            <ol>
+                <li>Fill out the <strong>Unique Client ID</strong> (use your initials as long as no one else has)</li>
+                <li>Fill out the <strong>MAC address</strong> for your Netduino (located on the bottom of the board)</li>
+                <li>Make a note of the <strong>IP, House Code, Device Code and Location Code</strong> from the sign in sheet</li>
+            </ol>
+        </li>
+        <li>Download the Netduino Home Security source code zip from the <a href="https://github.com/mlinnen/NetduinoHomeSecurity/downloads">github repository</a></li>
+        <li>Unzip it into a directory of your choice</li>
+        <li>Using Visual Studio 2010 open up the <strong>src\Begin.HomeSecurity.Device.ExternalDoor\HomeSecurity.Device.ExternalDoor_4.1.sln</strong>
+            <ul>
+                <li>If you have your own board that has NETMF 4.2 installed on it then open the 4.2 solution</li>
+                <li>If you have your own board that is a Netduino Plus 2 then open the 4.2 solution and replace the Secrete Labs DLL references</li>
+            </ul>
+             </li>
+        <li>Compile the solution (you should get 0 errors)</li>
+        <li>Open up <strong>Program.cs</strong></li>
+        <li>Set the <strong>_mqttDeviceId</strong> variable to the Unique Client Id that you put on the signup sheet</li>
+        <li>Set the <strong>_deviceIp</strong> variable to the IP that was on the signup sheet</li>
+        <li>Look for the code that create a new instance of the <strong>ExternalDoorController</strong> and change the last parameter of the constructor to the <strong>Location Code</strong> that was on the signup sheet</li>
+        <li>Hookup the Netduino to your laptop using the Micro USB Cable and wait for the device drivers on the Netduino to load</li>
+        <li>In Visual Studio open up the properties of the <strong>HomeSecurity.Device.ExternalDoor_X.X</strong> Project and select the <strong>.Net Micro Framework</strong> tab
+            <ol>
+                <li>Verify the <strong>Deployment Transport:</strong> is set to <strong>USB</strong></li>
+                <li>Verify the <strong>Deployment Device:</strong> is set to <strong>NetduinoPlus_NetduinoPlus</strong></li>
+            </ol>
+        </li>
+        <li>Compile and Run the Application
+            <ul>
+                <li>The application should run but it wont be able to connect to the MQTT broker because the Ethernet cable is not connected yet</li>
+                <li>If Visual Studio appears to hang and it is attempting to deploy the assemblies to the board then disconnect the board from USB and try again</li>
+            </ul>
+        </li>
+        <li>Connect the Ethernet cable to the Netduino and the Hub</li>
+    </ol>
+</p>
+<h3>Coding the ping and ping response</h3>
+<p>The next steps will take you through publishing your first MQTT message and then subscribing to your first topic.  The code
+    that actually implements the MQTT protocol is already done for you and is included in the project as a library (Device.MQTT_4.X) for you to call.
+<h4>Ping</h4>
+    <ol>
+        <li>Open up the <strong>ExternalDoorController.cs</strong> class</li>
+        <li>Open up the <strong>Start()</strong> method and look for the <strong>TODO Send out ...</strong> comment in the code</li>
+        <li>Add the following line of code replacing the TODO comment:</li>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="rem">// Send out a ping topic with Hello World as the message and it should come back to this device as a pingresp</span>
+_mqttService.Publish(<span class="kwrd">new</span> MqttParcel(Topic + <span class="str">"ping"</span>,<span class="str">"Hello world"</span>,QoS.BestEfforts,<span class="kwrd">false</span>));</pre>
+        <li>If you want you can replace the Hello world text with anything you want so that you can tell the message was yours when you monitor the message bus.</li>
+        <li>Make sure the instructor is running the MQTT Audit program on a laptop that is visible to everyone.  If he isn't then tell him to launch it!</li>
+        <li>Compile and Run your application and watch for your message get picked up by the MQTT Audit program</li>
+    </ol>
+<h4>Ping Response</h4>
+    <ol>
+        <li>Open up the <strong>Subscribe()</strong> method on the ExternalDoorController and look for the <strong>TODO setup your subscriptions here</strong> comment in the code</li>
+        <li>Add the following line of code replacing the TODO comment:
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+Subscription subscription = <span class="kwrd">null</span>; ;
+subscription = <span class="kwrd">new</span> Subscription(Topic + <span class="str">"pingresp"</span>, QoS.BestEfforts);
+messageId = _mqttService.Subscribe(subscription);
+</pre>
+                <ul>
+                    <li>This tells the MQTT broker you want to subscribe to a specific topic (like /house1/alarm/firstfloor/pingresp)</li>
+                    <li>When the topic arrives the PublisheArrived method will be called on the ExternalDoorController</li>
+                </ul>
+            </li>
+        <li>Compile and Run your application and in Visual Studio you should see your message being written out to the Output window 
+            (See the _logger.Info call in the PublishedArrived method)
+            <ul>
+                <li>Basically your Netduino Application sent a Ping request to the MQTT Broker and the Master Control Panel in Azure was subscribed to
+                    your ping topic and it sent back a pingresp to your Netduino
+                </li>
+            </ul>
+        </li>
+        <li>Next we will add logic to light the Onboard LED for 3 seconds when the pingresp arrives</li>
+        <li>Create a private variable in the ExternalDoorController to represent the Output Port for the onboard LED
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">private</span> OutputPort _pingResponseOutput = <span class="kwrd">new</span> OutputPort(Pins.ONBOARD_LED, <span class="kwrd">false</span>);
+</pre>
+        </li>
+        <li>Create a private variable in the ExternalDoorController to represent a timer that will be used to turn off the LED after 3 seconds
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">private</span> <span class="kwrd">static</span> Timer _pingResponseTimer = <span class="kwrd">null</span>;
+</pre>
+
+        </li>
+        <li>In the constructor of the ExternalDoorController class initialize the timer to never fire and have a callback of OnPingResponseTimer
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+_pingResponseTimer = <span class="kwrd">new</span> Timer(<span class="kwrd">new</span> TimerCallback(OnPingResponseTimer), <span class="kwrd">this</span>._pingResponseOutput, Timeout.Infinite, Timeout.Infinite);
+</pre>
+
+        </li>
+        <li>Create the OnPingResponseTimer callback method
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">private</span> <span class="kwrd">static</span> <span class="kwrd">void</span> OnPingResponseTimer(<span class="kwrd">object</span> state)
+{
+   _pingResponseTimer.Change(Timeout.Infinite, Timeout.Infinite);
+   OutputPort output = (OutputPort)state;
+   <span class="kwrd">bool</span> isOn = output.Read();
+   output.Write(!isOn);
+}
+</pre>
+        </li>
+        <li>Now all you need to do is when the pingresp topic arrives is to turn on the LED and enable the timer to fire in 3 seconds
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">private</span> <span class="kwrd">bool</span> PublishArrived(<span class="kwrd">object</span> sender, PublishArrivedArgs e)
+{
+    _logger.Info(<span class="str">"Msg Recvd: "</span> + e.Topic + <span class="str">" "</span> + e.Payload.ToString());
+
+    <span class="kwrd">if</span> (e.Topic.Equals(Topic + <span class="str">"pingresp"</span>))
+    {
+        _pingResponseOutput.Write(<span class="kwrd">true</span>);
+        _pingResponseTimer.Change(3000, 3000);
+        <span class="kwrd">return</span> <span class="kwrd">true</span>;
+    }
+</pre>
+            
+        </li>
+        <li>
+            Compile and Run the application and the blue onboard LED should come on for 3 seconds
+        </li>
+    </ol>
+</p>
+<p>
+    So far you have learned how to do the following:
+    <ul>
+        <li>Publish a message to an MQTT broker</li>
+        <li>Subscribe to a topic on an MQTT broker</li>
+        <li>Use a timer</li>
+        <li>Turn on and off an LED</li>
+    </ul>
+</p>
+<h3>Coding the LED indicators for door locked indicators</h3>
+<p>
+    Since you know how to subscribe to messages and turn an LED on and off the next steps won't be so detailed.
+    <ol>
+        <li>Create private variable for the LED OutputPort as outlined on the Schematic (D0)</li>
+        <li>Add a subscription for the setlock topic in the Subscribe method</li>
+        <li>Add code in the PublishArrived method to test for the specific topic and turn on/off the LED based on the message body being lock or unlock</li>
+        <li>Wire up the LED to the Netduino</li>
+        <li>Compile and Run the application</li>
+        <li>Go to the @Html.ActionLink("Home Security Dashboard", "Index", "HomeSecurity") and click on the specific door lock indicator and verify your lock LED turns on and off correctly</li>
+    </ol>
+</p>
+<h3>Coding the LED indicators for code invalid indicator</h3>
+<p>TODO</p>
+<h3>Coding the doorbell switch</h3>
+<p>TODO</p>
+<h3>Coding the door switch</h3>
+<p>TODO</p>
+<h3>Coding the keypad switches</h3>
+<p>TODO</p>
