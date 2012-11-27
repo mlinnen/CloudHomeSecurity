@@ -216,6 +216,7 @@
     <Content Include="Images\Alarm_schem.png" />
     <Content Include="Images\Alarm_Sounding.png" />
     <Content Include="Images\Architecture.png" />
+    <Content Include="Images\BigPicture.png" />
     <Content Include="Images\Doorbell_bb.png" />
     <Content Include="Images\Doorbell_schem.png" />
     <Content Include="Images\ExternalDoor_bb.png" />
