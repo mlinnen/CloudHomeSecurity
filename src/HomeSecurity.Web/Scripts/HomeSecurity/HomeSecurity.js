@@ -62,28 +62,28 @@ $(function () {
 
     $("#frontdoorlockedled").click(function () {
         if (frontDoorIsLocked) {
-            myHub.server.publishMessage("/house1/externaldoor/front/setlock", "unlocked");
+            myHub.server.publishMessage("/house1/externaldoor/front/setlock", "unlock");
         }
         else {
-            myHub.server.publishMessage("/house1/externaldoor/front/setlock", "locked");
+            myHub.server.publishMessage("/house1/externaldoor/front/setlock", "lock");
         }
     });
 
     $("#backdoorlockedled").click(function () {
         if (backDoorIsLocked) {
-            myHub.server.publishMessage("/house1/externaldoor/back/setlock", "unlocked");
+            myHub.server.publishMessage("/house1/externaldoor/back/setlock", "unlock");
         }
         else {
-            myHub.server.publishMessage("/house1/externaldoor/back/setlock", "locked");
+            myHub.server.publishMessage("/house1/externaldoor/back/setlock", "lock");
         }
     });
 
     $("#sidedoorlockedled").click(function () {
         if (sideDoorIsLocked) {
-            myHub.server.publishMessage("/house1/externaldoor/side/setlock", "unlocked");
+            myHub.server.publishMessage("/house1/externaldoor/side/setlock", "unlock");
         }
         else {
-            myHub.server.publishMessage("/house1/externaldoor/side/setlock", "locked");
+            myHub.server.publishMessage("/house1/externaldoor/side/setlock", "lock");
         }
     });
 
