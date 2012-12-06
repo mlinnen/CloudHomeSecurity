@@ -277,10 +277,91 @@ _pingResponseTimer = <span class="kwrd">new</span> Timer(<span class="kwrd">new<
     </ol>
 </p>
 <h3>Coding the LED indicators for code invalid indicator</h3>
-<p>TODO</p>
+<p>
+    The logic behind this LED indicator is a little more complex, but you already know how to use timers, subscribe to topics and toggle output pins, 
+    so it shouldn't be too tough.  This LED turns on/off for 1 second 2 times if the codevalid topic is received and the message body is false. 
+    <ol>
+        <li>Create a private OutputPort variable for the LED to represent the invalid code indicator on D2</li>
+        <li>Create a private Timer variable to do the 1 second on/off logic of the invalid code LED</li>
+        <li>Create the callback method the timer uses to toggle the invalid code LED on/off</li>
+        <li>Add a subscription for the codevalid topic in the Subscribe method
+            <ul>
+                <li>Note: you only want to subscribe to codevalid topics for this location code because it doesn't make sense to toggle the LED on a panel that is not being used</li>
+            </ul>
+        </li>
+        <li>Add code in the PublishArrived method to test for the specific codevalid topic and enable or disable the timer based on the message (true = disable, false = enable)</li>
+        <li>Wire up the Invalid Code LED to the Netduino</li>
+        <li>Compile and Run the application</li>
+        <li>You wont really be able to test this until you get the keyboard code put together, unless you send specific topics/messages to the broker to simulate a invalid code condition.</li>
+    </ol>
+</p>
 <h3>Coding the doorbell switch</h3>
-<p>TODO</p>
+<p>
+    There are several ways to read a pin on a Netduino:
+    <ul>
+        <li>Use the InputPort class and read the pin in a loop</li>
+        <li>Use the InterruptPort class and get an event when the pin changes state</li>
+        <li>Use the AutoRepeatInputPort class from the open source <a href="http://netmftoolbox.codeplex.com/" target="_blank">.NET Micro Framework Toolbox</a> project on codeplex</li>
+    </ul>
+    I have to say that the AutoRepeatInputPort is becomming my favorite and it is easy to use, so I suggest you use it.  Since this is the first time you probably have used it I will give a 
+    little more detail on how it is coded.  I have already downloaded the Toolbox libraries and they are referenced in the project so you wont have to do that.
+    <ol>
+        <li>Create a private AutoRepeatInputPort variable for the doorbell input pin (D6).</li>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">private</span> AutoRepeatInputPort _doorBell = <span class="kwrd">new</span> AutoRepeatInputPort(Pins.GPIO_PIN_D6, Port.ResistorMode.PullUp, <span class="kwrd">false</span>);
+</pre>
+        <li>In the constructor of the ExternalDoorController class register the callback that will be called when the state of the pin changes</li>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="rem">// Setup the interrupt handlers that detect when a doorbell is pressed</span>
+_doorBell.StateChanged += <span class="kwrd">new</span> AutoRepeatEventHandler(_doorBell_StateChanged);
+</pre>
+        <li>Code the callback methods that you just registered above.  When the button is detected then you will publish the doorbell topic with a message body set to pushed</li>
+<!-- code formatted by http://manoli.net/csharpformat/ -->
+<pre class="csharpcode">
+<span class="kwrd">void</span> _doorBell_StateChanged(<span class="kwrd">object</span> sender, AutoRepeatEventArgs e)
+{
+    <span class="kwrd">switch</span> (e.State)
+    {
+        <span class="kwrd">case</span> AutoRepeatInputPort.AutoRepeatState.Press:
+            _logger.Debug(<span class="str">"Doorbell Pushed"</span>);
+            _mqttService.Publish(<span class="kwrd">new</span> MqttParcel(Topic + <span class="str">"doorbell"</span>, <span class="str">"pushed"</span>, QoS.BestEfforts, <span class="kwrd">false</span>));
+            <span class="kwrd">break</span>;
+    }
+}
+</pre>
+        <li>Wire up the doorbell switch as outlined in the schematic/breadboard</li>
+        <li>Compile and Run the application</li>
+        <li>Depress the doorbell switch and watch the dashboard to be sure the indicator lights up for a couple seconds</li>
+    </ol>
+</p>
 <h3>Coding the door switch</h3>
-<p>TODO</p>
+<p>
+    Since you already know how to use the AutoRepeatInputPort there wont be a lot of steps to this.
+    <ol>
+        <li>Create a private AutoRepeatInputPort variable for the Door circuit (D2).</li>
+        <li>Change the constructor of the ExternalDoorController class to register for the events</li>
+        <li>Code the callbacks for the events and add the code to send out the correct MQTT message when the Door sensor changes state</li>
+        <li>Wire up the Door switch as outlined in the schematic/breadboard</li>
+        <li>Compile and Run the application</li>
+        <li>Verify that when you depress the switches that the correct indicator changes state on the dashboard</li>
+    </ol>
+</p>
 <h3>Coding the keypad switches</h3>
-<p>TODO</p>
+<p>
+    Since the keyboard is really just 3 keys (0, 1 and Enter) you will use the same AutoRepeatInputPort class to detect what the user typed in.  The
+    user can type any combination of 0 or 1 keys before they press the Enter key so you will have to keep track of the keys and the sequence 
+    in which they were depressed.  The job of this device is to just collect the keystrokes and send it off to the broker when the user presses the enter
+    key.  This device does not validate the secrete code at all, thats the job of the master control panel running somewhere else.
+    <ol>
+        <li>Create a private AutoRepeatInputPort variable for each key(D3, D4 and D5).</li>
+        <li>Change the constructor of the ExternalDoorController class to register for the events from each key</li>
+        <li>Code the callbacks for the events and add the code to send out the correct MQTT message when the user presses the Enter key</li>
+        <li>Wire up the 0, 1 and Enter key switches as outlined in the schematic/breadboard</li>
+        <li>Compile and Run the application</li>
+        <li>Using the dashboard lock the door by clicking the Locked indicator (your locked LED should come on). Use the keyboard to enter in a secrete code of 01 and press enter.  The door 
+            should unlock</li>
+        <li>Also try an invalid code and the Invalid Code LED should blink twice after you press enter</li>
+    </ol>
+</p>

@@ -388,7 +388,7 @@ _awayMode.StateChanged += <span class="kwrd">new</span> AutoRepeatEventHandler(_
 </p>
 <h3>Coding the keyboard switches</h3>
 <p>
-    Since the keyboard is really just 3 keys (0, 1 and Enter) you will use the same AutoRepeatInputPort class to detect what the user typed in.  the
+    Since the keyboard is really just 3 keys (0, 1 and Enter) you will use the same AutoRepeatInputPort class to detect what the user typed in.  The
     user can type any combination of 0 or 1 keys before they press the Enter key so you will have to keep track of the keys and the sequence 
     in which they were depressed.  The job of this device is to just collect the keystrokes and send it off to the broker when the user presses the enter
     key.  This device does not validate the secrete code at all, thats the job of the master control panel running somewhere else.
@@ -398,7 +398,7 @@ _awayMode.StateChanged += <span class="kwrd">new</span> AutoRepeatEventHandler(_
         <li>Code the callbacks for the events and add the code to send out the correct MQTT message when the user presses the Enter key</li>
         <li>Wire up the 0, 1 and Enter key switches as outlined in the schematic/breadboard</li>
         <li>Compile and Run the application</li>
-        <li>Using hte dashboard place the alarm in away or sleep mode and use the keyboard to enter in a secrete code of 01 and press enter.  The alarm 
+        <li>Using the dashboard place the alarm in away or sleep mode and use the keyboard to enter in a secrete code of 01 and press enter.  The alarm 
             should disarm</li>
         <li>Also try an invalid code and the Invalid Code LED should blink twice after you press enter</li>
     </ol>
