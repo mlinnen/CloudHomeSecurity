@@ -132,15 +132,6 @@ $(function () {
         }
     });
 
-    $("#bedroom2windowled").click(function () {
-        if (bedroom2WindowIsOpened) {
-            myHub.server.publishMessage("/house1/alarmpanel/bedroom2/window", "closed");
-        }
-        else {
-            myHub.server.publishMessage("/house1/alarmpanel/bedroom2/window", "opened");
-        }
-    });
-
     $("#sleepled").click(function () {
         myHub.server.publishMessage("/house1/alarmpanel/firstfloor/alarmstate", "sleep");
     });
