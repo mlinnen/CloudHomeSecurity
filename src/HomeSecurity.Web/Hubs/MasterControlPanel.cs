@@ -12,7 +12,7 @@ namespace HomeSecurity.Web.Hubs
 	public class MasterControlPanel
 	{
 		private AlarmState _currentState = AlarmState.Off;
-		private int _secretCode = 01;
+		private string _secretCode = "01";
 		private readonly IMqtt _client;
         private Timer _turnOffDoorbellIndicatorTimer;
         private Timer _giveMeTimeToEnterTimer;
@@ -260,13 +260,10 @@ namespace HomeSecurity.Web.Hubs
 
         private bool UnLockDoor(CommandEventArgs args)
         {
-            int code = 0;
             bool unlockedDoor = false;
 
-            int.TryParse(args.CommandValue, out code);
-
             string topic = string.Format("/{0}/{1}/{2}/{3}", args.HouseCode, args.DeviceCode, args.LocationCode, "codevalid");
-            if (code == _secretCode)
+            if (args.CommandValue.Equals(_secretCode))
             {
                 _client.Publish(topic, new MqttPayload("true"), QoS.BestEfforts, false);
                 topic = string.Format("/{0}/{1}/{2}/{3}", args.HouseCode, args.DeviceCode, args.LocationCode, "setlock");
@@ -281,12 +278,9 @@ namespace HomeSecurity.Web.Hubs
 
         private bool DisarmAlarm(CommandEventArgs args)
 		{
-            int code = 0;
             bool disarmed=false;
 
-            int.TryParse(args.CommandValue, out code);
-
-            if (code == _secretCode)
+            if (args.CommandValue.Equals(_secretCode))
             {
                 _giveMeTimeToEnterTimer.Enabled = false;
                 _currentState = AlarmState.Off;

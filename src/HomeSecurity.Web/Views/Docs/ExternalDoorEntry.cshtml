@@ -270,7 +270,9 @@ _pingResponseTimer = <span class="kwrd">new</span> Timer(<span class="kwrd">new<
     <ol>
         <li>Create private variable for the LED OutputPort as outlined on the Schematic (D0)</li>
         <li>Add a subscription for the setlock topic in the Subscribe method</li>
-        <li>Add code in the PublishArrived method to test for the specific topic and turn on/off the LED based on the message body being lock or unlock</li>
+        <li>Add code in the PublishArrived method to test for the specific topic and turn on/off the LED based on the message body being lock or unlock.  After turning the LED on/off Publish 
+            a message to the lock topic with a message body value of locked or unlocked. This published message lets the dashboard know that the lock was actually locked or unlocked.
+        </li>
         <li>Wire up the LED to the Netduino</li>
         <li>Compile and Run the application</li>
         <li>Go to the @Html.ActionLink("Home Security Dashboard", "Index", "HomeSecurity") and click on the specific door lock indicator and verify your lock LED turns on and off correctly</li>
