@@ -10,35 +10,37 @@
     unless you really think about addressing some of the internet security issues that need to be tackled with a 
     project like this.  Please use this code as an example only!
 </p>
-<p>Each device that is connected to the central hub of the security system perform a specific task of the home security functionality.  
-    In a real security system you probably wouldn’t have mission critical devices dependent on external connectivity to the 
-    cloud that could easily be disconnected.  Again this is just a fun example to get you thinking about connecting many devices to a cloud service.
+<p>Each device that is connected to the central hub of the system will perform a specific function in the security platform.  
+    In a real security system you wouldn’t have mission critical devices dependent on external connectivity to the 
+    cloud.  The connectivity to such an external system could be easily disrupted.  
+    Again this is just a fun example to get you thinking about connecting many devices to a cloud service.
 </p>
-<p>The hardware used for this project is the<a href="http://www.netduino.com/netduinoplus/specs.htm">Netduino Plus</a>from<a href="http://www.netduino.com/">Secret Labs LLC</a>.  
-    So all code samples will target this device, but since the protocol to communicate with the cloud service will not be platform specific any device
-    can be used to send and receive messages from the Home Security service.  So feel free to use a different .Net Micro Framework 
-    device.  You should be able to even use the very popular Arduino devices.
+<p>The hardware used for this project is the<a href="http://www.netduino.com/netduinoplus2/specs.htm">Netduino Plus 2</a>from<a href="http://secretlabs.com/">Secret Labs LLC</a>.  
+    All code samples you see on this sight will target the Netduino Plus 2 device.  However, the protocol to communicate with the cloud service will not be 
+    platform specific so any device can be used to send and receive messages from the Home Security service.  So feel free to use a different .Net Micro Framework 
+    device.  You could even use one of the very popular Arduino devices.  
 </p>
 <p>
     Of course the cloud service part of this project is running on the<a href="http://www.windowsazure.com/en-us/">Windows Azure Platform</a>.  
-    There are so many options available to you with the Azure platform.  I choose to use a small subset of the features available in Azure just
-    to prove a point that it doesn't take a lot to get something going in the platform.
+    There are so many options available to you with the Azure platform.  I decided to use a small subset of the features available in Azure just
+    to prove that it doesn't take a lot to get something going on the platform.
 </p>
 <h2>Where to start</h2>
 <p>As a perticipant in this project you will be building the devices that complete the Home Security system. 
-    There will be some basic code that is written for you but for the most part it will be your job to complete the code and make
-    the device functional.  The cloud service that connects the devices will be already completed and deployed to Windows Azure for
-    you to use, so you wont need to do any of that coding.  However the code for the cloud services is available in source control for you to look at. 
+    Some basic code will already be written for you but for the most part it will be your job to complete the code and make
+    the device functional.  The cloud service that connects the devices is already completed and deployed to Windows Azure for
+    you to use, so you wont need to do any of that coding.  However the code for the cloud service is available in source control for you to look at. 
 </p>
 <ul>
+    <li>@Html.ActionLink("Documentation", "Index", "Docs") - This is where you will spend most of your time because it contains all the documentaiont to complete the lab exercises.</li>
+    <li><a href="Docs/GettingReadyForTheMeeting">Getting Ready For the Meeting</a> - All the information you need to come prepared for the event.</li>
     <li><a href="https://github.com/mlinnen/CloudHomeSecurity">Azure Source Code Repository</a> - All the source for the Azure components of the security system</li>
     <li><a href="https://github.com/mlinnen/NetduinoHomeSecurity">Netduino Source Code Repository</a> - All the source for the Netduino components of the security system</li>
     <li>@Html.ActionLink("Dashboard", "Index", "HomeSecurity") - This is the Home Security Dashboard where you can see the status of a device and interact with it</li>
-    <li>@Html.ActionLink("Settings", "Settings", "HomeSecurity") - You can change some of the cloud service settings that the home security system uses</li>
 </ul>
 <h2>When is the Next Event</h2>
 <ul>
-    <li><a href="https://acm.uncc.edu/">TBA</a> - UNC Charlotte Association for Computing Machinery</li>
+    <li>Feb 21st 2013 (5pm to 7pm) - <a href="https://acm.uncc.edu/">UNC Charlotte Association for Computing Machinery</a></li>
 </ul>
 <h2>Past Events</h2>
 <ul>
