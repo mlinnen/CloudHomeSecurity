@@ -123,9 +123,9 @@
     </tr>
 </table>
 <h2>Schematic</h2>
-<img src="~/Images/Alarm_schem.png" width="800px"/>
+<img src="~/Images/Alarm_schem_small.png" width="800px"/>
 <h2>Breadboard</h2>
-<img src="~/Images/Alarm_bb.png" width="800px"/>
+<img src="~/Images/Alarm_bb_small.png" width="800px"/>
 <h2>Completing the Device</h2>
 <p>
     The assumption here is that you have gone through the steps outlined in the <a href="GettingReadyForTheMeeting">Getting Ready for the Meeting</a>.  
@@ -149,22 +149,17 @@
         </li>
         <li>Download the Netduino Home Security source code zip from the <a href="https://github.com/mlinnen/NetduinoHomeSecurity/downloads">github repository</a></li>
         <li>Unzip it into a directory of your choice</li>
-        <li>Using Visual Studio 2010 open up the <strong>src\Begin.HomeSecurity.Device.Alarm\HomeSecurity.Device.Alarm_4.1.sln</strong>
-            <ul>
-                <li>If you have your own board that has NETMF 4.2 installed on it then open the 4.2 solution</li>
-                <li>If you have your own board that is a Netduino Plus 2 then open the 4.2 solution and replace the Secrete Labs DLL references</li>
-            </ul>
-             </li>
+        <li>Using Visual Studio 2010 open up the <strong>src\Begin.HomeSecurity.Device.Alarm\HomeSecurity.Device.Alarm.sln</strong></li>
         <li>Compile the solution (you should get 0 errors)</li>
         <li>Open up <strong>Program.cs</strong></li>
         <li>Set the <strong>_mqttDeviceId</strong> variable to the Unique Client Id that you put on the signup sheet</li>
         <li>Set the <strong>_deviceIp</strong> variable to the IP that was on the signup sheet</li>
         <li>Look for the code that create a new instance of the <strong>AlarmController</strong> and change the last parameter of the constructor to the <strong>Location Code</strong> that was on the signup sheet</li>
         <li>Hookup the Netduino to your laptop using the Micro USB Cable and wait for the device drivers on the Netduino to load</li>
-        <li>In Visual Studio open up the properties of the <strong>HomeSecurity.Device.Alarm_X.X</strong> Project and select the <strong>.Net Micro Framework</strong> tab
+        <li>In Visual Studio open up the properties of the <strong>HomeSecurity.Device.Alarm</strong> Project and select the <strong>.Net Micro Framework</strong> tab
             <ol>
                 <li>Verify the <strong>Deployment Transport:</strong> is set to <strong>USB</strong></li>
-                <li>Verify the <strong>Deployment Device:</strong> is set to <strong>NetduinoPlus_NetduinoPlus</strong></li>
+                <li>Verify the <strong>Deployment Device:</strong> is set to <strong>NetduinoPlus2_NetduinoPlus</strong></li>
             </ol>
         </li>
         <li>Compile and Run the Application
