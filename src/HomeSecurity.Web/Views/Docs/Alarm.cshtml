@@ -168,7 +168,7 @@
                 <li>If Visual Studio appears to hang and it is attempting to deploy the assemblies to the board then disconnect the board from USB and try again</li>
             </ul>
         </li>
-        <li>Connect the Ethernet cable to the Netduino and the Hub</li>
+        <li>Connect the Ethernet cable to the Netduino and the Hub/Switch</li>
     </ol>
 </p>
 <h3>Coding the ping and ping response</h3>
@@ -185,7 +185,7 @@
 _mqttService.Publish(<span class="kwrd">new</span> MqttParcel(Topic + <span class="str">"ping"</span>,<span class="str">"Hello world"</span>,QoS.BestEfforts,<span class="kwrd">false</span>));</pre>
         <li>If you want you can replace the Hello world text with anything you want so that you can tell the message was yours when you monitor the message bus.</li>
         <li>Make sure the instructor is running the MQTT Audit program on a laptop that is visible to everyone.  If he isn't then tell him to launch it!</li>
-        <li>Compile and Run your application and watch for your message get picked up by the MQTT Audit program</li>
+        <li>Compile and Run your application and watch for your message to get picked up by the MQTT Audit program</li>
     </ol>
 <h4>Ping Response</h4>
     <ol>
