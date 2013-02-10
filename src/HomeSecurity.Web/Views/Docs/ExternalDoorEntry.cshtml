@@ -118,7 +118,8 @@
     If that is not the case then you need to stop here and load the Software and SDK's needed to do .Net micro framework development with the Netduino.
 </p>
 <p>When you download the source there will be two solutions for each device.  One solution has all the code completed and is there 
-    for your reference (look in the End.* folders). The other solution (look in the Begin.* folders) will be the one that you start out with that 
+    for your reference (look in the End.* folders). Use this solution for when you get stuck in the lab and you need a hint on how to complete a section of the lab. 
+    The other solution (look in the Begin.* folders) will be the one that you start out with that 
     has some basic code already done for you.
 </p>
 <h3>Initial Setup of the Device</h3>
@@ -142,7 +143,7 @@
         <li>Set the <strong>_deviceIp</strong> variable to the IP that was on the signup sheet</li>
         <li>Look for the code that create a new instance of the <strong>ExternalDoorController</strong> and change the last parameter of the constructor to the <strong>Location Code</strong> that was on the signup sheet</li>
         <li>Hookup the Netduino to your laptop using the Micro USB Cable and wait for the device drivers on the Netduino to load</li>
-        <li>In Visual Studio open up the properties of the <strong>HomeSecurity.Device.ExternalDoor_X.X</strong> Project and select the <strong>.Net Micro Framework</strong> tab
+        <li>In Visual Studio open up the properties of the <strong>HomeSecurity.Device.ExternalDoor</strong> Project and select the <strong>.Net Micro Framework</strong> tab
             <ol>
                 <li>Verify the <strong>Deployment Transport:</strong> is set to <strong>USB</strong></li>
                 <li>Verify the <strong>Deployment Device:</strong> is set to <strong>NetduinoPlus2_NetduinoPlus</strong></li>
@@ -300,7 +301,7 @@ _pingResponseTimer = <span class="kwrd">new</span> Timer(<span class="kwrd">new<
         <li>Use the InterruptPort class and get an event when the pin changes state</li>
         <li>Use the AutoRepeatInputPort class from the open source <a href="http://netmftoolbox.codeplex.com/" target="_blank">.NET Micro Framework Toolbox</a> project on codeplex</li>
     </ul>
-    I have to say that the AutoRepeatInputPort is becomming my favorite and it is easy to use, so I suggest you use it.  Since this is the first time you probably have used it I will give a 
+    I have to say that the AutoRepeatInputPort is becoming my favorite and it is easy to use, so I suggest you use it.  Since this is the first time you probably have used it I will give a 
     little more detail on how it is coded.  I have already downloaded the Toolbox libraries and they are referenced in the project so you wont have to do that.
     <ol>
         <li>Create a private AutoRepeatInputPort variable for the doorbell input pin (D6).</li>
@@ -350,7 +351,7 @@ _doorBell.StateChanged += <span class="kwrd">new</span> AutoRepeatEventHandler(_
     Since the keyboard is really just 3 keys (0, 1 and Enter) you will use the same AutoRepeatInputPort class to detect what the user typed in.  The
     user can type any combination of 0 or 1 keys before they press the Enter key so you will have to keep track of the keys and the sequence 
     in which they were depressed.  The job of this device is to just collect the keystrokes and send it off to the broker when the user presses the enter
-    key.  This device does not validate the secrete code at all, thats the job of the master control panel running somewhere else.
+    key.  This device does not validate the secrete code at all, that's the job of the master control panel running somewhere else.
     <ol>
         <li>Create a private AutoRepeatInputPort variable for each key(D3, D4 and D5).</li>
         <li>Change the constructor of the ExternalDoorController class to register for the events from each key</li>

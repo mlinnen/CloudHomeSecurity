@@ -8,7 +8,7 @@
 </p>
 <h2>What will I be doing</h2>
 <p>
-    You will be building the following devices in the home security system
+    You will be building one of the following devices in the home security system:
 </p>
 <ul>
     <li><a href="Docs/ExternalDoorEntry">External Door Entry</a>- This device handles all the I/O for any External Door</li>
@@ -19,6 +19,9 @@
         for you. I am calling it out here because without it the entire system would be a bunch of devices that are independent of one another 
         with no real central control managing the whole security system logic.</li>
 </ul>
+<p>Determine which one of the devices that you want to attempt to build.  Some of the devices are harder to complete than others.  If you want to start out easy then you can
+    do the doorbell device.  If you want a tougher challenge then go ahead and try the Alarm Control Panel.
+</p>
 <p>
     There will be some code that is already written for you so that you don't have to worry about the communication protocols 
     needed to publish and subscribe to the<a href="http://mqtt.org/">MQTT</a>message bus. Since the protocol is abstracted away from you
@@ -58,8 +61,8 @@
     the<a href="Docs/MasterControlPanel">Master Control Panel</a> for more details on how it functions.
 </p>
 <h2>What does it look like</h2>
-<p>The following picture shows the communications between the devices in the home to the Azure message broker and eventually to a browser.  
-    What is important to notice here is that the devices talk to one another through the message broker.   </p>
+<p>The following diagram shows the communications between the devices in the home to the Azure message broker and eventually to a browser.  
+    What is important to notice here is that the devices in the home talk to one another through the message broker.   </p>
 <img src="~/Images/Architecture.png" />
 <p>The following picture zooms in on the 4 different types of devices that are part of this security system.  It's a little easier to see the LED's and Switches that are connected up to each Netduino. </p>
 <img src="~/Images/Devices.png" />

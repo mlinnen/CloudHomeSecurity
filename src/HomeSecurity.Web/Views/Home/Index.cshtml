@@ -10,34 +10,35 @@
     unless you really think about addressing some of the internet security issues that need to be tackled with a 
     project like this.  Please use this code as an example only!
 </p>
-<p>Each device that is connected to the central hub of the system will perform a specific function in the security platform.  
+<p>Each device that is connected to the system's central hub will perform a specific function in the security platform.  
     In a real security system you wouldn’t have mission critical devices dependent on external connectivity to the 
     cloud.  The connectivity to such an external system could be easily disrupted.  
     Again this is just a fun example to get you thinking about connecting many devices to a cloud service.
 </p>
 <p>The hardware used for this project is the<a href="http://www.netduino.com/netduinoplus2/specs.htm">Netduino Plus 2</a>from<a href="http://secretlabs.com/">Secret Labs LLC</a>.  
-    All code samples you see on this sight will target the Netduino Plus 2 device.  However, the protocol to communicate with the cloud service will not be 
-    platform specific so any device can be used to send and receive messages from the Home Security service.  So feel free to use a different .Net Micro Framework 
+    All code samples you see on this sight will target the Netduino Plus 2 device.  However, the protocol to communicate with the cloud service is not 
+    platform specific so any device can be used to communicate with the Home Security service.  So feel free to use a different .Net Micro Framework 
     device.  You could even use one of the very popular Arduino devices.  
 </p>
 <p>
     Of course the cloud service part of this project is running on the<a href="http://www.windowsazure.com/en-us/">Windows Azure Platform</a>.  
-    There are so many options available to you with the Azure platform.  I decided to use a small subset of the features available in Azure just
-    to prove that it doesn't take a lot to get something going on the platform.
+    There are so many options available to you with the Azure platform.  I decided to use a small subset of the features available just
+    to prove that it doesn't take a lot to get something going on the Azure platform.
 </p>
 <p><iframe width="560" height="315" src="http://www.youtube.com/embed/PgB4qjhS3Ls" frameborder="0" allowfullscreen></iframe></p>
 <h2>Where to start</h2>
-<p>As a perticipant in this project you will be building the devices that complete the Home Security system. 
+<p>As a participant in this project you will be building the devices that complete the Home Security system. 
     Some basic code will already be written for you but for the most part it will be your job to complete the code and make
     the device functional.  The cloud service that connects the devices is already completed and deployed to Windows Azure for
     you to use, so you wont need to do any of that coding.  However the code for the cloud service is available in source control for you to look at. 
 </p>
 <ul>
-    <li>@Html.ActionLink("Documentation", "Index", "Docs") - This is where you will spend most of your time because it contains all the documentaiont to complete the lab exercises.</li>
+    <li>@Html.ActionLink("Documentation", "Index", "Docs") - This is where you will spend most of your time because it contains all the documentation to complete the lab exercises.</li>
     <li><a href="Docs/GettingReadyForTheMeeting">Getting Ready For the Meeting</a> - All the information you need to come prepared for the event.</li>
-    <li><a href="https://github.com/mlinnen/CloudHomeSecurity">Azure Source Code Repository</a> - All the source for the Azure components of the security system</li>
+    <li><a href="https://github.com/mlinnen/CloudHomeSecurity">Azure Source Code Repository</a> - All the source for the Azure components of the security system.</li>
     <li><a href="https://github.com/mlinnen/NetduinoHomeSecurity">Netduino Source Code Repository</a> - All the source for the Netduino components of the security system</li>
     <li>@Html.ActionLink("Dashboard", "Index", "HomeSecurity") - This is the Home Security Dashboard where you can see the status of a device and interact with it</li>
+    <li><a href="http://www.slideshare.net/mlinnen/hacknight-powerpoint">Slide Deck</a> - The slides for the presentation</li>
 </ul>
 <h2>When is the Next Event</h2>
 <ul>
