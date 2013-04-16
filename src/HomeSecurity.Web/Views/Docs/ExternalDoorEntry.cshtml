@@ -108,10 +108,6 @@
         <td>Simulates if the door is open or closed. Pushed = door opened, Not Pushed = door closed</td>
     </tr>
 </table>
-<h2>Schematic</h2>
-<img src="~/Images/ExternalDoor_schem_small.png" width="800px"/>
-<h2>Breadboard</h2>
-<img src="~/Images/ExternalDoor_bb_small.png" width="800px"/>
 <h2>Completing the Device</h2>
 <p>
     The assumption here is that you have gone through the steps outlined in the <a href="GettingReadyForTheMeeting">Getting Ready for the Meeting</a>.  
@@ -130,18 +126,16 @@
         <li>Get the sign in sheet that was passed around at the start of the meeting
             <ol>
                 <li>Fill out the <strong>Unique Client ID</strong> (use your initials as long as no one else has)</li>
-                <li>Fill out the <strong>MAC address</strong> for your Netduino (located on the bottom of the board)</li>
-                <li>Make a note of the <strong>IP, House Code, Device Code and Location Code</strong> from the sign in sheet</li>
+                <li>Make a note of the <strong>House Code, Device Code and Location Code</strong> from the sign in sheet</li>
             </ol>
         </li>
         <li>Download the Netduino Home Security source code zip from the <a href="https://github.com/mlinnen/NetduinoHomeSecurity/downloads">github repository</a></li>
         <li>Unzip it into a directory of your choice</li>
-        <li>Using Visual Studio 2010 open up the <strong>src\Begin.HomeSecurity.Device.ExternalDoor\HomeSecurity.Device.ExternalDoor.sln</strong></li>
+        <li>Using Visual Studio open up the <strong>src\Begin.HomeSecurity.Device.ExternalDoor\HomeSecurity.Device.ExternalDoor.sln</strong></li>
         <li>Compile the solution (you should get 0 errors)</li>
         <li>Open up <strong>Program.cs</strong></li>
         <li>Set the <strong>_mqttDeviceId</strong> variable to the Unique Client Id that you put on the signup sheet</li>
-        <li>Set the <strong>_deviceIp</strong> variable to the IP that was on the signup sheet</li>
-        <li>Look for the code that create a new instance of the <strong>ExternalDoorController</strong> and change the last parameter of the constructor to the <strong>Location Code</strong> that was on the signup sheet</li>
+        <li>Change the _locationCode = 'front' to the <strong>Location Code</strong> that was on the signup sheet</li>
         <li>Hookup the Netduino to your laptop using the Micro USB Cable and wait for the device drivers on the Netduino to load</li>
         <li>In Visual Studio open up the properties of the <strong>HomeSecurity.Device.ExternalDoor</strong> Project and select the <strong>.Net Micro Framework</strong> tab
             <ol>
@@ -363,3 +357,7 @@ _doorBell.StateChanged += <span class="kwrd">new</span> AutoRepeatEventHandler(_
         <li>Also try an invalid code and the Invalid Code LED should blink twice after you press enter</li>
     </ol>
 </p>
+<h2>Schematic</h2>
+<img src="~/Images/ExternalDoor_schem_small.png" width="800px"/>
+<h2>Breadboard</h2>
+<img src="~/Images/ExternalDoor_bb_small.png" width="800px"/>
