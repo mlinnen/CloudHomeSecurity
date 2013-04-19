@@ -140,6 +140,50 @@ $(function () {
         myHub.server.publishMessage("/house1/alarmpanel/firstfloor/alarmstate", "away");
     });
 
+    $("#externalDoorFrontPing").click(function () {
+        myHub.server.publishMessage("/house1/externaldoor/front/pingresp", "from the cloud");
+    });
+
+    $("#externalDoorSidePing").click(function () {
+        myHub.server.publishMessage("/house1/externaldoor/side/pingresp", "from the cloud");
+    });
+
+    $("#externalDoorBackPing").click(function () {
+        myHub.server.publishMessage("/house1/externaldoor/back/pingresp", "from the cloud");
+    });
+
+    $("#alarmPanelMasterbedroomPing").click(function () {
+        myHub.server.publishMessage("/house1/alarmpanel/masterbedroom/pingresp", "from the cloud");
+    });
+
+    $("#alarmPanelBedroom1Ping").click(function () {
+        myHub.server.publishMessage("/house1/alarmpanel/bedroom1/pingresp", "from the cloud");
+    });
+
+    $("#alarmPanelBedroom2Ping").click(function () {
+        myHub.server.publishMessage("/house1/alarmpanel/bedroom2/pingresp", "from the cloud");
+    });
+
+    $("#alarmFirstFloorPing").click(function () {
+        myHub.server.publishMessage("/house1/alarm/firstfloor/pingresp", "from the cloud");
+    });
+
+    $("#alarmSecondFloorPing").click(function () {
+        myHub.server.publishMessage("/house1/alarm/secondfloor/pingresp", "from the cloud");
+    });
+
+    $("#doorbellFirstFloorPing").click(function () {
+        myHub.server.publishMessage("/house1/doorbell/firstfloor/pingresp", "from the cloud");
+    });
+
+    $("#doorbellSecondFloorPing").click(function () {
+        myHub.server.publishMessage("/house1/doorbell/secondfloor/pingresp", "from the cloud");
+    });
+
+    $("#doorbellGaragePing").click(function () {
+        myHub.server.publishMessage("/house1/doorbell/garage/pingresp", "from the cloud");
+    });
+
     myHub.client.updateCommand = function (command) {
         if (command.HouseCode == 'house1') {
             if (command.DeviceCode == 'alarmpanel') {
