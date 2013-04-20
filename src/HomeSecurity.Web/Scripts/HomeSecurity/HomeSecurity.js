@@ -164,6 +164,10 @@ $(function () {
         myHub.server.publishMessage("/house1/alarmpanel/bedroom2/pingresp", "from the cloud");
     });
 
+    $("#alarmPanelFirstFloorPing").click(function () {
+        myHub.server.publishMessage("/house1/alarmpanel/firstfloor/pingresp", "from the cloud");
+    });
+
     $("#alarmFirstFloorPing").click(function () {
         myHub.server.publishMessage("/house1/alarm/firstfloor/pingresp", "from the cloud");
     });
