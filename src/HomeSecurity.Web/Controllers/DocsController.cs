@@ -16,6 +16,11 @@ namespace HomeSecurity.Web.Controllers
             return View();
         }
 
+        public ActionResult Dummy()
+        {
+            return View();
+        }
+
         public ActionResult GettingReadyForTheMeeting()
         {
             return View();

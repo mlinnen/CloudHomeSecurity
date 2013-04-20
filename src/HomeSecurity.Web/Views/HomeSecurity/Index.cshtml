@@ -7,150 +7,189 @@
     </script>
 }
 <h2>Master Control Dashboard</h2>
-<table>
-    <tr>
-        <td>Total Number of MQTT Active Clients:</td>
-        <td ><div id="MQTTClientCount"></div></td>
-    </tr>
-</table>
-<table>
-    <tr>
-        <td><div id="seconds"></div></td>
-        <td colspan="7"><img id="burlaralarmled" src="~/Images/Alarm_Ok.png" class="center" /></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td >Front</td>
-        <td >Side</td>
-        <td >Back</td>
-        <td >Master Bedroom</td>
-        <td >Bedroom 1</td>
-        <td >Bedroom 2</td>
-        <td >First Floor</td>
-    </tr>
-    <tr>
-        <td >Doors</td>
-        <td ><img id="frontdoorled" src="~/Images/LED_OFF.png" class="center" /></td>
-        <td ><img id="sidedoorled" src="~/Images/LED_OFF.png" class="center" /></td>
-        <td ><img id="backdoorled" src="~/Images/LED_OFF.png" class="center" /></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td >Locked</td>
-        <td ><img id="frontdoorlockedled" src="~/Images/LED_OFF.png" class="center" /></td>
-        <td ><img id="sidedoorlockedled" src="~/Images/LED_OFF.png" class="center" /></td>
-        <td ><img id="backdoorlockedled" src="~/Images/LED_OFF.png" class="center" /></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td >Windows</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td ><img id="masterbedroomwindowled" src="~/Images/LED_OFF.png" class="center" /></td>
-        <td ><img id="bedroom1windowled" src="~/Images/LED_OFF.png" class="center" /></td>
-        <td ><img id="bedroom2windowled" src="~/Images/LED_OFF.png" class="center" /></td>
-        <td ><img id="firstfloorwindowled" src="~/Images/LED_OFF.png" class="center" /></td>
-    </tr>
-    <tr>
-        <td >Motion</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td ><img id="firstfloormotionled" src="~/Images/LED_OFF.png" class="center" /></td>
-    </tr>
-    <tr>
-        <td >Doorbell</td>
-        <td><img id="frontdoorbellled" src="~/Images/LED_OFF.png"/></td>
-        <td><img id="sidedoorbellled" src="~/Images/LED_OFF.png"/></td>
-        <td><img id="backdoorbellled" src="~/Images/LED_OFF.png"/></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td ></td>
-    </tr>
-    <tr>
-        <td ></td>
-        <td>Sleep</td>
-        <td>Away</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td ></td>
-    </tr>
-    <tr>
-        <td>Alarm</td>
-        <td><img id="sleepled" src="~/Images/LED_OFF.png" /></td>
-        <td><img id="awayled" src="~/Images/LED_OFF.png" /></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td ></td>
-    </tr>
-    <tr>
-    </tr>
-</table>
-Enter Secret Code:
-<input type="text" id="keycode" style="width:60px;"/>
-<input type="button" id="enterButton" value="Enter" onclick="EnterButtonClicked()" />
-<table>
-    <tr>
-        <td>External Door Front Ping</td>
-        <td><input type="button" id="externalDoorFrontPing" value="Send" /></td>
-    </tr>
-    <tr>
-        <td>External Door Side Ping</td>
-        <td><input type="button" id="externalDoorSidePing" value="Send" /></td>
-    </tr>
-    <tr>
-        <td>External Door Back Ping</td>
-        <td><input type="button" id="externalDoorBackPing" value="Send" /></td>
-    </tr>
-    <tr>
-        <td>Alarm Panel Master Bedroom Ping</td>
-        <td><input type="button" id="alarmPanelMasterbedroomPing" value="Send" /></td>
-    </tr>
-    <tr>
-        <td>Alarm Panel Bedroom 1 Ping</td>
-        <td><input type="button" id="alarmPanelBedroom1Ping" value="Send" /></td>
-    </tr>
-    <tr>
-        <td>Alarm Panel First Floor Ping</td>
-        <td><input type="button" id="alarmPanelFirstFloorPing" value="Send" /></td>
-    </tr>
-    <tr>
-        <td>Alarm Panel Bedroom 2 Ping</td>
-        <td><input type="button" id="alarmPanelBedroom2Ping" value="Send" /></td>
-    </tr>
-    <tr>
-        <td>Alarm First Floor Ping</td>
-        <td><input type="button" id="alarmFirstFloorPing" value="Send" /></td>
-    </tr>
-    <tr>
-        <td>Alarm Second Floor Ping</td>
-        <td><input type="button" id="alarmSecondFloorPing" value="Send" /></td>
-    </tr>
-    <tr>
-        <td>Doorbell First Floor Ping</td>
-        <td><input type="button" id="doorbellFirstFloorPing" value="Send" /></td>
-    </tr>
-    <tr>
-        <td>Doorbell Second Floor Ping</td>
-        <td><input type="button" id="doorbellSecondFloorPing" value="Send" /></td>
-    </tr>
-    <tr>
-        <td>Doorbell Garage Ping</td>
-        <td><input type="button" id="doorbellGaragePing" value="Send" /></td>
-    </tr>
-</table>
+<div class="row">
+    <div class="span4 pagination-centered">
+        <h1 id="seconds"></h1>
+    </div>
+    <div class="span4 pagination-centered">
+        <img id="burlaralarmled" src="~/Images/Alarm_Ok.png" />
+    </div>
+</div>
+
+<div class="row well">
+    <div class="row">
+        <div class="span2 offset2">
+            <h5>Front</h5>
+        </div>
+        <div class="span2">
+            <h5>Side</h5>
+        </div>
+        <div class="span2">
+            <h5>Back</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span2">
+            <h5>Door Sensors</h5>
+        </div>
+        <div class="span2">
+            <img id="frontdoorled" src="~/Images/LED_OFF.png" class="center" />
+        </div>
+        <div class="span2">
+            <img id="sidedoorled" src="~/Images/LED_OFF.png" class="center" />
+        </div>
+        <div class="span2">
+            <img id="backdoorled" src="~/Images/LED_OFF.png" class="center" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="span2">
+            <h5>Door Locked</h5>
+        </div>
+        <div class="span2">
+            <img id="frontdoorlockedled" src="~/Images/LED_OFF.png" class="center" />
+        </div>
+        <div class="span2">
+            <img id="sidedoorlockedled" src="~/Images/LED_OFF.png" class="center" />
+        </div>
+        <div class="span2">
+            <img id="backdoorlockedled" src="~/Images/LED_OFF.png" class="center" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="span2">
+            <h5>Doorbell</h5>
+        </div>
+        <div class="span2">
+            <img id="frontdoorbellled" src="~/Images/LED_OFF.png" />
+        </div>
+        <div class="span2">
+            <img id="sidedoorbellled" src="~/Images/LED_OFF.png" />
+        </div>
+        <div class="span2">
+            <img id="backdoorbellled" src="~/Images/LED_OFF.png" />
+        </div>
+    </div>
+</div>
+
+<div class="row well">
+    <div class="row">
+        <div class="span2 offset2">
+            <h5>Master Bedroom</h5>
+        </div>
+        <div class="span2">
+            <h5>Bedroom 1</h5>
+        </div>
+        <div class="span2">
+            <h5>Bedroom 2</h5>
+        </div>
+        <div class="span2">
+            <h5>First Floor</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span2">
+            <h5>Window Sensors</h5>
+        </div>
+        <div class="span2">
+            <img id="masterbedroomwindowled" src="~/Images/LED_OFF.png" class="center" /></div>
+        <div class="span2">
+            <img id="bedroom1windowled" src="~/Images/LED_OFF.png" class="center" /></div>
+        <div class="span2">
+            <img id="bedroom2windowled" src="~/Images/LED_OFF.png" class="center" /></div>
+        <div class="span2">
+            <img id="firstfloorwindowled" src="~/Images/LED_OFF.png" class="center" /></div>
+    </div>
+    <div class="row">
+        <div class="span2">
+            <h5>Motion Sensors</h5>
+        </div>
+        <div class="span2"></div>
+        <div class="span2"></div>
+        <div class="span2"></div>
+        <div class="span2">
+            <img id="firstfloormotionled" src="~/Images/LED_OFF.png" class="center" /></div>
+
+    </div>
+</div>
+<div class="row well">
+    <div class="row">
+        <div class="span2 offset2">
+            <h5>Sleep</h5>
+        </div>
+        <div class="span2">
+            <h5>Away</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span2">
+            <h5>Alarm</h5>
+        </div>
+        <div class="span2">
+            <img id="sleepled" src="~/Images/LED_OFF.png" /></div>
+        <div class="span2">
+            <img id="awayled" src="~/Images/LED_OFF.png" /></div>
+
+    </div>
+</div>
+<div class="row">
+    <form class="well form-inline">
+        <label>Enter Secret Code:</label>
+        <input type="text" id="keycode" />
+        <input type="button" id="enterButton" value="Enter" class="btn" onclick="EnterButtonClicked()" />
+    </form>
+</div>
+<div class="row well">
+    <div class="row">
+        <div class="span6 offset2 pagination-centered">Total Number of MQTT Active Clients:</div>
+        <div id="MQTTClientCount" class="span2"></div>
+    </div>
+    <div class="row">
+        <div class="span4"><h5>External Door Front Ping</h5></div>
+        <div class="span1 pull-left"><input type="button" id="externalDoorFrontPing" value="Send" /></div>
+    </div>
+    <div class="row">
+        <div class="span4"><h5>External Door Side Ping</h5></div>
+        <div class="span1 pull-left"><input type="button" id="externalDoorSidePing" value="Send" /></div>
+    </div>
+    <div class="row">
+        <div class="span4"><h5>External Door Back Ping</h5></div>
+        <div class="span1 pull-left"><input type="button" id="externalDoorBackPing" value="Send" /></div>
+    </div>
+    <div class="row">
+        <div class="span4"><h5>Alarm Panel Master Bedroom Ping</h5></div>
+        <div class="span1 pull-left"><input type="button" id="alarmPanelMasterbedroomPing" value="Send" /></div>
+    </div>
+    <div class="row">
+        <div class="span4"><h5>Alarm Panel Bedroom 1 Ping</h5></div>
+        <div class="span1 pull-left"><input type="button" id="alarmPanelBedroom1Ping" value="Send" /></div>
+    </div>
+    <div class="row">
+        <div class="span4"><h5>Alarm Panel First Floor Ping</h5></div>
+        <div class="span1 pull-left"><input type="button" id="alarmPanelFirstFloorPing" value="Send" /></div>
+    </div>
+    <div class="row">
+        <div class="span4"><h5>Alarm Panel Bedroom 2 Ping</h5></div>
+        <div class="span1 pull-left"><input type="button" id="alarmPanelBedroom2Ping" value="Send" /></div>
+    </div>
+    <div class="row">
+        <div class="span4"><h5>Alarm First Floor Ping</h5></div>
+        <div class="span1 pull-left"><input type="button" id="alarmFirstFloorPing" value="Send" /></div>
+    </div>
+    <div class="row">
+        <div class="span4"><h5>Alarm Second Floor Ping</h5></div>
+        <div class="span1 pull-left"><input type="button" id="alarmSecondFloorPing" value="Send" /></div>
+    </div>
+    <div class="row">
+        <div class="span4"><h5>Doorbell First Floor Ping</h5></div>
+        <div class="span1 pull-left"><input type="button" id="doorbellFirstFloorPing" value="Send" /></div>
+    </div>
+    <div class="row">
+        <div class="span4"><h5>Doorbell Second Floor Ping</h5></div>
+        <div class="span1 pull-left"><input type="button" id="doorbellSecondFloorPing" value="Send" /></div>
+    </div>
+    <div class="row">
+        <div class="span4"><h5>Doorbell Garage Ping</h5></div>
+        <div class="span1 pull-left"><input type="button" id="doorbellGaragePing" value="Send" /></div>
+    </div>
+</div>

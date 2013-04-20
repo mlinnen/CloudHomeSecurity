@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HomeSecurity.Web.App_Start;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -23,6 +24,9 @@ namespace HomeSecurity.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+            BootstrapSupport.BootstrapBundleConfig.RegisterBundles(System.Web.Optimization.BundleTable.Bundles);
+
+            NavigationRouteConfig.RegisterRoutes(RouteTable.Routes);
         }
     }
 }
