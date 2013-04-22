@@ -1,0 +1,1 @@
+start ..\mosquitto\mosquitto_sub -v -t $SYS/# -h 127.0.0.1

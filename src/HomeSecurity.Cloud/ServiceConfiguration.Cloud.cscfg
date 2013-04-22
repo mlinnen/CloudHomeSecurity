@@ -3,13 +3,13 @@
   <Role name="HomeSecurity.Broker">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=demomediaservice;AccountKey=QhF7aDKixYGuhzVHiavKF3xYdzqmSuziFGVeMRogiLFOIYFQvwzasjF9EnThKr6FcWF5DaKuqXRVHDBayWWaww==" />
     </ConfigurationSettings>
   </Role>
   <Role name="HomeSecurity.Web">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=demomediaservice;AccountKey=QhF7aDKixYGuhzVHiavKF3xYdzqmSuziFGVeMRogiLFOIYFQvwzasjF9EnThKr6FcWF5DaKuqXRVHDBayWWaww==" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>
