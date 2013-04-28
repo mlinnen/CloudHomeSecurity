@@ -125,37 +125,43 @@
 </table>
 <h2>Completing the Device</h2>
 <p>
-    The assumption here is that you have gone through the steps outlined in the <a href="GettingReadyForTheMeeting">Getting Ready for the Meeting</a>.  
-    If that is not the case then you need to stop here and load the Software and SDK's needed to do .Net micro framework development with the Netduino.
+    This lab can be done using your own workstation.  If you are using your own workstation then you need to go through the steps 
+    outlined in the <a href="GettingReadyForTheMeeting">Getting Ready for the Meeting</a>.  If a workstation was provided to you at
+    the event then the proper setup would have already been done for you.
 </p>
-<p>When you download the source there will be two solutions for each device.  One solution has all the code completed and is there 
-    for your reference (look in the End.* folders). Use this solution for when you get stuck in the lab and you need a hint on how to complete a section of the lab. 
+<p>The source code for this lab is broken up into two subfolders for each device.  One subfolder has all the code completed and is available 
+    for your reference (look in the End.* folders). Use this solution for when you get stuck in the lab and you need a hint on how to complete a section. 
     The other solution (look in the Begin.* folders) will be the one that you start out with that 
-    has some basic code already done for you.
+    has some basic code already done for you but you will be adding to it as you move along in the lab.
 </p>
 <h3>Initial Setup of the Device</h3>
 <p>
     <ol>
         <li>Get the hardware you need for the device (Netduino, LED's and Switches)</li>
         <li>You don't need to wire up the LED's and Switches to the Netduino yet, just have them handy</li>
-        <li>Get the sign in sheet that was passed around at the start of the meeting
+        <li>Get the sign in sheet from the instructor
             <ol>
                 <li>Fill out the <strong>Unique Client ID</strong> (use your initials as long as no one else has)</li>
                 <li>Make a note of the <strong>House Code, Device Code and Location Code</strong> from the sign in sheet</li>
             </ol>
         </li>
-        <li>Download the Netduino Home Security source code zip from the <a href="https://github.com/mlinnen/NetduinoHomeSecurity/downloads">github repository</a></li>
-        <li>Unzip it into a directory of your choice</li>
+        <li>If the instructor hasn't already provided you with the code then you can get the Netduino Home Security source code zip from the <a href="https://github.com/mlinnen/NetduinoHomeSecurity/downloads">github repository</a></li>
+        <li>Unzip the entire contents of the zip into a directory of your choice</li>
         <li>Using Visual Studio open up the <strong>src\Begin.HomeSecurity.Device.ExternalDoor\HomeSecurity.Device.ExternalDoor.sln</strong></li>
         <li>Compile the solution (you should get 0 errors)</li>
         <li>Open up <strong>Program.cs</strong></li>
         <li>Set the <strong>_mqttDeviceId</strong> variable to the Unique Client Id that you put on the signup sheet</li>
         <li>Change the _locationCode = 'front' to the <strong>Location Code</strong> that was on the signup sheet</li>
-        <li>Hookup the Netduino to your laptop using the Micro USB Cable and wait for the device drivers on the Netduino to load</li>
+        <li>The instructor should have informed you if you needed to connect up to a Local MQTT Broker or the one deployed to Azure.
+            <ol>
+                <li>Uncomment the correct line of code that was assigning the <strong>_mqttConnection</strong> to the Local or Azure IP.</li>
+            </ol>
+        </li>
+        <li>Hookup the Netduino to your workstation using the Micro USB Cable. (note if the netduino was never hooked up to this workstation then wait for the device drivers on the Netduino to load)</li>
         <li>In Visual Studio open up the properties of the <strong>HomeSecurity.Device.ExternalDoor</strong> Project and select the <strong>.Net Micro Framework</strong> tab
             <ol>
                 <li>Verify the <strong>Deployment Transport:</strong> is set to <strong>USB</strong></li>
-                <li>Verify the <strong>Deployment Device:</strong> is set to <strong>NetduinoPlus2_NetduinoPlus</strong></li>
+                <li>Verify the <strong>Deployment Device:</strong> is set to <strong>NetduinoPlus2_NetduinoPlus</strong> or <strong>NetduinoPlus_NetduinoPlus</strong></li>
             </ol>
         </li>
         <li>Compile and Run the Application
