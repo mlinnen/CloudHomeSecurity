@@ -9,6 +9,9 @@ var masterBedroomWindowIsOpened = false;
 var bedroom1WindowIsOpened = false;
 var bedroom2WindowIsOpened = false;
 var firstFloorMotionIsOpened = false;
+var masterBedroomMotionIsOpened = false;
+var bedroom1MotionIsOpened = false;
+var bedroom2MotionIsOpened = false;
 
 $(function () {
 
@@ -87,21 +90,39 @@ $(function () {
         }
     });
 
-    $("#firstfloorwindowled").click(function () {
-        if (firstFloorWindowIsOpened) {
-            myHub.server.publishMessage("/house1/alarmpanel/firstfloor/window", "closed");
-        }
-        else {
-            myHub.server.publishMessage("/house1/alarmpanel/firstfloor/window", "opened");
-        }
-    });
-
     $("#firstfloormotionled").click(function () {
         if (firstFloorMotionIsOpened) {
             myHub.server.publishMessage("/house1/alarmpanel/firstfloor/motion", "closed");
         }
         else {
             myHub.server.publishMessage("/house1/alarmpanel/firstfloor/motion", "opened");
+        }
+    });
+
+    $("#masterbedroommotionled").click(function () {
+        if (masterBedroomMotionIsOpened) {
+            myHub.server.publishMessage("/house1/alarmpanel/masterbedroom/motion", "closed");
+        }
+        else {
+            myHub.server.publishMessage("/house1/alarmpanel/masterbedroom/motion", "opened");
+        }
+    });
+
+    $("#bedroom1motionled").click(function () {
+        if (bedroom1MotionIsOpened) {
+            myHub.server.publishMessage("/house1/alarmpanel/bedroom1/motion", "closed");
+        }
+        else {
+            myHub.server.publishMessage("/house1/alarmpanel/bedroom1/motion", "opened");
+        }
+    });
+
+    $("#bedroom2motionled").click(function () {
+        if (bedroom2MotionIsOpened) {
+            myHub.server.publishMessage("/house1/alarmpanel/bedroom2/motion", "closed");
+        }
+        else {
+            myHub.server.publishMessage("/house1/alarmpanel/bedroom2/motion", "opened");
         }
     });
 
@@ -202,6 +223,16 @@ $(function () {
                             $('#masterbedroomwindowled').attr('src', '/Images/LED_OFF.png');
                         }
                     }
+                    if (command.Command == 'motion') {
+                        if (command.CommandValue == 'opened') {
+                            masterBedroomMotionIsOpened = true;
+                            $('#masterbedroommotionled').attr('src', '/Images/LED_ON.png');
+                        }
+                        if (command.CommandValue == 'closed') {
+                            masterBedroomMotionIsOpened = false;
+                            $('#masterbedroommotionled').attr('src', '/Images/LED_OFF.png');
+                        }
+                    }
                     if (command.Command == 'setalarmstate') {
                         if (command.CommandValue == 'sleep') {
                             $('#sleepled').attr('src', '/Images/LED_ON.png');
@@ -236,6 +267,16 @@ $(function () {
                             $('#bedroom1windowled').attr('src', '/Images/LED_OFF.png');
                         }
                     }
+                    if (command.Command == 'motion') {
+                        if (command.CommandValue == 'opened') {
+                            bedroom1MotionIsOpened = true;
+                            $('#bedroom1motionled').attr('src', '/Images/LED_ON.png');
+                        }
+                        if (command.CommandValue == 'closed') {
+                            bedroom1MotionIsOpened = false;
+                            $('#bedroom1motionled').attr('src', '/Images/LED_OFF.png');
+                        }
+                    }
                     if (command.Command == 'burglar') {
                         if (command.CommandValue == 'on') {
                             $('#burlaralarmled').attr('src', '/Images/Alarm_Sounding.png');
@@ -254,6 +295,16 @@ $(function () {
                         if (command.CommandValue == 'closed') {
                             bedroom2WindowIsOpened = false;
                             $('#bedroom2windowled').attr('src', '/Images/LED_OFF.png');
+                        }
+                    }
+                    if (command.Command == 'motion') {
+                        if (command.CommandValue == 'opened') {
+                            bedroom2MotionIsOpened = true;
+                            $('#bedroom2motionled').attr('src', '/Images/LED_ON.png');
+                        }
+                        if (command.CommandValue == 'closed') {
+                            bedroom2MotionIsOpened = false;
+                            $('#bedroom2motionled').attr('src', '/Images/LED_OFF.png');
                         }
                     }
                     if (command.Command == 'burglar') {
