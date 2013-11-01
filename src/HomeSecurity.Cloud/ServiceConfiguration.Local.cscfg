@@ -1,11 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ServiceConfiguration serviceName="BrokerService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="1" osVersion="*" schemaVersion="2012-05.1.7">
-  <Role name="HomeSecurity.Broker">
-    <Instances count="1" />
-    <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
-    </ConfigurationSettings>
-  </Role>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceConfiguration serviceName="BrokerService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="1" osVersion="*" schemaVersion="2013-10.2.2">
   <Role name="HomeSecurity.Web">
     <Instances count="1" />
     <ConfigurationSettings>

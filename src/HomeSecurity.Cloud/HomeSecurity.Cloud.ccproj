@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>1.7</ProductVersion>
+    <ProductVersion>2.2</ProductVersion>
     <ProjectGuid>4c610940-2530-4f27-9a73-59d024862863</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -37,14 +37,6 @@
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HomeSecurity.Broker\HomeSecurity.Broker.csproj">
-      <Name>HomeSecurity.Broker</Name>
-      <Project>{2709dfb7-4973-4959-9b3e-ae3c3fc2ac9b}</Project>
-      <Private>True</Private>
-      <RoleType>Worker</RoleType>
-      <RoleName>HomeSecurity.Broker</RoleName>
-      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
-    </ProjectReference>
     <ProjectReference Include="..\HomeSecurity.Web\HomeSecurity.Web.csproj">
       <Name>HomeSecurity.Web</Name>
       <Project>{797f21bb-b8cd-4cbd-857a-2426c45d285d}</Project>
@@ -59,12 +51,13 @@
   </ItemGroup>
   <ItemGroup>
     <PublishProfile Include="Profiles\homesecurityProduction.azurePubxml" />
+    <PublishProfile Include="Profiles\homesecurityStaging.azurePubxml" />
     <PublishProfile Include="Profiles\homesecuritywebStaging.azurePubxml" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>
     <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
-    <CloudExtensionsDir Condition=" '$(CloudExtensionsDir)' == '' ">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Windows Azure Tools\1.7\</CloudExtensionsDir>
+    <CloudExtensionsDir Condition=" '$(CloudExtensionsDir)' == '' ">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Windows Azure Tools\2.2\</CloudExtensionsDir>
   </PropertyGroup>
   <Import Project="$(CloudExtensionsDir)Microsoft.WindowsAzure.targets" />
 </Project>
