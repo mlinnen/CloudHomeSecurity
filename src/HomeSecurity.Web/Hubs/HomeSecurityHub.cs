@@ -55,7 +55,7 @@ namespace HomeSecurity.Web.Hubs
 
 		public void ConnectToBroker()
 		{
-			if (_client == null)
+			if (_client == null || _client.IsConnected==false)
 			{
 				string ip = ConfigurationManager.AppSettings["MQTTBrokerIp"];
 				string noc = ConfigurationManager.AppSettings["MQTTClientId"];
