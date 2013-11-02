@@ -457,7 +457,7 @@ $(function () {
                         myHub.server.connectToBroker()
                         .done(function (result) {
                             myHub.server.publishCurrentState()
-                            .done(function (result) {
+                            .done(function (result) {   
                             })
                             .fail(function (error) {
                             });
