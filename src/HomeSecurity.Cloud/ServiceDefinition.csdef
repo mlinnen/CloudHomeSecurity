@@ -14,5 +14,22 @@
     <Imports>
       <Import moduleName="Diagnostics" />
     </Imports>
+    <ConfigurationSettings>
+      <Setting name="MQTTBrokerIp" />
+      <Setting name="MQTTClientId" />
+    </ConfigurationSettings>
   </WebRole>
+  <WorkerRole name="HomeSecurity.Worker" vmsize="ExtraSmall">
+    <Imports>
+      <Import moduleName="Diagnostics" />
+    </Imports>
+    <Endpoints>
+      <InputEndpoint name="WorkerIn" protocol="tcp" port="1883" />
+    </Endpoints>
+    <LocalResources>
+      <LocalStorage name="LocalStorage1" cleanOnRoleRecycle="false" sizeInMB="10" />
+    </LocalResources>
+    <ConfigurationSettings>
+    </ConfigurationSettings>
+  </WorkerRole>
 </ServiceDefinition>

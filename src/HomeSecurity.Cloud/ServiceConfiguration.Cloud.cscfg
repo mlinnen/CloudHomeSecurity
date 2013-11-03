@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ServiceConfiguration serviceName="BrokerService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="3" osVersion="*">
+<ServiceConfiguration serviceName="BrokerService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceConfiguration" osFamily="3" osVersion="*" schemaVersion="2013-10.2.2">
   <Role name="HomeSecurity.Web">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=demomediaservice;AccountKey=QhF7aDKixYGuhzVHiavKF3xYdzqmSuziFGVeMRogiLFOIYFQvwzasjF9EnThKr6FcWF5DaKuqXRVHDBayWWaww==" />
+      <Setting name="MQTTBrokerIp" value="198.41.30.241" />
+      <Setting name="MQTTClientId" value="noc" />
+    </ConfigurationSettings>
+  </Role>
+  <Role name="HomeSecurity.Worker">
     <Instances count="1" />
     <ConfigurationSettings>
       <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=demomediaservice;AccountKey=QhF7aDKixYGuhzVHiavKF3xYdzqmSuziFGVeMRogiLFOIYFQvwzasjF9EnThKr6FcWF5DaKuqXRVHDBayWWaww==" />

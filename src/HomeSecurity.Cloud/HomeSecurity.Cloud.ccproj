@@ -46,14 +46,28 @@
       <RoleName>HomeSecurity.Web</RoleName>
       <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
     </ProjectReference>
+    <ProjectReference Include="..\HomeSecurity.Worker\HomeSecurity.Worker.csproj">
+      <Name>HomeSecurity.Worker</Name>
+      <Project>{0ebcfbd9-bc45-48b6-938b-ba9f40917a25}</Project>
+      <Private>True</Private>
+      <RoleType>Worker</RoleType>
+      <RoleName>HomeSecurity.Worker</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="HomeSecurity.WorkerContent\" />
     <Folder Include="Profiles" />
   </ItemGroup>
   <ItemGroup>
     <PublishProfile Include="Profiles\homesecurityProduction.azurePubxml" />
     <PublishProfile Include="Profiles\homesecurityStaging.azurePubxml" />
     <PublishProfile Include="Profiles\homesecuritywebStaging.azurePubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="HomeSecurity.WorkerContent\diagnostics.wadcfg">
+      <SubType>Content</SubType>
+    </Content>
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>

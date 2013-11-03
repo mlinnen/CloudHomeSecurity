@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
+using Microsoft.WindowsAzure.ServiceRuntime;
 using MqttLib;
 using System;
 using System.Collections.Generic;
@@ -58,8 +59,19 @@ namespace HomeSecurity.Web.Hubs
 		{
 			if (_client == null || _client.IsConnected==false)
 			{
-				string ip = ConfigurationManager.AppSettings["MQTTBrokerIp"];
-				string noc = ConfigurationManager.AppSettings["MQTTClientId"];
+                string ip;
+                string noc;
+                if (RoleEnvironment.IsAvailable)
+                {
+                    ip = RoleEnvironment.GetConfigurationSettingValue("MQTTBrokerIp");
+                    noc = RoleEnvironment.GetConfigurationSettingValue("MQTTClientId");
+                }
+                else
+                {
+                    ip = ConfigurationManager.AppSettings["MQTTBrokerIp"];
+                    noc = ConfigurationManager.AppSettings["MQTTClientId"];
+                }
+
 				ConnectToBroker(ip, 1883, noc);
 			}
 
