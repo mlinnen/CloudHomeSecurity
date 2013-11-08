@@ -1,1 +1,1 @@
-start ..\mosquitto\mosquitto_sub -v -t $SYS/# -h 168.62.188.28
+start ..\mosquitto\mosquitto_sub -v -t $SYS/# -h 168.62.48.65
